@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { toolLogos } from "@/lib/tool-logos"
 
 export const metadata: Metadata = {
   title: "Credits",
@@ -209,14 +210,25 @@ export default function CreditsPage(): React.ReactNode {
                   href={pkg.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-lg border p-4 transition-colors hover:bg-muted/50"
+                  className="group flex items-start gap-3 rounded-lg border p-4 transition-colors hover:bg-muted/50"
                 >
-                  <p className="text-sm font-medium group-hover:text-foreground">
-                    {pkg.name}
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {pkg.description}
-                  </p>
+                  {toolLogos[pkg.name] ? (
+                    <img
+                      src={toolLogos[pkg.name]}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="mt-0.5 shrink-0 rounded-sm dark:invert"
+                    />
+                  ) : null}
+                  <div>
+                    <p className="text-sm font-medium group-hover:text-foreground">
+                      {pkg.name}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {pkg.description}
+                    </p>
+                  </div>
                 </a>
               ))}
           </div>

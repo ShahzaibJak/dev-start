@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
+import { toolLogos } from "@/lib/tool-logos"
 
 export const metadata: Metadata = {
   title: "Roadmap",
@@ -90,16 +91,27 @@ function RoadmapSection({
       <div className="mt-4 grid gap-4">
         {items.map((item) => (
           <Card key={item.title}>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <h3 className="text-sm font-medium">{item.title}</h3>
-                <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
-                  {statusLabels[item.status]}
-                </span>
+            <CardContent className="flex items-start gap-4 p-6">
+              {toolLogos[item.title] ? (
+                <img
+                  src={toolLogos[item.title]}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="mt-0.5 shrink-0 rounded-sm dark:invert"
+                />
+              ) : null}
+              <div>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-sm font-medium">{item.title}</h3>
+                  <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                    {statusLabels[item.status]}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {item.description}
-              </p>
             </CardContent>
           </Card>
         ))}

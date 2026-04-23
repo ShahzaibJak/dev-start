@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
+import { toolLogos } from "@/lib/tool-logos"
 
 export const metadata: Metadata = {
   title: "Features",
@@ -130,14 +131,25 @@ export default function FeaturesPage(): React.ReactNode {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="group flex items-start gap-3 rounded-lg border p-4 transition-colors hover:bg-muted/50"
             >
-              <p className="text-sm font-medium group-hover:text-foreground">
-                {item.name}
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {item.detail}
-              </p>
+              {toolLogos[item.name] ? (
+                <img
+                  src={toolLogos[item.name]}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="mt-0.5 shrink-0 rounded-sm dark:invert"
+                />
+              ) : null}
+              <div>
+                <p className="text-sm font-medium group-hover:text-foreground">
+                  {item.name}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {item.detail}
+                </p>
+              </div>
             </a>
           ))}
         </div>
@@ -154,23 +166,34 @@ export default function FeaturesPage(): React.ReactNode {
         <div className="mt-4 grid gap-4">
           {extras.map((extra) => (
             <Card key={extra.flag}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3">
-                  <a
-                    href={extra.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium hover:underline"
-                  >
-                    {extra.name}
-                  </a>
-                  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
-                    {extra.flag}
-                  </code>
+              <CardContent className="flex items-start gap-4 p-6">
+                {toolLogos[extra.name] ? (
+                  <img
+                    src={toolLogos[extra.name]}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="mt-0.5 shrink-0 rounded-sm dark:invert"
+                  />
+                ) : null}
+                <div>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={extra.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium hover:underline"
+                    >
+                      {extra.name}
+                    </a>
+                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
+                      {extra.flag}
+                    </code>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {extra.description}
+                  </p>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {extra.description}
-                </p>
               </CardContent>
             </Card>
           ))}
