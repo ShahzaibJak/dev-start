@@ -1,10 +1,18 @@
 {
-  "name": "devstart",
-  "version": "0.0.1",
+  "name": "ds-start",
+  "version": "0.0.2",
   "description": "Scaffold production-ready Next.js apps",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShahzaibJak/dev-start.git",
+    "directory": "cli"
+  },
+  "homepage": "https://github.com/ShahzaibJak/dev-start#readme",
+  "bugs": "https://github.com/ShahzaibJak/dev-start/issues",
   "bin": {
+    "ds-start": "dist/index.js",
     "devstart": "dist/index.js",
     "dev-start": "dist/index.js"
   },
