@@ -75,6 +75,13 @@ const extras = [
     href: "https://www.better-auth.com",
   },
   {
+    flag: "--clerk",
+    name: "Clerk",
+    description:
+      "Managed authentication with pre-built sign-in/sign-up components, route protection, and organization support. No database required.",
+    href: "https://clerk.com",
+  },
+  {
     flag: "--github-workflows",
     name: "GitHub Workflows",
     description:
@@ -96,7 +103,9 @@ const extras = [
 }>
 
 const composabilityRules = [
-  { rule: "--auth requires --prisma", reason: "Auth uses Prisma as its database adapter." },
+  { rule: "--auth requires --prisma", reason: "Better Auth uses Prisma as its database adapter." },
+  { rule: "--clerk works independently", reason: "Clerk manages users externally — no database required." },
+  { rule: "--clerk and --auth are mutually exclusive", reason: "One auth provider per project." },
   { rule: "--vercel-deploy implies --github-workflows", reason: "CD builds on the CI pipeline." },
   { rule: "Everything else is independent", reason: "Mix and match freely." },
 ] satisfies ReadonlyArray<{ rule: string; reason: string }>

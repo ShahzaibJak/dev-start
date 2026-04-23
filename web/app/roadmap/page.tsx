@@ -20,12 +20,6 @@ const comingSoon = [
     status: "coming-soon",
   },
   {
-    title: "Clerk Auth",
-    description:
-      "Drop-in authentication with Clerk as an alternative to Better Auth. Pre-built components, webhooks, and organization support.",
-    status: "coming-soon",
-  },
-  {
     title: "Billing & Subscriptions",
     description:
       "Stripe integration with subscription management, usage-based billing, customer portal, and webhook handling.",

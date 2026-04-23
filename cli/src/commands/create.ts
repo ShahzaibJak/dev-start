@@ -72,6 +72,7 @@ export async function create(opts: CreateOptions) {
 
   const supportedExtras = new Set([
     "better-auth",
+    "clerk",
     "github-workflows",
     "prisma",
     "vercel-deploy",
@@ -79,13 +80,19 @@ export async function create(opts: CreateOptions) {
   const unsupportedExtras = requestedExtras.filter((extra) => !supportedExtras.has(extra));
   if (unsupportedExtras.length > 0) {
     throw new Error(
-      `Unsupported template extras requested: ${unsupportedExtras.join(", ")}.\n\n${details}\n\nSupported extras: prisma, better-auth (requires prisma), github-workflows, vercel-deploy (requires github-workflows). All combinations are valid.`,
+      `Unsupported template extras requested: ${unsupportedExtras.join(", ")}.\n\n${details}\n\nSupported extras: prisma, better-auth (requires prisma), clerk, github-workflows, vercel-deploy (requires github-workflows). All combinations are valid.`,
     );
   }
 
   if (requestedExtras.includes("better-auth") && !requestedExtras.includes("prisma")) {
     throw new Error(
       `The better-auth extra requires prisma.\n\n${details}`,
+    );
+  }
+
+  if (requestedExtras.includes("better-auth") && requestedExtras.includes("clerk")) {
+    throw new Error(
+      `Cannot use both better-auth and clerk. Choose one auth provider.\n\n${details}`,
     );
   }
 
@@ -117,16 +124,21 @@ export async function create(opts: CreateOptions) {
   }
 
   const hasDb = requestedExtras.includes("prisma");
-  const hasAuth = requestedExtras.includes("better-auth");
+  const hasBetterAuth = requestedExtras.includes("better-auth");
+  const hasClerk = requestedExtras.includes("clerk");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
     `cd ${projectName}`,
   ];
 
+  if (hasClerk) {
+    nextSteps.push("# Set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY in .env.schema");
+  }
+
   if (hasDb) {
     nextSteps.push("# Set your DATABASE_URL in .env.schema");
-    if (hasAuth) {
+    if (hasBetterAuth) {
       nextSteps.push("bun run auth:generate");
     }
     nextSteps.push("bun run db:migrate -- --name init");

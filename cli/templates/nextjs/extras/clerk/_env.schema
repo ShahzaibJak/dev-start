@@ -1,0 +1,32 @@
+# --- Authentication (Clerk) ---
+
+# @required
+# @type=string
+# @docs(https://clerk.com/docs/quickstarts/nextjs)
+# Publishable key from Clerk Dashboard → API Keys
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_replace-me
+
+# @required @sensitive
+# @type=string
+# Secret key from Clerk Dashboard → API Keys
+CLERK_SECRET_KEY=sk_test_replace-me
+
+# @optional
+# @type=string
+# Sign-in page path (default: /sign-in)
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+
+# @optional
+# @type=string
+# Sign-up page path (default: /sign-up)
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+# @optional
+# @type=string
+# Redirect after sign-in (default: /dashboard)
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+
+# @optional
+# @type=string
+# Redirect after sign-up (default: /dashboard)
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard

@@ -50,6 +50,11 @@ export const main = defineCommand({
       description: "Include authentication with Better Auth (requires --prisma)",
       default: false,
     },
+    clerk: {
+      type: "boolean",
+      description: "Include authentication with Clerk (no database required)",
+      default: false,
+    },
     base: {
       type: "boolean",
       description: "Scaffold base template only, no extras",
@@ -69,20 +74,28 @@ export const main = defineCommand({
 
     if (typeof projectDir === "symbol") process.exit(0);
 
-    if (args.base && (args.prisma || args.auth || args.vercelDeploy)) {
+    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy)) {
       throw new Error(
-        "The --base flag cannot be combined with --prisma, --auth, or --vercel-deploy.",
+        "The --base flag cannot be combined with --prisma, --auth, --clerk, or --vercel-deploy.",
+      );
+    }
+
+    if (args.auth && args.clerk) {
+      throw new Error(
+        "Cannot use both --auth (Better Auth) and --clerk. Choose one auth provider.",
       );
     }
 
     let initGit = args.git === false ? false : !args.noGit;
     let install = args.install === false ? false : !args.noInstall;
     let db = args.prisma ? "prisma" : undefined;
-    let auth = args.auth ? "better-auth" : undefined;
+    let auth = args.auth ? "better-auth" : args.clerk ? "clerk" : undefined;
     let githubWorkflows = (args.githubWorkflows || args.vercelDeploy) ? "github-workflows" : undefined;
     let vercelDeploy = args.vercelDeploy ? "vercel-deploy" : undefined;
 
-    if (!args.yes && !args.githubWorkflows && !args.vercelDeploy && !args.prisma && !args.auth && !args.base) {
+    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.base;
+
+    if (!args.yes && !hasExplicitFlags) {
       const prismaChoice = await consola.prompt("Add Prisma?", {
         type: "confirm",
         initial: false,
@@ -90,13 +103,23 @@ export const main = defineCommand({
       if (typeof prismaChoice === "symbol") process.exit(0);
       db = prismaChoice ? "prisma" : undefined;
 
-      if (db) {
-        const authChoice = await consola.prompt("Add authentication? (Better Auth + Prisma)", {
-          type: "confirm",
-          initial: false,
-        });
-        if (typeof authChoice === "symbol") process.exit(0);
-        auth = authChoice ? "better-auth" : undefined;
+      const authOptions = db
+        ? ["None", "Better Auth (requires Prisma)", "Clerk"]
+        : ["None", "Clerk"];
+
+      const authChoice = await consola.prompt("Auth provider:", {
+        type: "select",
+        options: authOptions,
+        initial: "None",
+      });
+      if (typeof authChoice === "symbol") process.exit(0);
+
+      if (authChoice === "Better Auth (requires Prisma)") {
+        auth = "better-auth";
+      } else if (authChoice === "Clerk") {
+        auth = "clerk";
+      } else {
+        auth = undefined;
       }
 
       const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
@@ -123,7 +146,7 @@ export const main = defineCommand({
       install = installChoice;
     }
 
-    if (auth && !db) {
+    if (auth === "better-auth" && !db) {
       throw new Error("Better Auth requires Prisma.");
     }
 
