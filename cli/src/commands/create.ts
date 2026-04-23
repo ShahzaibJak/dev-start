@@ -39,7 +39,6 @@ export interface CreateOptions {
     db?: string;
     githubWorkflows?: string;
     vercelDeploy?: string;
-    workflow?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -51,7 +50,6 @@ export async function create(opts: CreateOptions) {
   const requestedExtras = [
     opts.extras.db,
     opts.extras.auth,
-    opts.extras.workflow,
     opts.extras.githubWorkflows,
     opts.extras.vercelDeploy,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
@@ -74,7 +72,6 @@ export async function create(opts: CreateOptions) {
 
   const supportedExtras = new Set([
     "better-auth",
-    "ds-workflow",
     "github-workflows",
     "prisma",
     "vercel-deploy",
@@ -82,7 +79,7 @@ export async function create(opts: CreateOptions) {
   const unsupportedExtras = requestedExtras.filter((extra) => !supportedExtras.has(extra));
   if (unsupportedExtras.length > 0) {
     throw new Error(
-      `Unsupported template extras requested: ${unsupportedExtras.join(", ")}.\n\n${details}\n\nSupported extras: prisma, better-auth (requires prisma), ds-workflow, github-workflows, vercel-deploy (requires github-workflows). All combinations are valid.`,
+      `Unsupported template extras requested: ${unsupportedExtras.join(", ")}.\n\n${details}\n\nSupported extras: prisma, better-auth (requires prisma), github-workflows, vercel-deploy (requires github-workflows). All combinations are valid.`,
     );
   }
 

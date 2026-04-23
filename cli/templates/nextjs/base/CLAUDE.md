@@ -84,16 +84,12 @@ const data = await api("hello", {
 
 Always invoke the relevant skill before writing code in that domain.
 
-### Workflow
+### Agentic Workflow
 - `/start-prd` — Interview-driven PRD creation. Plan before you code.
 - `/start-work {feature}` — Begin or resume implementation from a PRD.
-- `/auto-work {feature}` — Autonomous iteration. Picks next step, implements, verifies, commits.
 - `/handoff` — Save session progress for continuity across sessions.
 - `/start-review` — Run quality gates + review diff. Read-only.
 - `/start-pr [msg]` — Commit changes and create a PR. No code modifications.
-- `/start-brief [prd]` — Create a polished feature brief website for stakeholders.
-- `/ds-setup` — Bootstrap the DS workflow for this project.
-- `/ds-overview` — Explain the DS workflow system.
 
 ### Domain
 - `/next-ts-api` — Type-safe API routes and clients for Next.js App Router.

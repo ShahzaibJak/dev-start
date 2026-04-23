@@ -30,11 +30,6 @@ export const main = defineCommand({
       description: "Skip dependency installation",
       default: false,
     },
-    workflow: {
-      type: "boolean",
-      description: "Include Claude Code workflow (commands, agents, config)",
-      default: false,
-    },
     "github-workflows": {
       type: "boolean",
       description: "Include GitHub Actions CI workflow",
@@ -74,9 +69,9 @@ export const main = defineCommand({
 
     if (typeof projectDir === "symbol") process.exit(0);
 
-    if (args.base && (args.workflow || args.prisma || args.auth || args.vercelDeploy)) {
+    if (args.base && (args.prisma || args.auth || args.vercelDeploy)) {
       throw new Error(
-        "The --base flag cannot be combined with --workflow, --prisma, --auth, or --vercel-deploy.",
+        "The --base flag cannot be combined with --prisma, --auth, or --vercel-deploy.",
       );
     }
 
@@ -84,20 +79,10 @@ export const main = defineCommand({
     let install = args.install === false ? false : !args.noInstall;
     let db = args.prisma ? "prisma" : undefined;
     let auth = args.auth ? "better-auth" : undefined;
-    const explicitExtraRequested =
-      args.base || args.workflow || args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth;
-    let workflow =
-      args.workflow && !args.base
-        ? "ds-workflow"
-        : args.base
-          ? undefined
-          : args.yes && !explicitExtraRequested
-            ? "ds-workflow"
-            : undefined;
     let githubWorkflows = (args.githubWorkflows || args.vercelDeploy) ? "github-workflows" : undefined;
     let vercelDeploy = args.vercelDeploy ? "vercel-deploy" : undefined;
 
-    if (!args.yes && !args.workflow && !args.githubWorkflows && !args.vercelDeploy && !args.prisma && !args.auth && !args.base) {
+    if (!args.yes && !args.githubWorkflows && !args.vercelDeploy && !args.prisma && !args.auth && !args.base) {
       const prismaChoice = await consola.prompt("Add Prisma?", {
         type: "confirm",
         initial: false,
@@ -113,13 +98,6 @@ export const main = defineCommand({
         if (typeof authChoice === "symbol") process.exit(0);
         auth = authChoice ? "better-auth" : undefined;
       }
-
-      const workflowChoice = await consola.prompt("Add Claude Code workflow?", {
-        type: "confirm",
-        initial: db || auth ? false : true,
-      });
-      if (typeof workflowChoice === "symbol") process.exit(0);
-      workflow = workflowChoice ? "ds-workflow" : undefined;
 
       const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
         type: "confirm",
@@ -152,7 +130,7 @@ export const main = defineCommand({
     await create({
       projectDir,
       template: "nextjs",
-      extras: { db, auth, githubWorkflows, vercelDeploy, workflow },
+      extras: { db, auth, githubWorkflows, vercelDeploy },
       initGit,
       install,
     });

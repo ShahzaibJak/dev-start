@@ -26,6 +26,7 @@
     "verify:nextjs-prisma-ds-workflow": "bash scripts/verify-nextjs-prisma-ds-workflow.sh",
     "verify:nextjs-prisma-ds-workflow-dev-tooling": "bash scripts/verify-nextjs-prisma-ds-workflow-dev-tooling.sh",
     "pack:cli-local": "bash scripts/pack-cli-local.sh",
+    "pack:cli-dry-run": "cd cli && ASDF_NODEJS_CANON_NPM_PATH=$(asdf where nodejs)/bin/npm npm pack --dry-run",
     "prepare": "husky",
     "precommit": "lint-staged --config package.json"
   },

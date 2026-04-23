@@ -5,7 +5,7 @@
 - Use the shared workflow contract in `.claude/shared/workflow.md`.
 - Keep handoff notes in `.claude/handoffs/`.
 - Read `.claude/ds-config.json` before changing quality-gate commands.
-- Skills are in `.claude/skills/` — use `/ds-overview` for a full list.
+- Skills are in `.claude/skills/` — see the Skills section in the root CLAUDE.md for a full list.
 
 ## Conventions
 - Prefer server components until client behavior is needed.

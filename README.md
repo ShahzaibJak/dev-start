@@ -1,14 +1,15 @@
 <p align="center">
-  <h1 align="center">devstart</h1>
+  <h1 align="center">ds-start</h1>
 </p>
 
 <p align="center">
-  Scaffold production-ready Next.js apps with one command.
+  Scaffold AI-native, end-to-end type-safe Next.js apps with production-ready tooling.
 </p>
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> &bull;
   <a href="#what-you-get">What You Get</a> &bull;
+  <a href="#agentic-coding-flow">Agentic Flow</a> &bull;
   <a href="#extras">Extras</a> &bull;
   <a href="#contributing">Contributing</a> &bull;
   <a href="#license">License</a>
@@ -19,42 +20,42 @@
 ## Quick Start
 
 ```bash
-npx devstart my-app
+npx ds-start my-app
 ```
 
 Or with extras:
 
 ```bash
-npx devstart my-app --prisma --auth --github-workflows
+npx ds-start my-app --prisma --auth --github-workflows
 ```
 
 Interactive mode (prompts for extras):
 
 ```bash
-npx devstart my-app
+npx ds-start my-app
 ```
 
 Skip prompts with defaults:
 
 ```bash
-npx devstart my-app -y
+npx ds-start my-app -y
 ```
 
 ## What You Get
 
-Every project starts with a production-ready base:
+Every project starts with a production-ready base where types flow end-to-end — from database schema through server actions to client components.
 
-| Category | Tech |
-|----------|------|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| Language | TypeScript (strict mode) |
-| Styling | Tailwind CSS v4 + shadcn/ui |
-| Fonts | Geist Sans + Geist Mono |
-| API Routes | next-ts-api (end-to-end type safety) |
-| Env Validation | varlock (schema-driven, type-safe) |
-| Linting | ESLint + Prettier |
-| Pre-commit | Husky + lint-staged (lint, format, typecheck) |
-| Theme | Light/dark toggle with next-themes |
+| Category | Tech | Link |
+|----------|------|------|
+| Framework | Next.js 16 (App Router, Turbopack) | [nextjs.org](https://nextjs.org) |
+| Language | TypeScript (strict mode) | [typescriptlang.org](https://www.typescriptlang.org) |
+| Styling | Tailwind CSS 4 + shadcn/ui | [tailwindcss.com](https://tailwindcss.com) · [ui.shadcn.com](https://ui.shadcn.com) |
+| Fonts | Geist Sans + Geist Mono | [vercel.com/font](https://vercel.com/font) |
+| API Routes | next-ts-api (end-to-end type safety) | [github](https://github.com/zahinafsar/next-ts-api) |
+| Env Validation | varlock (schema-driven, type-safe) | [varlock.dev](https://varlock.dev) |
+| Linting | ESLint + Prettier | [eslint.org](https://eslint.org) · [prettier.io](https://prettier.io) |
+| Pre-commit | Husky + lint-staged (lint, format, typecheck) | [typicode.github.io/husky](https://typicode.github.io/husky) |
+| Theme | Light/dark toggle with next-themes | [github](https://github.com/pacocoursey/next-themes) |
 
 ### Shadcn/ui Components
 
@@ -64,15 +65,29 @@ The base template ships with these shadcn/ui components pre-installed:
 
 Add more with `bunx shadcn@latest add <component>`.
 
+## Agentic Coding Flow
+
+Every project ships with built-in skills that guide your AI coding assistant through a structured development cycle:
+
+| Step | Skill | What it does |
+|------|-------|-------------|
+| **Plan** | `/start-prd` | Interview-driven PRD creation with implementation plan |
+| **Build** | `/start-work` | Implement from a PRD, following plan steps sequentially |
+| **Handoff** | `/handoff` | Save session progress for continuity across sessions |
+| **Review** | `/start-review` | Run quality gates + code review (read-only) |
+| **Ship** | `/start-pr` | Commit changes and create a PR |
+
+Plus domain skills: `/next-ts-api` for type-safe APIs, `/vercel-react-best-practices` for React performance (64 rules), and `/frontend-design` for production-grade UI.
+
 ## Extras
 
 Extras are opt-in layers that compose on top of the base template.
 
-### Prisma (`--prisma`)
+### [Prisma](https://www.prisma.io) (`--prisma`)
 
 Prisma 6 ORM with PostgreSQL, PrismaPg adapter, typed JSONB via `prisma-json-types-generator`, and a singleton client.
 
-### Better Auth (`--auth`)
+### [Better Auth](https://www.better-auth.com) (`--auth`)
 
 Full authentication system. Requires `--prisma`.
 
@@ -85,15 +100,11 @@ Full authentication system. Requires `--prisma`.
 
 ### GitHub Workflows (`--github-workflows`)
 
-CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on Blacksmith for faster builds. Includes `varlock scan` for secret leak detection.
+CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
 
 ### Vercel Deploy (`--vercel-deploy`)
 
-CD pipeline via Vercel CLI. Preview deploys on push to main, manual dispatch for production. Implies `--github-workflows`.
-
-### DS Workflow (`--workflow`)
-
-AI-native development workflow with 12 agent skills for Claude Code, hooks for type checking and context monitoring, and structured plans/handoffs directories.
+CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push to main, manual dispatch for production. Implies `--github-workflows`.
 
 ## Composability
 
@@ -107,13 +118,13 @@ Example combinations:
 
 ```bash
 # Full stack
-npx devstart my-app --prisma --auth --github-workflows --workflow
+npx ds-start my-app --prisma --auth --github-workflows
 
 # API-focused
-npx devstart my-app --prisma --github-workflows
+npx ds-start my-app --prisma --github-workflows
 
 # Minimal + CI
-npx devstart my-app --github-workflows
+npx ds-start my-app --github-workflows
 ```
 
 ## Development
