@@ -1,5 +1,11 @@
 # devstart
 
+## 0.0.3
+
+### Patch Changes
+
+- Readme, branding and cli prompt updates
+
 ## 0.0.2
 
 ### Patch Changes
