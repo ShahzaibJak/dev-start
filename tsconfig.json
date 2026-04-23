@@ -9,5 +9,5 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "cli/templates", "cli/dist"]
+  "exclude": ["node_modules", "cli/templates", "cli/dist", "web"]
 }

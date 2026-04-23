@@ -90,7 +90,7 @@ One paragraph describing the feature, its purpose, and user value.
 
 (continue for each step — order by dependency, types first)
 
-**Note on `depends_on`**: Optional field. List the step numbers this step depends on. Omit to mean "depends on the immediately previous step" (the default, sequential behavior). Use this when steps can run in flexible order — e.g. independent UI and infra steps that can be done in either order — so autonomous tooling like `/auto-work` can pick whichever is unblocked.
+**Note on `depends_on`**: Optional field. List the step numbers this step depends on. Omit to mean "depends on the immediately previous step" (the default, sequential behavior). Use this when steps can run in flexible order — e.g. independent UI and infra steps that can be done in either order.
 
 ## Architecture Decisions
 - {decision}: {rationale}

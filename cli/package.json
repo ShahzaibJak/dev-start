@@ -1,7 +1,7 @@
 {
   "name": "ds-start",
   "version": "0.0.3",
-  "description": "Scaffold production-ready Next.js apps",
+  "description": "The AI-native Next.js starter. Type-safe and production-ready.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -9,7 +9,7 @@
     "url": "https://github.com/ShahzaibJak/dev-start.git",
     "directory": "cli"
   },
-  "homepage": "https://github.com/ShahzaibJak/dev-start#readme",
+  "homepage": "https://dev-start.shahzaibjak.com",
   "bugs": "https://github.com/ShahzaibJak/dev-start/issues",
   "bin": {
     "ds-start": "dist/index.js",

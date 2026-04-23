@@ -3,16 +3,16 @@
 </p>
 
 <p align="center">
-  Scaffold AI-native, end-to-end type-safe Next.js apps with production-ready tooling.
+  The AI-native Next.js starter. Type-safe and production-ready.
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick Start</a> &bull;
-  <a href="#what-you-get">What You Get</a> &bull;
-  <a href="#agentic-coding-flow">Agentic Flow</a> &bull;
-  <a href="#extras">Extras</a> &bull;
-  <a href="#contributing">Contributing</a> &bull;
-  <a href="#license">License</a>
+  <a href="https://dev-start.shahzaibjak.com">Website</a> &bull;
+  <a href="https://dev-start.shahzaibjak.com/docs">Docs</a> &bull;
+  <a href="https://dev-start.shahzaibjak.com/features">Features</a> &bull;
+  <a href="https://dev-start.shahzaibjak.com/workflow">Agentic Flow</a> &bull;
+  <a href="https://dev-start.shahzaibjak.com/roadmap">Roadmap</a> &bull;
+  <a href="#contributing">Contributing</a>
 </p>
 
 ---

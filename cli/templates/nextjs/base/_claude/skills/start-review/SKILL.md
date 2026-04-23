@@ -11,7 +11,7 @@ You are reviewing the current changes in this project. This is a READ-ONLY opera
 
 Read `.claude/ds-config.json` in the project root's `.claude/` directory. It contains the configured quality gate commands under `qualityGates`.
 
-If the file doesn't exist, check CLAUDE.md for quality gate commands. If neither exists, tell the user: "No quality gates configured. Run `/ds-setup` first." and stop.
+If the file doesn't exist, check CLAUDE.md for quality gate commands. If neither exists, tell the user: "No quality gates configured. Add quality gate commands to CLAUDE.md or `.claude/ds-config.json` first." and stop.
 
 ## Step 2: Run Quality Gates
 

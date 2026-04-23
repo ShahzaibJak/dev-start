@@ -39,3 +39,6 @@ test-output/
 
 # Claude Code workflow files
 .claude/
+
+# Local reference docs
+RELEASE.md

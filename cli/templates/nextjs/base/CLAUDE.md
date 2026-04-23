@@ -95,3 +95,4 @@ Always invoke the relevant skill before writing code in that domain.
 - `/next-ts-api` — Type-safe API routes and clients for Next.js App Router.
 - `/vercel-react-best-practices` — React and Next.js performance optimization (64 rules).
 - `/frontend-design` — Create distinctive, production-grade frontend interfaces.
+- `/shadcn` — shadcn/ui component management, styling, and composition best practices.

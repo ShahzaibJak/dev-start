@@ -14,4 +14,4 @@ Adds the Dev Start workflow system for structured AI-assisted development.
 
 ## Next Steps
 
-Use `/ds-overview` to see the full workflow system. Start with `/start-prd` to plan a feature, then `/start-work` to implement it.
+Start with `/start-prd` to plan a feature, then `/start-work` to implement it.
