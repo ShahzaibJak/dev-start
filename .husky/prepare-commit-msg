@@ -1,0 +1,2 @@
+[ -n "$2" ] && exit 0
+exec < /dev/tty && node_modules/.bin/cz --hook || true

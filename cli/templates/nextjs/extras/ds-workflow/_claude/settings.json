@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "command": ".claude/scripts/check-types.sh"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "command": ".claude/scripts/check-context.sh"
+      }
+    ],
+    "StatusLine": {
+      "command": ".claude/scripts/statusline-context.sh"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# @generateTypes(lang=ts, path=env.d.ts)
+# @defaultSensitive=inferFromPrefix('NEXT_PUBLIC_')
+# @currentEnv=$NODE_ENV
+# ---
+
+# --- App Configuration ---
+
+# @type=enum(development, production, test)
+# @optional
+NODE_ENV=development
+
+# @type=number(min=1, max=65535)
+# @optional
+PORT=3000
+
+# @type=url
+# @sensitive=false
+# Application URL used for links and metadata
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# @type=string(minLength=1, maxLength=100)
+# @sensitive=false
+# Application name shown in browser tab and metadata
+NEXT_PUBLIC_APP_NAME=Dev Start

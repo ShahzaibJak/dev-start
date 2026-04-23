@@ -1,0 +1,266 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun i --frozen-lockfile
+      - run: bun run lint
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run typecheck
+
+  build-cli:
+    needs: [lint, check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+
+  verify-nextjs-base:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: CLI help works
+        run: node cli/dist/index.js --help
+      - name: Verify nextjs/base scaffold contract
+        run: bun run verify:nextjs-base
+
+  verify-nextjs-dev-tooling:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + dev-tooling scaffold contract
+        run: bun run verify:nextjs-dev-tooling
+
+  verify-nextjs-github-workflows:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + github-workflows scaffold contract
+        run: bun run verify:nextjs-github-workflows
+
+  verify-nextjs-dev-tooling-github-workflows:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + dev-tooling + github-workflows scaffold contract
+        run: bun run verify:nextjs-dev-tooling-github-workflows
+
+  verify-nextjs-ds-workflow-dev-tooling:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + ds-workflow + dev-tooling scaffold contract
+        run: bun run verify:nextjs-ds-workflow-dev-tooling
+
+  verify-nextjs-prisma:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma scaffold contract
+        run: bun run verify:nextjs-prisma
+
+  verify-nextjs-prisma-github-workflows:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + github-workflows scaffold contract
+        run: bun run verify:nextjs-prisma-github-workflows
+
+  verify-nextjs-prisma-dev-tooling:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + dev-tooling scaffold contract
+        run: bun run verify:nextjs-prisma-dev-tooling
+
+  verify-nextjs-better-auth-prisma:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + better-auth scaffold contract
+        run: bun run verify:nextjs-better-auth-prisma
+
+  verify-nextjs-better-auth-prisma-github-workflows:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + better-auth + github-workflows scaffold contract
+        run: bun run verify:nextjs-better-auth-prisma-github-workflows
+
+  verify-nextjs-better-auth-prisma-dev-tooling:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + better-auth + dev-tooling scaffold contract
+        run: bun run verify:nextjs-better-auth-prisma-dev-tooling
+
+  verify-nextjs-ds-workflow:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + ds-workflow scaffold contract
+        run: bun run verify:nextjs-ds-workflow
+
+  verify-nextjs-ds-workflow-github-workflows:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + ds-workflow + github-workflows scaffold contract
+        run: bun run verify:nextjs-ds-workflow-github-workflows
+
+  verify-nextjs-prisma-ds-workflow:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + ds-workflow scaffold contract
+        run: bun run verify:nextjs-prisma-ds-workflow
+
+  verify-nextjs-prisma-ds-workflow-dev-tooling:
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('bun.lock') }}
+      - run: bun i --frozen-lockfile
+      - run: bun run build
+      - name: Verify nextjs/base + prisma + ds-workflow + dev-tooling scaffold contract
+        run: bun run verify:nextjs-prisma-ds-workflow-dev-tooling

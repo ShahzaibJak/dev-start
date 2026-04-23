@@ -1,0 +1,28 @@
+{
+  "name": "devstart",
+  "version": "0.0.1",
+  "description": "Scaffold production-ready Next.js apps",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "devstart": "dist/index.js",
+    "dev-start": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "citty": "^0.1.6",
+    "consola": "^3.4.2",
+    "fs-extra": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "tsup": "^8.5.0"
+  }
+}

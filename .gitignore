@@ -1,22 +1,14 @@
 # dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+node_modules/
+
+# build output
+dist/
+.next/
+out/
+build/
 
 # testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
+coverage/
 
 # misc
 .DS_Store
@@ -34,3 +26,16 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scaffold test output
+test-output/
+.tmp/
+
+# build artifacts
+*.tgz
+
+# AI tool configs
+.codex
+
+# Claude Code workflow files
+.claude/

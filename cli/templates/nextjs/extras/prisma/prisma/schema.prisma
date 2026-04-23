@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+generator jsonTypes {
+  provider  = "prisma-json-types-generator"
+  namespace = "PrismaJson"
+  allowAny  = false
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  type      String
+  /// [EventMetadata]
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+}
