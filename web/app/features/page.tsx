@@ -175,8 +175,8 @@ export default function FeaturesPage(): React.ReactNode {
         </h2>
         <div className="mt-4 rounded-lg border divide-y">
           {composabilityRules.map((item) => (
-            <div key={item.rule} className="px-6 py-4">
-              <p className="text-sm font-medium font-mono">{item.rule}</p>
+            <div key={item.rule} className="px-4 py-4 sm:px-6">
+              <p className="text-sm font-medium font-mono break-words">{item.rule}</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 {item.reason}
               </p>

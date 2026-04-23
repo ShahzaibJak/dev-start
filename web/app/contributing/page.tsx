@@ -120,7 +120,7 @@ bun run build`}</CodeBlock>
           {commitTypes.map((item) => (
             <div
               key={item.prefix}
-              className="flex items-baseline gap-4 px-6 py-3"
+              className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-baseline sm:gap-4 sm:px-6"
             >
               <code className="shrink-0 font-mono text-sm font-medium">
                 {item.prefix}

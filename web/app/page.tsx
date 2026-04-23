@@ -30,11 +30,11 @@ export default function HomePage(): React.ReactNode {
   return (
     <div className="mx-auto max-w-5xl px-6">
       {/* Hero */}
-      <section className="flex flex-col items-center gap-8 pb-24 pt-20 text-center sm:pt-32">
+      <section className="flex flex-col items-center gap-6 pb-16 pt-16 text-center sm:gap-8 sm:pb-24 sm:pt-32">
         <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
           AI-native &middot; type-safe &middot; production-ready
         </p>
-        <h1 className="max-w-4xl text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-nowrap sm:text-balance">
+        <h1 className="max-w-4xl text-[clamp(1.75rem,5vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-balance">
           The AI-native Next.js starter.
           <br />
           Type-safe and production-ready.
@@ -65,7 +65,7 @@ export default function HomePage(): React.ReactNode {
       </section>
 
       {/* Feature highlights */}
-      <section className="pb-24">
+      <section className="pb-16 sm:pb-24">
         <div className="grid gap-4 sm:grid-cols-2">
           {highlights.map((item) => (
             <Card key={item.title}>

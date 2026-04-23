@@ -94,18 +94,21 @@ export default function WorkflowPage(): React.ReactNode {
         <div className="mt-4 flex flex-col gap-3">
           {steps.map((step) => (
             <Card key={step.command}>
-              <CardContent className="flex gap-4 p-0">
-                <div className="flex w-12 shrink-0 items-center justify-center bg-muted font-mono text-sm text-muted-foreground">
+              <CardContent className="p-4 sm:p-0 sm:flex sm:gap-4">
+                <div className="hidden sm:flex w-12 shrink-0 items-center justify-center bg-muted font-mono text-sm text-muted-foreground">
                   {step.number}
                 </div>
-                <div className="flex flex-1 flex-col gap-1 py-4 pr-5">
+                <div className="flex flex-1 flex-col gap-1 sm:py-4 sm:pr-5">
                   <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-muted-foreground sm:hidden">
+                      {step.number}.
+                    </span>
                     <span className="text-sm font-medium">{step.title}</span>
                     <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
                       {step.command}
                     </code>
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground sm:mt-0">
                     {step.description}
                   </p>
                 </div>
