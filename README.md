@@ -89,7 +89,7 @@ bun run verify:nextjs-prisma-github-workflows
 bun run verify:nextjs-ds-workflow
 bun run verify:nextjs-ds-workflow-github-workflows
 bun run verify:nextjs-prisma-ds-workflow
-node cli/dist/index.js my-app --base
+node cli/dist/index.js init my-app --base
 node cli/dist/index.js init my-app --prisma
 node cli/dist/index.js init my-app --prisma --auth
 node cli/dist/index.js init my-app --workflow
