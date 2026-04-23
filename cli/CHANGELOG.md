@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.0.5
+
+### Patch Changes
+
+- Add Clerk auth as alternative to Better Auth
+
 ## 0.0.4
 
 ### Patch Changes
