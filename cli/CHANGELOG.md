@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.0.6
+
+### Patch Changes
+
+- Fix varlock NODE_ENV false positive, add auto-generated files to eslint ignores, and merge README.md from extras instead of overwriting
+
 ## 0.0.5
 
 ### Patch Changes
