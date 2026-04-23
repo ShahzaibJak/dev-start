@@ -1,121 +1,181 @@
-<h1 align="center">Dev-Start</h1>
-
 <p align="center">
-  Next.js template reset in progress.<br />
-  <em><code>nextjs/base</code>, the verified Prisma and Better Auth paths, the <code>ds-workflow</code> paths, the <code>dev-tooling</code> paths, and the new opt-in GitHub Actions paths are the supported scaffold contracts.</em>
+  <h1 align="center">devstart</h1>
 </p>
 
-<h2 id="status">Current Status</h2>
+<p align="center">
+  Scaffold production-ready Next.js apps with one command.
+</p>
 
-`devstart` can now scaffold `nextjs/base`, the verified Prisma and Better Auth paths, the `ds-workflow` paths, the `dev-tooling` paths, and the new opt-in GitHub Actions CI paths. Other templates and extras remain disabled until later rebuild phases.
+<p align="center">
+  <a href="#quick-start">Quick Start</a> &bull;
+  <a href="#what-you-get">What You Get</a> &bull;
+  <a href="#extras">Extras</a> &bull;
+  <a href="#contributing">Contributing</a> &bull;
+  <a href="#license">License</a>
+</p>
+
+---
+
+## Quick Start
 
 ```bash
-$ bun run build
-$ node cli/dist/index.js init my-app -y
-
-Scaffolding nextjs/base into /path/to/my-app
-Created my-app
+npx devstart my-app
 ```
 
-<h2 id="table-of-contents">Table of Contents</h2>
+Or with extras:
 
-- [The Stack](#the-stack)
-- [Reset Plan](#reset-plan)
-- [Getting Started](#getting-started)
-- [Community](#community)
-- [Contributors](#contributors)
-- [License](#license)
+```bash
+npx devstart my-app --prisma --auth --github-workflows
+```
 
-<h2 id="the-stack">The Stack</h2>
+Interactive mode (prompts for extras):
 
-Dev-Start is being reset around a simpler, stricter contract:
+```bash
+npx devstart my-app
+```
+
+Skip prompts with defaults:
+
+```bash
+npx devstart my-app -y
+```
+
+## What You Get
+
+Every project starts with a production-ready base:
 
 | Category | Tech |
 |----------|------|
-| CLI | `devstart` |
-| Monorepo | Bun workspace |
-| Build | `tsup` |
-| CLI Framework | `citty` + `consola` |
-| Current Goal | Rebuild the template catalog from real app baselines |
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Language | TypeScript (strict mode) |
+| Styling | Tailwind CSS v4 + shadcn/ui |
+| Fonts | Geist Sans + Geist Mono |
+| API Routes | next-ts-api (end-to-end type safety) |
+| Env Validation | varlock (schema-driven, type-safe) |
+| Linting | ESLint + Prettier |
+| Pre-commit | Husky + lint-staged (lint, format, typecheck) |
+| Theme | Light/dark toggle with next-themes |
 
-### Why the reset?
+### Shadcn/ui Components
 
-The existing template files were not good enough to keep shipping. This cleanup removes the fake baseline, keeps the CLI/package structure intact, and creates room to add templates back one by one with verification.
+The base template ships with these shadcn/ui components pre-installed:
 
-<h2 id="reset-plan">Reset Plan</h2>
+`Button` `Card` `Input` `Label` `Separator`
 
-The rebuild sequence is now:
+Add more with `bunx shadcn@latest add <component>`.
 
-1. Keep `nextjs/base` aligned with a real upstream baseline and verify it continuously.
-2. Reintroduce overlays one by one after the base template is verified.
-3. Only advertise features that are covered by scaffold verification.
-4. Keep CI enforcing the supported scaffold contract as new overlays return.
+## Extras
 
-<h2 id="getting-started">Getting Started</h2>
+Extras are opt-in layers that compose on top of the base template.
 
-The repo currently ships these verified scaffold paths:
+### Prisma (`--prisma`)
 
-- `nextjs/base`
-- `nextjs/base + dev-tooling`
-- `nextjs/base + ds-workflow`
-- `nextjs/base + ds-workflow + dev-tooling`
-- `nextjs/base + github-workflows`
-- `nextjs/base + prisma`
-- `nextjs/base + prisma + dev-tooling`
-- `nextjs/base + prisma + ds-workflow`
-- `nextjs/base + prisma + ds-workflow + dev-tooling`
-- `nextjs/base + prisma + better-auth`
-- `nextjs/base + prisma + better-auth + dev-tooling`
-- `nextjs/base + prisma + github-workflows`
-- `nextjs/base + prisma + better-auth + github-workflows`
-- `nextjs/base + ds-workflow + github-workflows`
-- `nextjs/base + dev-tooling + github-workflows`
+Prisma 6 ORM with PostgreSQL, PrismaPg adapter, typed JSONB via `prisma-json-types-generator`, and a singleton client.
 
-Useful commands during cleanup:
+### Better Auth (`--auth`)
+
+Full authentication system. Requires `--prisma`.
+
+- Email/password sign-up and sign-in
+- Google OAuth (optional, via env vars)
+- Forgot/reset password flow
+- Route protection via `proxy.ts` (Next.js 16)
+- shadcn/ui forms with password show/hide toggles
+- Protected dashboard page with session display
+
+### GitHub Workflows (`--github-workflows`)
+
+CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on Blacksmith for faster builds. Includes `varlock scan` for secret leak detection.
+
+### Vercel Deploy (`--vercel-deploy`)
+
+CD pipeline via Vercel CLI. Preview deploys on push to main, manual dispatch for production. Implies `--github-workflows`.
+
+### DS Workflow (`--workflow`)
+
+AI-native development workflow with 12 agent skills for Claude Code, hooks for type checking and context monitoring, and structured plans/handoffs directories.
+
+## Composability
+
+Extras compose freely with a few rules:
+
+- `--auth` requires `--prisma` (auth uses Prisma as its database adapter)
+- `--vercel-deploy` implies `--github-workflows` (CD builds on CI)
+- Everything else is independent
+
+Example combinations:
 
 ```bash
-bun install
-bun run lint
-bun run typecheck
-bun run build
-bun run verify:nextjs-base
-bun run verify:nextjs-better-auth-prisma
-bun run verify:nextjs-better-auth-prisma-github-workflows
-bun run verify:nextjs-dev-tooling
-bun run verify:nextjs-dev-tooling-github-workflows
-bun run verify:nextjs-github-workflows
-bun run verify:nextjs-prisma
-bun run verify:nextjs-prisma-github-workflows
-bun run verify:nextjs-ds-workflow
-bun run verify:nextjs-ds-workflow-github-workflows
-bun run verify:nextjs-prisma-ds-workflow
-node cli/dist/index.js init my-app --base
-node cli/dist/index.js init my-app --prisma
-node cli/dist/index.js init my-app --prisma --auth
-node cli/dist/index.js init my-app --workflow
-node cli/dist/index.js init my-app --github-workflows
-node cli/dist/index.js init my-app --prisma --workflow
-node cli/dist/index.js init my-app --prisma --github-workflows
+# Full stack
+npx devstart my-app --prisma --auth --github-workflows --workflow
+
+# API-focused
+npx devstart my-app --prisma --github-workflows
+
+# Minimal + CI
+npx devstart my-app --github-workflows
 ```
 
-`github-workflows` is intentionally a narrow CI-only starter. It does not imply release or deployment automation. Unsupported extras and additional templates remain intentionally unavailable until later phases. In particular, `better-auth` is only supported together with `prisma`, and `better-auth` still does not compose with `ds-workflow`.
+## Development
 
-<h2 id="community">Community</h2>
+### Prerequisites
 
-We'd love to hear from you! Community channels are coming soon — in the meantime, [open an issue][issues] or [start a discussion][discussions] on GitHub.
+- [Bun](https://bun.sh) v1.1+
+- Node.js 18+
 
-<h2 id="contributors">Contributors</h2>
+### Setup
 
-We welcome contributions! Check out [CONTRIBUTING.md][contributing] to get started.
+```bash
+git clone https://github.com/shahzaibjak/dev-start.git
+cd dev-start
+bun install
+bun run build
+```
+
+### Commands
+
+```bash
+bun run build       # Build the CLI
+bun run lint        # Lint with oxlint
+bun run typecheck   # TypeScript strict check
+```
+
+### Testing locally
+
+```bash
+# Scaffold and test a project
+node cli/dist/index.js init my-test-app --prisma --auth
+
+# Run verification scripts
+bun run verify:nextjs-base
+bun run verify:nextjs-better-auth-prisma
+```
+
+### Project structure
+
+```
+cli/
+  src/
+    cli.ts              # Command definition (citty)
+    index.ts            # Entry point
+    commands/create.ts   # Scaffold logic
+    helpers/             # Git, install, scaffold utilities
+  templates/
+    nextjs/
+      base/             # Base Next.js template
+      extras/           # Composable extras (prisma, better-auth, etc.)
+  dist/                 # Build output (tsup)
+scripts/                # Verification scripts
+```
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 <a href="https://github.com/shahzaibjak/dev-start/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=shahzaibjak/dev-start" />
 </a>
 
-<h2 id="license">License</h2>
+## License
 
 [MIT](LICENSE)
-
-[issues]: https://github.com/shahzaibjak/dev-start/issues
-[discussions]: https://github.com/shahzaibjak/dev-start/discussions
-[contributing]: CONTRIBUTING.md
