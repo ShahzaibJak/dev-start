@@ -6,10 +6,12 @@
 # --- App Configuration ---
 
 # @type=enum(development, production, test)
+# @sensitive=false
 # @optional
 NODE_ENV=development
 
 # @type=number(min=1, max=65535)
+# @sensitive=false
 # @optional
 PORT=3000
 

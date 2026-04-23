@@ -153,9 +153,9 @@ function mergeMarkdownSections(target: string, source: string): string {
   return `${parts.join("\n").replace(/\n{3,}/gu, "\n\n").trimEnd()}\n`;
 }
 
-async function mergeClaudeMd(sourceDir: string, targetDir: string): Promise<void> {
-  const sourcePath = path.join(sourceDir, "CLAUDE.md");
-  const targetPath = path.join(targetDir, "CLAUDE.md");
+async function mergeMarkdownFile(filename: string, sourceDir: string, targetDir: string): Promise<void> {
+  const sourcePath = path.join(sourceDir, filename);
+  const targetPath = path.join(targetDir, filename);
 
   if (!(await fs.pathExists(sourcePath))) {
     return;
@@ -171,6 +171,14 @@ async function mergeClaudeMd(sourceDir: string, targetDir: string): Promise<void
   const merged = mergeMarkdownSections(targetContent, sourceContent);
 
   await fs.writeFile(targetPath, merged);
+}
+
+async function mergeClaudeMd(sourceDir: string, targetDir: string): Promise<void> {
+  await mergeMarkdownFile("CLAUDE.md", sourceDir, targetDir);
+}
+
+async function mergeReadme(sourceDir: string, targetDir: string): Promise<void> {
+  await mergeMarkdownFile("README.md", sourceDir, targetDir);
 }
 
 async function mergeGitignore(sourceDir: string, targetDir: string): Promise<void> {
@@ -226,6 +234,7 @@ const MERGE_HANDLERS: Record<string, MergeHandler> = {
   _gitignore: mergeGitignore,
   "_env.schema": mergeEnvSchema,
   "CLAUDE.md": mergeClaudeMd,
+  "README.md": mergeReadme,
   "package.json": mergePackageJson,
 };
 
