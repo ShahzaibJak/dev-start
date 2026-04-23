@@ -27,6 +27,8 @@ Or with extras:
 
 ```bash
 npx ds-start my-app --prisma --auth --github-workflows
+# or with Clerk auth (no database required)
+npx ds-start my-app --clerk --github-workflows
 ```
 
 Interactive mode (prompts for extras):
@@ -98,6 +100,14 @@ Full authentication system. Requires `--prisma`.
 - shadcn/ui forms with password show/hide toggles
 - Protected dashboard page with session display
 
+### [Clerk](https://clerk.com) (`--clerk`)
+
+Managed authentication via Clerk. No database required.
+
+- Email/password and social sign-in (configured via Clerk dashboard)
+- Route protection via `proxy.ts` (Next.js 16)
+- Cannot be combined with `--auth` (choose one auth provider)
+
 ### GitHub Workflows (`--github-workflows`)
 
 CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
@@ -111,14 +121,18 @@ CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on pu
 Extras compose freely with a few rules:
 
 - `--auth` requires `--prisma` (auth uses Prisma as its database adapter)
+- `--clerk` cannot be combined with `--auth` (choose one auth provider)
 - `--vercel-deploy` implies `--github-workflows` (CD builds on CI)
 - Everything else is independent
 
 Example combinations:
 
 ```bash
-# Full stack
+# Full stack with Better Auth
 npx ds-start my-app --prisma --auth --github-workflows
+
+# Clerk auth (no database needed)
+npx ds-start my-app --clerk --github-workflows
 
 # API-focused
 npx ds-start my-app --prisma --github-workflows

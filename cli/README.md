@@ -12,6 +12,8 @@ With extras:
 
 ```bash
 npx ds-start my-app --prisma --auth --github-workflows
+# or with Clerk auth (no database required)
+npx ds-start my-app --clerk --github-workflows
 ```
 
 Skip prompts with defaults:
@@ -68,6 +70,8 @@ Opt-in layers that compose on top of the base.
 
 **[Better Auth](https://www.better-auth.com)** (`--auth`) — Full auth system with email/password, Google OAuth, forgot/reset password, route protection via `proxy.ts`, and shadcn/ui forms. Requires `--prisma`.
 
+**[Clerk](https://clerk.com)** (`--clerk`) — Managed authentication via Clerk. No database required. Route protection via `proxy.ts`. Cannot be combined with `--auth`.
+
 **GitHub Workflows** (`--github-workflows`) — CI pipeline: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
 
 **Vercel Deploy** (`--vercel-deploy`) — CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push, manual dispatch for production. Implies `--github-workflows`.
@@ -77,12 +81,16 @@ Opt-in layers that compose on top of the base.
 Extras compose freely with a few rules:
 
 - `--auth` requires `--prisma` (auth uses Prisma as its database adapter)
+- `--clerk` cannot be combined with `--auth` (choose one auth provider)
 - `--vercel-deploy` implies `--github-workflows` (CD builds on CI)
 - Everything else is independent
 
 ```bash
-# Full stack
+# Full stack with Better Auth
 npx ds-start my-app --prisma --auth --github-workflows
+
+# Clerk auth (no database needed)
+npx ds-start my-app --clerk --github-workflows
 
 # API-focused
 npx ds-start my-app --prisma --github-workflows
