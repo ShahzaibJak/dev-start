@@ -15,7 +15,7 @@ const baseStack = [
   },
   {
     name: "TypeScript",
-    detail: "Strict mode, no any, full type coverage",
+    detail: "Strict mode, type-checked with tsgo (native compiler)",
     href: "https://www.typescriptlang.org",
   },
   {
@@ -39,14 +39,24 @@ const baseStack = [
     href: "https://varlock.dev",
   },
   {
+    name: "Vitest",
+    detail: "Fast unit testing with jsdom environment",
+    href: "https://vitest.dev",
+  },
+  {
     name: "ESLint + Prettier",
     detail: "Consistent code style enforced on every save",
     href: "https://eslint.org",
   },
   {
     name: "Husky + lint-staged",
-    detail: "Pre-commit hooks run lint, format, and typecheck",
+    detail: "Pre-commit hooks run lint, format, typecheck, and test",
     href: "https://typicode.github.io/husky",
+  },
+  {
+    name: "commitlint + cz-git",
+    detail: "Conventional commits enforced with interactive prompts",
+    href: "https://commitlint.js.org",
   },
   {
     name: "Geist Sans + Mono",

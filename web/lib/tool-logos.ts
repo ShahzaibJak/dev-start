@@ -54,6 +54,7 @@ export const toolLogos: Record<string, string> = {
   PartyKit: gh(123780865),
   Ably: gh(1859245),
   "next-themes": gh(34928425), // pacocoursey
+  "commitlint + cz-git": si("commitlint"),
 
   // --- Tools with no logo (use their project's GitHub avatar or org) ---
   citty: gh(80154025), // unjs
@@ -76,6 +77,9 @@ export const toolLogos: Record<string, string> = {
   Email: gh(109384852), // resend
   "File Uploads": si("amazons3"),
   Resend: gh(109384852),
+
+  Vitest: si("vitest"),
+  "cz-git": gh(106996107), // Zhengqbbb
 
   // --- Fonts ---
   Geist: si("vercel"), // Vercel's font

@@ -29,7 +29,7 @@ const packages = [
   },
   {
     name: "TypeScript",
-    description: "Typed superset of JavaScript that compiles to plain JavaScript.",
+    description: "Typed superset of JavaScript. Type-checked with tsgo (native TypeScript compiler).",
     href: "https://www.typescriptlang.org",
     category: "Framework",
   },
@@ -140,6 +140,12 @@ const packages = [
     category: "Dev Tooling",
   },
   {
+    name: "Vitest",
+    description: "Next-generation testing framework powered by Vite.",
+    href: "https://vitest.dev",
+    category: "Dev Tooling",
+  },
+  {
     name: "Husky",
     description: "Git hooks made easy. Runs lint-staged on every commit.",
     href: "https://typicode.github.io/husky",
@@ -152,15 +158,21 @@ const packages = [
     category: "Dev Tooling",
   },
   {
-    name: "Changesets",
-    description: "Manage versioning and changelogs for multi-package repositories.",
-    href: "https://github.com/changesets/changesets",
-    category: "Dev Tooling",
-  },
-  {
     name: "commitlint",
     description: "Lint commit messages to enforce conventional commits.",
     href: "https://commitlint.js.org",
+    category: "Dev Tooling",
+  },
+  {
+    name: "cz-git",
+    description: "Interactive commitizen adapter for conventional commit prompts.",
+    href: "https://cz-git.qbb.sh",
+    category: "Dev Tooling",
+  },
+  {
+    name: "Changesets",
+    description: "Manage versioning and changelogs for multi-package repositories.",
+    href: "https://github.com/changesets/changesets",
     category: "Dev Tooling",
   },
 
