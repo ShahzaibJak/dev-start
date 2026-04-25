@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.1.0
+
+### Minor Changes
+
+- Add `ds-start add <extra>` subcommand, replace ESLint + Prettier with oxlint + oxfmt, add nuqs + React Query to base template, and add Zustand extra.
+
 ## 0.0.8
 
 ### Patch Changes
