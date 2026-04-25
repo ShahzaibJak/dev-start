@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -294,16 +295,9 @@ export function FileUpload({
 
   return (
     <div className={cn("flex w-full flex-col gap-3", className)}>
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault()
-            inputRef.current?.click()
-          }
-        }}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -340,7 +334,7 @@ export function FileUpload({
           {accept ? `Accepted: ${accept}` : "All file types"} &middot;
           Max {maxSizeMB}MB
         </div>
-      </div>
+      </button>
 
       <input
         ref={inputRef}
@@ -359,9 +353,12 @@ export function FileUpload({
               className="flex items-center gap-3 rounded-lg border bg-card p-3 ring-1 ring-foreground/10"
             >
               {entry.previewUrl ? (
-                <img
+                <Image
                   src={entry.previewUrl}
                   alt={entry.file.name}
+                  width={40}
+                  height={40}
+                  unoptimized
                   className="size-10 shrink-0 rounded-md object-cover"
                 />
               ) : (

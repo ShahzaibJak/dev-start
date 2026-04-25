@@ -9,7 +9,7 @@ import {
  * Dotfiles that npm strips during publish.
  * Stored with a leading underscore in the template and restored on scaffold.
  */
-const DOTFILE_RENAMES: Record<string, string> = {
+export const DOTFILE_RENAMES: Record<string, string> = {
   _agents: ".agents",
   _claude: ".claude",
   _github: ".github",
@@ -21,7 +21,7 @@ const DOTFILE_RENAMES: Record<string, string> = {
   "_oxfmtrc.json": ".oxfmtrc.json",
 };
 
-async function restoreDotEntries(dir: string): Promise<void> {
+export async function restoreDotEntries(dir: string): Promise<void> {
   const entries = await fs.readdir(dir, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -46,9 +46,9 @@ async function restoreDotEntries(dir: string): Promise<void> {
   }
 }
 
-const SKIPPED_TEMPLATE_FILES = new Set(["bun.lock"]);
+export const SKIPPED_TEMPLATE_FILES = new Set(["bun.lock"]);
 
-type MergeHandler = (sourceDir: string, targetDir: string) => Promise<void>;
+export type MergeHandler = (sourceDir: string, targetDir: string) => Promise<void>;
 
 function shouldSkipTemplateFile(src: string): boolean {
   return SKIPPED_TEMPLATE_FILES.has(path.basename(src)) || path.basename(src) in MERGE_HANDLERS;
@@ -239,7 +239,7 @@ async function mergeEnvSchema(sourceDir: string, targetDir: string): Promise<voi
   await fs.writeFile(targetPath, `${targetContent}\n\n${sourceContent}\n`);
 }
 
-const MERGE_HANDLERS: Record<string, MergeHandler> = {
+export const MERGE_HANDLERS: Record<string, MergeHandler> = {
   _gitignore: mergeGitignore,
   "_env.schema": mergeEnvSchema,
   "CLAUDE.md": mergeClaudeMd,

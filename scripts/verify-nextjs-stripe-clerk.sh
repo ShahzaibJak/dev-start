@@ -40,7 +40,7 @@ echo "Building CLI"
 echo "Scaffolding Stripe + Clerk app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --clerk --stripe -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --clerk --stripe -y --no-install --no-git
 )
 
 assert_stripe_clerk_shape "$SOURCE_APP" "source-app"
@@ -48,7 +48,7 @@ assert_stripe_clerk_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding Stripe + Clerk app from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --clerk --stripe --no-install --no-git
+  node cli/dist/index.js init "$BUILT_APP" --clerk --stripe --no-install --no-git
 )
 
 assert_stripe_clerk_shape "$BUILT_APP" "built-app"

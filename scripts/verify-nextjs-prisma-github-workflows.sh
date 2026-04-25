@@ -35,7 +35,7 @@ assert_overlay_shape() {
   grep -q '@prisma/client' "$app_dir/package.json"
   grep -q '@prisma/adapter-pg' "$app_dir/package.json"
   grep -q '"prisma"' "$app_dir/package.json"
-  grep -q 'DATABASE_URL="postgresql://' "$app_dir/.env.schema"
+  grep -q 'DATABASE_URL=postgresql://' "$app_dir/.env.schema"
   grep -q 'provider = "postgresql"' "$app_dir/prisma/schema.prisma"
   grep -q 'bun install' "$app_dir/$WORKFLOW_RELATIVE_PATH"
   grep -q 'bun run lint' "$app_dir/$WORKFLOW_RELATIVE_PATH"
@@ -53,7 +53,7 @@ echo "Building CLI"
 echo "Scaffolding Prisma + GitHub workflows app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --prisma --github-workflows -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --prisma --github-workflows -y --no-install --no-git
 )
 
 assert_overlay_shape "$SOURCE_APP" "source-app"
@@ -61,7 +61,7 @@ assert_overlay_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding Prisma + GitHub workflows app from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --prisma --github-workflows --no-install --no-git
+  node cli/dist/index.js init "$BUILT_APP" --prisma --github-workflows --no-install --no-git
 )
 
 assert_overlay_shape "$BUILT_APP" "built-app"

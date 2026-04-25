@@ -21,15 +21,15 @@ assert_scaffold_shape() {
 
   echo "Validating scaffold output for $expected_name"
   test -f "$app_dir/.gitignore"
-  test -f "$app_dir/.prettierignore"
-  test -f "$app_dir/.prettierrc"
+  test -f "$app_dir/.oxlintrc.json"
+  test -f "$app_dir/.oxfmtrc.json"
   test -f "$app_dir/components/.gitkeep"
   test -f "$app_dir/hooks/.gitkeep"
   test -f "$app_dir/lib/.gitkeep"
   test -f "$app_dir/public/.gitkeep"
   test ! -f "$app_dir/_gitignore"
-  test ! -f "$app_dir/_prettierignore"
-  test ! -f "$app_dir/_prettierrc"
+  test ! -f "$app_dir/_oxlintrc.json"
+  test ! -f "$app_dir/_oxfmtrc.json"
   grep -q "\"name\": \"$expected_name\"" "$app_dir/package.json"
 }
 
@@ -43,7 +43,7 @@ echo "Building CLI"
 echo "Scaffolding from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --base -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --base -y --no-install --no-git
 )
 
 assert_scaffold_shape "$SOURCE_APP" "source-app"
@@ -51,7 +51,7 @@ assert_scaffold_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --base -y --no-install --no-git
+  node cli/dist/index.js init "$BUILT_APP" --base -y --no-install --no-git
 )
 
 assert_scaffold_shape "$BUILT_APP" "built-app"

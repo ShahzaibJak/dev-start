@@ -84,7 +84,7 @@ echo "Building CLI"
 echo "Scaffolding Better Auth + Prisma + dev-tooling app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --prisma --auth --dev-tooling -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --prisma --auth --dev-tooling -y --no-install --no-git
 )
 
 assert_overlay_shape "$SOURCE_APP" "source-app"
@@ -92,7 +92,7 @@ assert_overlay_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding Better Auth + Prisma + dev-tooling app from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --prisma --auth --dev-tooling --no-install
+  node cli/dist/index.js init "$BUILT_APP" --prisma --auth --dev-tooling --no-install
 )
 
 assert_overlay_shape "$BUILT_APP" "built-app"

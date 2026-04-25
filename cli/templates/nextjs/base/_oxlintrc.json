@@ -9,8 +9,10 @@
   "rules": {
     "nextjs/no-head-element": "error",
     "react/jsx-key": "error",
+    "react/react-in-jsx-scope": "off",
     "react/self-closing-comp": "warn",
-    "import/no-cycle": "error"
+    "import/no-cycle": "error",
+    "import/no-unassigned-import": "off"
   },
   "ignorePatterns": [
     ".next/**",
@@ -19,6 +21,7 @@
     "coverage/**",
     "node_modules/**",
     "env.d.ts",
-    "types/next-ts-api.ts"
+    "types/next-ts-api.ts",
+    "generated/**"
   ]
 }

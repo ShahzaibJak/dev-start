@@ -50,7 +50,7 @@ echo "Building CLI"
 echo "Scaffolding email + Better Auth app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --email --auth --prisma -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --email --auth --prisma -y --no-install --no-git
 )
 
 assert_email_ba_shape "$SOURCE_APP" "source-app"
@@ -58,7 +58,7 @@ assert_email_ba_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding email + Better Auth app from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --email --auth --prisma --no-install --no-git
+  node cli/dist/index.js init "$BUILT_APP" --email --auth --prisma --no-install --no-git
 )
 
 assert_email_ba_shape "$BUILT_APP" "built-app"

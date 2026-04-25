@@ -25,7 +25,7 @@ assert_overlay_shape() {
   test -f "$app_dir/prisma/schema.prisma"
   test -f "$app_dir/prisma.config.ts"
   test -f "$app_dir/lib/prisma.ts"
-  test -f "$app_dir/eslint.config.mjs"
+  test -f "$app_dir/.oxlintrc.json"
   test -d "$app_dir/.husky"
   test -f "$app_dir/.husky/pre-commit"
   test -x "$app_dir/.husky/pre-commit"
@@ -39,10 +39,10 @@ assert_overlay_shape() {
   grep -q '@prisma/client' "$app_dir/package.json"
   grep -q '@prisma/adapter-pg' "$app_dir/package.json"
   grep -q '"prisma"' "$app_dir/package.json"
-  grep -q 'DATABASE_URL="postgresql://' "$app_dir/.env.schema"
+  grep -q 'DATABASE_URL=postgresql://' "$app_dir/.env.schema"
   grep -q 'provider = "postgresql"' "$app_dir/prisma/schema.prisma"
   grep -q 'output   = "../generated/prisma"' "$app_dir/prisma/schema.prisma"
-  grep -q 'generated/\*\*' "$app_dir/eslint.config.mjs"
+  grep -q 'generated/\*\*' "$app_dir/.oxlintrc.json"
 }
 
 echo "Building CLI"
@@ -55,7 +55,7 @@ echo "Building CLI"
 echo "Scaffolding Prisma + dev-tooling app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --prisma --dev-tooling -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --prisma --dev-tooling -y --no-install --no-git
 )
 
 assert_overlay_shape "$SOURCE_APP" "source-app"
@@ -63,7 +63,7 @@ assert_overlay_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding Prisma + dev-tooling app from built output"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --prisma --dev-tooling --no-install
+  node cli/dist/index.js init "$BUILT_APP" --prisma --dev-tooling --no-install
 )
 
 assert_overlay_shape "$BUILT_APP" "built-app"

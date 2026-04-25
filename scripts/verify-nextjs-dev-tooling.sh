@@ -42,7 +42,7 @@ echo "Building CLI"
 echo "Scaffolding dev-tooling app from source"
 (
   cd "$ROOT_DIR"
-  bun cli/src/index.ts -- "$SOURCE_APP" --base --dev-tooling -y --no-install --no-git
+  bun cli/src/index.ts -- init "$SOURCE_APP" --base --dev-tooling -y --no-install --no-git
 )
 
 assert_dev_tooling_shape "$SOURCE_APP" "source-app"
@@ -50,7 +50,7 @@ assert_dev_tooling_shape "$SOURCE_APP" "source-app"
 echo "Scaffolding dev-tooling app from built output with git initialized"
 (
   cd "$ROOT_DIR"
-  node cli/dist/index.js "$BUILT_APP" --base --dev-tooling --no-install
+  node cli/dist/index.js init "$BUILT_APP" --base --dev-tooling --no-install
 )
 
 assert_dev_tooling_shape "$BUILT_APP" "built-app"
