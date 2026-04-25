@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "ds-start — The AI-native Next.js starter",
     description:
       "10+ built-in AI skills. Types from database to UI. Production tooling from first commit.",
-    images: [{ url: "/logo.svg", width: 128, height: 128, alt: "ds-start" }],
+    images: [{ url: "/logo.svg", width: 320, height: 64, alt: "ds-start" }],
   },
   twitter: {
     card: "summary",

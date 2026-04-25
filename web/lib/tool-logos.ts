@@ -65,7 +65,9 @@ export const toolLogos: Record<string, string> = {
   // --- Roadmap items (mapped to closest brand) ---
   "Billing & Subscriptions": si("stripe"),
   "Monorepo Templates": si("turborepo"),
+  "Email (Resend + React Email)": gh(109384852), // resend
   "Email Templates": gh(109384852), // resend (React Email)
+  "File Uploads (S3-Compatible)": si("amazons3"),
   "Background Jobs": gh(95297378), // triggerdotdev
   "Real-time & WebSockets": si("pusher"),
   "Organizations & Multi-tenancy": si("clerk"),

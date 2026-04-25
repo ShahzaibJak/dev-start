@@ -49,9 +49,8 @@ export function Nav(): React.ReactNode {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-3">
-          <Logo size="md" />
-          <span className="text-sm font-medium tracking-tight">ds-start</span>
+        <Link href="/" className="flex items-center gap-3" aria-label="ds-start">
+          <Logo size="md" variant="lockup" />
         </Link>
 
         {/* Desktop nav */}

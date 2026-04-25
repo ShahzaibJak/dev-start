@@ -21,6 +21,18 @@ const comingSoon = [
     status: "coming-soon",
   },
   {
+    title: "Email (Resend + React Email)",
+    description:
+      "Lightweight email extra with Resend for delivery and React Email for type-safe, previewable templates. Transactional emails — welcome, password reset, invitations — ready out of the box.",
+    status: "coming-soon",
+  },
+  {
+    title: "File Uploads (S3-Compatible)",
+    description:
+      "File upload extra with a simple S3-compatible API. Works with any S3-compatible store — AWS S3, Cloudflare R2, MinIO, Backblaze B2. Presigned URLs, upload helpers, and type-safe config.",
+    status: "coming-soon",
+  },
+  {
     title: "Billing & Subscriptions",
     description:
       "Stripe integration with subscription management, usage-based billing, customer portal, and webhook handling.",
@@ -39,12 +51,6 @@ const planned = [
     title: "Monorepo Templates",
     description:
       "Turborepo-based monorepo starter with shared packages, multiple apps, and coordinated tooling. Same AI-native workflow across the entire repo.",
-    status: "planned",
-  },
-  {
-    title: "Email Templates",
-    description:
-      "React Email integration for transactional emails — welcome, password reset, invitations, billing receipts. Type-safe and previewable.",
     status: "planned",
   },
 ] satisfies ReadonlyArray<RoadmapItem>

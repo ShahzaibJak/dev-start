@@ -1,4 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#171717"/>
-  <text x="16" y="21" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="13" fill="#fafafa">DS</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none">
+  <rect x="6" y="6" width="52" height="52" rx="18" fill="#111111"/>
+  <rect x="6" y="6" width="52" height="52" rx="18" stroke="#111111" stroke-opacity="0.12"/>
+  <path
+    d="M19 18H15V46H19M45 18H49V46H45"
+    stroke="#FFFFFF"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path d="M27 42L39 22" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" />
+  <path
+    d="M22 42L34 22"
+    stroke="#FFFFFF"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-opacity="0.55"
+  />
+  <circle cx="45.5" cy="21.5" r="2.5" fill="#FFFFFF" />
 </svg>

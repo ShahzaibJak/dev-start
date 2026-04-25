@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">ds-start</h1>
+  <img src="./web/public/logo.svg" alt="ds-start" width="280" />
 </p>
 
 <p align="center">
