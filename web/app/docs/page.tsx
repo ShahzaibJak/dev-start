@@ -3,7 +3,7 @@ import { CodeBlock } from "@/components/code-block"
 
 export const metadata: Metadata = {
   title: "Docs",
-  description: "CLI usage documentation for ds-start.",
+  description: "CLI reference for ds-start — scaffold new projects and add modules to existing ones.",
 }
 
 const flags = [
@@ -42,6 +42,11 @@ const flags = [
       "Add Zustand client state management with typed stores and devtools middleware.",
   },
   {
+    flag: "--forms",
+    description:
+      "Add JSON-driven form renderer with classic, conversational, and multistep view modes.",
+  },
+  {
     flag: "--github-workflows",
     description:
       "Add GitHub Actions CI pipeline with lint, typecheck, build, and secret scanning.",
@@ -57,16 +62,22 @@ const flags = [
   },
 ] satisfies ReadonlyArray<{ flag: string; description: string }>
 
-const examples = [
-  { label: "Minimal", command: "npx ds-start my-app" },
-  { label: "Full stack", command: "npx ds-start my-app --prisma --auth --stripe --email --github-workflows" },
-  { label: "Clerk stack", command: "npx ds-start my-app --clerk --stripe --email --file-uploads" },
-  { label: "API-focused", command: "npx ds-start my-app --prisma --github-workflows" },
-  { label: "Everything", command: "npx ds-start my-app --prisma --auth --stripe --email --file-uploads --zustand --github-workflows --vercel-deploy" },
-  { label: "Skip prompts", command: "npx ds-start my-app -y" },
-  { label: "Add email to existing project", command: "npx ds-start add email" },
-  { label: "Add file uploads to existing project", command: "npx ds-start add file-uploads" },
-  { label: "Add Zustand to existing project", command: "npx ds-start add zustand" },
+const initExamples = [
+  { label: "Minimal", command: "npx ds-start init my-app" },
+  { label: "Full stack", command: "npx ds-start init my-app --prisma --auth --stripe --email --github-workflows" },
+  { label: "Clerk stack", command: "npx ds-start init my-app --clerk --stripe --email --file-uploads" },
+  { label: "API-focused", command: "npx ds-start init my-app --prisma --github-workflows" },
+  { label: "Everything", command: "npx ds-start init my-app --prisma --auth --stripe --email --file-uploads --zustand --forms --github-workflows --vercel-deploy" },
+  { label: "Skip prompts", command: "npx ds-start init my-app -y" },
+] satisfies ReadonlyArray<{ label: string; command: string }>
+
+const addExamples = [
+  { label: "Email module", command: "npx ds-start add email" },
+  { label: "File uploads module", command: "npx ds-start add file-uploads" },
+  { label: "Zustand state management", command: "npx ds-start add zustand" },
+  { label: "Forms module", command: "npx ds-start add forms" },
+  { label: "CI pipeline", command: "npx ds-start add github-workflows" },
+  { label: "Vercel CD", command: "npx ds-start add vercel-deploy" },
 ] satisfies ReadonlyArray<{ label: string; command: string }>
 
 export default function DocsPage(): React.ReactNode {
@@ -74,7 +85,7 @@ export default function DocsPage(): React.ReactNode {
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-semibold tracking-tight">Documentation</h1>
       <p className="mt-2 text-muted-foreground">
-        CLI reference and usage guide for ds-start.
+        Scaffold new projects and add modules to existing ones.
       </p>
 
       {/* Quick Start */}
@@ -82,12 +93,22 @@ export default function DocsPage(): React.ReactNode {
         <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
           Quick Start
         </h2>
-        <div className="mt-4 space-y-3">
-          <CodeBlock>npx ds-start my-app</CodeBlock>
-          <p className="text-sm text-muted-foreground">
-            This scaffolds a new Next.js project in the <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">my-app</code> directory
-            with the full base stack. You&apos;ll be prompted to select optional extras.
-          </p>
+        <div className="mt-4 space-y-4">
+          <div>
+            <p className="mb-2 text-sm font-medium">New project</p>
+            <CodeBlock>npx ds-start init my-app</CodeBlock>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Scaffolds a new Next.js project in the <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">my-app</code> directory
+              with the full foundation. You&apos;ll be prompted to select optional modules.
+            </p>
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-medium">Add a module</p>
+            <CodeBlock>npx ds-start add email</CodeBlock>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Run from inside a supported Next.js project to install a module. Auto-merges package.json, .gitignore, and .env.schema. Prompts only for real file conflicts.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -100,7 +121,7 @@ export default function DocsPage(): React.ReactNode {
           <p className="text-sm text-muted-foreground">
             No installation required. Run directly with npx:
           </p>
-          <CodeBlock>npx ds-start my-app</CodeBlock>
+          <CodeBlock>npx ds-start init my-app</CodeBlock>
           <p className="text-sm text-muted-foreground">
             Or install globally:
           </p>
@@ -116,21 +137,25 @@ export default function DocsPage(): React.ReactNode {
         <div className="mt-4 space-y-4">
           <div>
             <p className="mb-2 text-sm font-medium">Scaffold a new project</p>
-            <CodeBlock copyable={false}>{`npx ds-start <project-name> [flags]`}</CodeBlock>
+            <CodeBlock copyable={false}>{`npx ds-start init <project-name> [flags]`}</CodeBlock>
           </div>
           <div>
-            <p className="mb-2 text-sm font-medium">Add an extra to an existing project</p>
-            <CodeBlock copyable={false}>{`npx ds-start add <extra>`}</CodeBlock>
+            <p className="mb-2 text-sm font-medium">Add a module to an existing project</p>
+            <CodeBlock copyable={false}>{`npx ds-start add <module>`}</CodeBlock>
             <p className="mt-2 text-sm text-muted-foreground">
-              Run from inside an existing Next.js project to bolt on an independent extra.
+              Run from inside a supported Next.js project to install a module.
               Detects conflicts, merges package.json / .gitignore / .env.schema automatically,
               and prompts for resolution on file-level conflicts. Dependencies are not auto-installed.
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Available extras:{" "}
+              Best experience on ds-start projects and compatible App Router projects.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Available modules:{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">email</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">file-uploads</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">zustand</code>{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">forms</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">github-workflows</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">vercel-deploy</code>
             </p>
@@ -166,9 +191,19 @@ export default function DocsPage(): React.ReactNode {
           Examples
         </h2>
         <div className="mt-4 space-y-4">
-          {examples.map((ex) => (
+          <p className="text-sm font-medium">Scaffold a new project</p>
+          {initExamples.map((ex) => (
             <div key={ex.label}>
-              <p className="mb-2 text-sm font-medium">{ex.label}</p>
+              <p className="mb-2 text-sm text-muted-foreground">{ex.label}</p>
+              <CodeBlock>{ex.command}</CodeBlock>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 space-y-4">
+          <p className="text-sm font-medium">Add modules to an existing project</p>
+          {addExamples.map((ex) => (
+            <div key={ex.label}>
+              <p className="mb-2 text-sm text-muted-foreground">{ex.label}</p>
               <CodeBlock>{ex.command}</CodeBlock>
             </div>
           ))}

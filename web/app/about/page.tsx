@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Why ds-start exists and the vision behind it.",
+  description: "Why ds-start exists — from starter template to composable app kit.",
 }
 
 export default function AboutPage(): React.ReactNode {
@@ -11,7 +11,7 @@ export default function AboutPage(): React.ReactNode {
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-semibold tracking-tight">About</h1>
       <p className="mt-2 text-muted-foreground">
-        Why ds-start exists and where it&apos;s going.
+        From starter template to composable app kit.
       </p>
 
       {/* Origin */}
@@ -33,10 +33,16 @@ export default function AboutPage(): React.ReactNode {
             The AI assistant had no memory of how I like to work.
           </p>
           <p>
-            So I built the template I wished I had. One command, and you get a project
+            So I built the starter I wished I had. One command, and you get a project
             where the tooling is already wired, the types already flow end-to-end, and
             your AI assistant already understands the codebase conventions from the
             first prompt.
+          </p>
+          <p>
+            Then the starter grew. People wanted auth, email, payments, forms — but not
+            always at scaffold time. So ds-start became composable: a foundation you
+            start from, plus modules you can install later. Same templates, same
+            conventions, whether you scaffold fresh or add to an existing app.
           </p>
         </div>
       </section>
@@ -89,8 +95,8 @@ export default function AboutPage(): React.ReactNode {
             <li className="flex items-start gap-2">
               <span className="mt-1.5 block size-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
               <span>
-                <span className="font-medium text-foreground">Built-in AI skills</span>{" "}
-                — your AI assistant gets structured workflows, not just a blank context window.
+                <span className="font-medium text-foreground">Agent-ready workflows</span>{" "}
+                — your coding agent gets structured workflows, not just a blank context window.
               </span>
             </li>
           </ul>
@@ -104,10 +110,11 @@ export default function AboutPage(): React.ReactNode {
         </h2>
         <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
           <p>
-            The way we build software is changing. AI coding assistants are getting
+            The way we build software is changing. AI coding agents are getting
             better fast, but they still work best when they have context — conventions
             to follow, quality gates to enforce, patterns to reuse. Most starters give
-            you files. ds-start gives you a system.
+            you files. ds-start gives you a system: a foundation, composable modules,
+            and agent workflows that work together.
           </p>
           <p>
             The goal is simple: you should be able to go from idea to deployed,

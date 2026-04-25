@@ -5,24 +5,24 @@ import { CodeBlock } from "@/components/code-block"
 
 const highlights = [
   {
-    title: "End-to-end type safety",
+    title: "Production-ready foundation",
     description:
-      "Types flow from database schema through server actions to client components. No manual type wiring.",
+      "Strict TypeScript, oxlint, Husky pre-commit hooks, and end-to-end type safety — all wired up from commit one.",
   },
   {
-    title: "Agentic coding flows",
+    title: "Installable modules",
     description:
-      "Built-in skills for plan-driven development. Your AI assistant follows structured workflows out of the box.",
+      "Add auth, email, payments, forms, and more at scaffold time or bolt them onto an existing project later.",
   },
   {
-    title: "Production tooling",
+    title: "Agent-ready workflows",
     description:
-      "oxlint, oxfmt, strict TypeScript, Husky pre-commit hooks, and optional extras — all wired up from commit one.",
+      "Built-in skills for plan-driven development. Your coding agent follows structured workflows out of the box.",
   },
   {
-    title: "Composable extras",
+    title: "Open and composable",
     description:
-      "Add Prisma, Better Auth, GitHub Workflows, or Vercel Deploy. Mix and match what you need.",
+      "You own the code. Modules compose freely, conventions are explicit, and nothing is hidden behind abstractions.",
   },
 ] satisfies ReadonlyArray<{ title: string; description: string }>
 
@@ -32,20 +32,27 @@ export default function HomePage(): React.ReactNode {
       {/* Hero */}
       <section className="flex flex-col items-center gap-6 pb-16 pt-16 text-center sm:gap-8 sm:pb-24 sm:pt-32">
         <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          AI-native &middot; type-safe &middot; production-ready
+          composable &middot; type-safe &middot; agent-ready
         </p>
         <h1 className="max-w-4xl text-[clamp(1.75rem,5vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-balance">
-          The AI-native Next.js starter.
+          The composable Next.js app kit.
           <br />
-          Type-safe and production-ready.
+          Production-ready from commit one.
         </h1>
         <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          10+ built-in AI skills. Types from database to UI. Production tooling
-          from first commit.
+          Start from a production-ready foundation or add vetted modules to an
+          existing app. Agent workflows built in.
         </p>
 
-        <div className="w-full max-w-md">
-          <CodeBlock>npx ds-start my-app</CodeBlock>
+        <div className="w-full max-w-md space-y-3">
+          <div>
+            <p className="mb-1.5 text-xs text-muted-foreground">New project</p>
+            <CodeBlock>npx ds-start init my-app</CodeBlock>
+          </div>
+          <div>
+            <p className="mb-1.5 text-xs text-muted-foreground">Add a module</p>
+            <CodeBlock>npx ds-start add email</CodeBlock>
+          </div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3">

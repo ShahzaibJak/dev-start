@@ -9,6 +9,7 @@ export const ADDABLE_EXTRAS = new Set([
   "github-workflows",
   "vercel-deploy",
   "zustand",
+  "forms",
 ]);
 
 /** Key dependency markers per extra — used to warn if already present */
@@ -18,6 +19,7 @@ const EXTRA_MARKER_DEPS: Record<string, readonly string[]> = {
   "github-workflows": [],
   "vercel-deploy": [],
   zustand: ["zustand"],
+  forms: ["react-hook-form", "zod"],
 };
 
 const NEXT_CONFIG_PATTERNS = [

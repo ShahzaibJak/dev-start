@@ -43,6 +43,7 @@ export interface CreateOptions {
     email?: string;
     fileUploads?: string;
     zustand?: string;
+    forms?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -60,6 +61,7 @@ export async function create(opts: CreateOptions) {
     opts.extras.email,
     opts.extras.fileUploads,
     opts.extras.zustand,
+    opts.extras.forms,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
   const selectedExtras = requestedExtras.join(" + ");
 
@@ -88,6 +90,7 @@ export async function create(opts: CreateOptions) {
     "stripe",
     "vercel-deploy",
     "zustand",
+    "forms",
   ]);
   const unsupportedExtras = requestedExtras.filter((extra) => !supportedExtras.has(extra));
   if (unsupportedExtras.length > 0) {
@@ -133,6 +136,9 @@ export async function create(opts: CreateOptions) {
   if (requestedExtras.includes("email")) {
     excludeSubDirs.email = ["better-auth", "better-auth-stripe"];
   }
+  if (requestedExtras.includes("forms")) {
+    excludeSubDirs.forms = ["file-uploads"];
+  }
   const excludeArg = Object.keys(excludeSubDirs).length > 0 ? excludeSubDirs : undefined;
   await scaffold("nextjs", targetDir, requestedExtras, excludeArg);
 
@@ -140,6 +146,10 @@ export async function create(opts: CreateOptions) {
     await applyExtraSubTemplate("nextjs", targetDir, "stripe", "better-auth");
   } else if (requestedExtras.includes("stripe") && requestedExtras.includes("clerk")) {
     await applyExtraSubTemplate("nextjs", targetDir, "stripe", "clerk");
+  }
+
+  if (requestedExtras.includes("forms") && requestedExtras.includes("file-uploads")) {
+    await applyExtraSubTemplate("nextjs", targetDir, "forms", "file-uploads");
   }
 
   if (requestedExtras.includes("email") && requestedExtras.includes("better-auth") && requestedExtras.includes("stripe")) {
@@ -169,6 +179,7 @@ export async function create(opts: CreateOptions) {
   const hasEmail = requestedExtras.includes("email");
   const hasFileUploads = requestedExtras.includes("file-uploads");
   const hasZustand = requestedExtras.includes("zustand");
+  const hasForms = requestedExtras.includes("forms");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
@@ -224,6 +235,12 @@ export async function create(opts: CreateOptions) {
   if (hasZustand) {
     nextSteps.push("");
     nextSteps.push("# Zustand stores live in lib/stores/ — see lib/stores/counter.ts for the pattern");
+  }
+
+  if (hasForms) {
+    nextSteps.push("");
+    nextSteps.push("# Form renderer: see app/(examples)/forms/page.tsx for usage");
+    nextSteps.push("# Define a FormSchema and pass it to <FormRenderer /> — see lib/forms/types.ts");
   }
 
   if (hasVercelDeploy) {

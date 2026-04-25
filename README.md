@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  The AI-native Next.js starter. Type-safe and production-ready.
+  The composable Next.js app kit. Production-ready foundation with installable modules.
 </p>
 
 <p align="center">
@@ -19,33 +19,40 @@
 
 ## Quick Start
 
+Scaffold a new project:
+
 ```bash
-npx ds-start my-app
+npx ds-start init my-app
 ```
 
-Or with extras:
+Add modules to an existing project:
 
 ```bash
-npx ds-start my-app --prisma --auth --github-workflows
+npx ds-start add email
+npx ds-start add forms
+```
+
+Include modules at scaffold time:
+
+```bash
+npx ds-start init my-app --prisma --auth --github-workflows
 # or with Clerk auth (no database required)
-npx ds-start my-app --clerk --github-workflows
-```
-
-Interactive mode (prompts for extras):
-
-```bash
-npx ds-start my-app
+npx ds-start init my-app --clerk --github-workflows
 ```
 
 Skip prompts with defaults:
 
 ```bash
-npx ds-start my-app -y
+npx ds-start init my-app -y
 ```
+
+## Why ds-start
+
+ds-start gives you two things: a **production-ready foundation** to start new projects from, and **installable modules** you can add to existing apps. Both flows share the same templates, the same conventions, and the same agent workflows.
 
 ## What You Get
 
-Every project starts with a production-ready base where types flow end-to-end — from database schema through server actions to client components.
+Every project starts with a production-ready foundation where types flow end-to-end — from database schema through server actions to client components.
 
 | Category | Tech | Link |
 |----------|------|------|
@@ -66,9 +73,9 @@ Every project starts with a production-ready base where types flow end-to-end �
 
 ### Shadcn/ui Components
 
-The base template ships with these shadcn/ui components pre-installed:
+The base foundation ships with these shadcn/ui components pre-installed:
 
-`Button` `Card` `Input` `Label` `Separator`
+`Button` `Card` `Input` `Label` `Separator` — plus `Field` `Textarea` `Select` `Checkbox` `RadioGroup` `Switch` `Calendar` `Popover` when using `--forms`
 
 Add more with `bunx shadcn@latest add <component>`.
 
@@ -86,9 +93,9 @@ Every project ships with built-in skills that guide your AI coding assistant thr
 
 Plus domain skills: `/next-ts-api` for type-safe APIs, `/vercel-react-best-practices` for React performance (64 rules), and `/frontend-design` for production-grade UI.
 
-## Extras
+## Modules
 
-Extras are opt-in layers that compose on top of the base template.
+Modules are opt-in layers that compose on top of the base foundation.
 
 ### [Prisma](https://www.prisma.io) (`--prisma`)
 
@@ -129,6 +136,10 @@ S3-compatible file uploads with presigned URLs, upload helpers, and a ready-made
 
 Lightweight client state management. Provider-free, TypeScript-first stores with Redux DevTools support. Stores live in `lib/stores/`.
 
+### [Forms](https://react-hook-form.com) (`--forms`)
+
+JSON-driven form renderer with classic, conversational, and multistep view modes. Define fields as config, get validation and layout for free. Built on shadcn Form components (react-hook-form + zod). Overridable component map for custom field types.
+
 ### GitHub Workflows (`--github-workflows`)
 
 CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
@@ -137,45 +148,50 @@ CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Bla
 
 CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push to main, manual dispatch for production. Implies `--github-workflows`.
 
-## Adding Extras to Existing Projects
+## Adding Modules to Existing Projects
 
-Already have a Next.js project scaffolded with ds-start? Add independent extras without re-scaffolding:
+Already have a Next.js project? Add modules without re-scaffolding:
 
 ```bash
 ds-start add email
 ds-start add file-uploads
 ds-start add zustand
+ds-start add forms
 ds-start add github-workflows
 ds-start add vercel-deploy
 ```
 
 The `add` command detects conflicts, merges where possible (package.json, .gitignore, .env.schema), and prompts you for resolution on any conflicts. Dependencies are not auto-installed — run `bun install` when ready.
 
-> **Note:** Dependent extras (prisma, auth, clerk, stripe) must be included during initial scaffold with flags.
+> **Compatibility:** Best experience on ds-start projects and compatible App Router projects. Dependent modules (prisma, auth, clerk, stripe) must be included during initial scaffold with flags.
 
 ## Composability
 
-Extras compose freely with a few rules:
+Modules compose freely with a few rules:
 
 - `--auth` requires `--prisma` (auth uses Prisma as its database adapter)
 - `--clerk` cannot be combined with `--auth` (choose one auth provider)
 - `--vercel-deploy` implies `--github-workflows` (CD builds on CI)
-- Everything else is independent
+- `--forms` + `--file-uploads` unlocks the `file` field type in the form renderer
+- All other modules are independent
 
 Example combinations:
 
 ```bash
 # Full stack with Better Auth
-npx ds-start my-app --prisma --auth --github-workflows
+npx ds-start init my-app --prisma --auth --github-workflows
 
 # Clerk auth (no database needed)
-npx ds-start my-app --clerk --github-workflows
+npx ds-start init my-app --clerk --github-workflows
 
 # API-focused
-npx ds-start my-app --prisma --github-workflows
+npx ds-start init my-app --prisma --github-workflows
 
 # Minimal + CI
-npx ds-start my-app --github-workflows
+npx ds-start init my-app --github-workflows
+
+# Forms with file uploads
+npx ds-start init my-app --forms --file-uploads
 ```
 
 ## Development

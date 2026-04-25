@@ -49,6 +49,7 @@ export type ConflictResolution = "overwrite" | "skip" | "abort";
 const EXTRA_SUB_TEMPLATE_DIRS: Record<string, readonly string[]> = {
   stripe: ["better-auth", "clerk"],
   email: ["better-auth", "better-auth-stripe"],
+  forms: ["file-uploads"],
 };
 
 // ---------------------------------------------------------------------------

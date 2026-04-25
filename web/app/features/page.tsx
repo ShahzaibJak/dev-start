@@ -4,7 +4,7 @@ import { toolLogos } from "@/lib/tool-logos"
 
 export const metadata: Metadata = {
   title: "Features",
-  description: "Everything you get with ds-start out of the box.",
+  description: "Foundation, modules, and agent workflows — everything in the ds-start app kit.",
 }
 
 const baseStack = [
@@ -138,6 +138,13 @@ const extras = [
     href: "https://zustand.docs.pmnd.rs",
   },
   {
+    flag: "--forms",
+    name: "Forms",
+    description:
+      "JSON-driven form renderer with classic, conversational, and multistep view modes. Define fields as a typed config, get validation and layout for free. Built on shadcn Form components (react-hook-form + zod). Overridable component map for custom field types.",
+    href: "https://react-hook-form.com",
+  },
+  {
     flag: "--vercel-deploy",
     name: "Vercel Deploy",
     description:
@@ -157,7 +164,8 @@ const composabilityRules = [
   { rule: "--clerk and --auth are mutually exclusive", reason: "One auth provider per project." },
   { rule: "--stripe requires --auth or --clerk", reason: "Billing needs an auth provider to associate subscriptions with users." },
   { rule: "--vercel-deploy implies --github-workflows", reason: "CD builds on the CI pipeline." },
-  { rule: "Everything else is independent", reason: "--email, --file-uploads, --zustand, --prisma, and --github-workflows mix and match freely." },
+  { rule: "--forms + --file-uploads enables file field", reason: "The file field type uses the FileUpload component from the file-uploads module." },
+  { rule: "Everything else is independent", reason: "--email, --file-uploads, --zustand, --forms, --prisma, and --github-workflows mix and match freely." },
 ] satisfies ReadonlyArray<{ rule: string; reason: string }>
 
 export default function FeaturesPage(): React.ReactNode {
@@ -165,13 +173,13 @@ export default function FeaturesPage(): React.ReactNode {
     <div className="mx-auto max-w-5xl px-6 py-16">
       <h1 className="text-3xl font-semibold tracking-tight">Features</h1>
       <p className="mt-2 text-muted-foreground">
-        Everything you get with ds-start, out of the box.
+        Foundation, modules, and agent workflows — everything in the app kit.
       </p>
 
-      {/* Base Stack */}
+      {/* Foundation */}
       <section className="mt-12">
         <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Base Stack
+          Foundation
         </h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {baseStack.map((item) => (
@@ -204,14 +212,22 @@ export default function FeaturesPage(): React.ReactNode {
         </div>
       </section>
 
-      {/* Extras */}
+      {/* Modules */}
       <section className="mt-16">
         <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Extras
+          Modules
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Opt-in layers that compose on top of the base template.
+          Installable layers that compose on top of the foundation. Include them at scaffold time with flags, or add them to an existing project later.
         </p>
+        <div className="mt-4 rounded-lg border border-dashed bg-muted/30 px-4 py-3">
+          <p className="text-sm font-medium">Add to an existing project</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Run{" "}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">npx ds-start add email</code>{" "}
+            from inside a supported Next.js project. Auto-merges package.json and config files, prompts only for real conflicts.
+          </p>
+        </div>
         <div className="mt-4 grid gap-4">
           {extras.map((extra) => (
             <Card key={extra.flag}>

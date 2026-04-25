@@ -70,6 +70,11 @@ const initArgs = {
     description: "Include Zustand client state management",
     default: false,
   },
+  forms: {
+    type: "boolean" as const,
+    description: "Include JSON-driven form renderer",
+    default: false,
+  },
   base: {
     type: "boolean" as const,
     description: "Scaffold base template only, no extras",
@@ -94,9 +99,9 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
     throw new Error("Project directory is required.");
   }
 
-  if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email || args.fileUploads || args.zustand)) {
+  if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email || args.fileUploads || args.zustand || args.forms)) {
     throw new Error(
-      "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, --file-uploads, --zustand, or --vercel-deploy.",
+      "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, --file-uploads, --zustand, --forms, or --vercel-deploy.",
     );
   }
 
@@ -116,8 +121,9 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
   let email = args.email ? "email" : undefined;
   let fileUploads = args.fileUploads ? "file-uploads" : undefined;
   let zustand = args.zustand ? "zustand" : undefined;
+  let forms = args.forms ? "forms" : undefined;
 
-  const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.fileUploads || args.zustand || args.base;
+  const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.fileUploads || args.zustand || args.forms || args.base;
 
   if (!args.yes && !hasExplicitFlags) {
     const prismaChoice = await consola.prompt("Add Prisma?", {
@@ -176,6 +182,13 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
     if (typeof zustandChoice === "symbol") process.exit(0);
     zustand = zustandChoice ? "zustand" : undefined;
 
+    const formsChoice = await consola.prompt("Add form renderer?", {
+      type: "confirm",
+      initial: false,
+    });
+    if (typeof formsChoice === "symbol") process.exit(0);
+    forms = formsChoice ? "forms" : undefined;
+
     const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
       type: "confirm",
       initial: false,
@@ -211,7 +224,7 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
   await create({
     projectDir,
     template: "nextjs",
-    extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email, fileUploads, zustand },
+    extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email, fileUploads, zustand, forms },
     initGit,
     install,
   });

@@ -20,25 +20,28 @@ const siteUrl = "https://dev-start.shahzaibjak.com"
 
 export const metadata: Metadata = {
   title: {
-    default: "ds-start — The AI-native Next.js starter",
+    default: "ds-start — The composable Next.js app kit",
     template: "%s | ds-start",
   },
   description:
-    "The AI-native Next.js starter. 10+ built-in AI skills, end-to-end type safety, and production tooling from first commit.",
+    "The composable Next.js app kit. Production-ready foundation with installable modules and agent-ready workflows.",
   metadataBase: new URL(siteUrl),
   keywords: [
     "next.js",
+    "app kit",
     "starter",
     "template",
     "typescript",
     "ai",
-    "ai-native",
+    "agent-ready",
     "tailwind",
     "shadcn",
     "prisma",
     "better-auth",
     "type-safe",
     "scaffold",
+    "modules",
+    "composable",
     "cli",
     "agentic",
     "claude",
@@ -50,16 +53,16 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "ds-start",
-    title: "ds-start — The AI-native Next.js starter",
+    title: "ds-start — The composable Next.js app kit",
     description:
-      "10+ built-in AI skills. Types from database to UI. Production tooling from first commit.",
+      "Production-ready foundation with installable modules and agent-ready workflows.",
     images: [{ url: "/logo.svg", width: 320, height: 64, alt: "ds-start" }],
   },
   twitter: {
     card: "summary",
-    title: "ds-start — The AI-native Next.js starter",
+    title: "ds-start — The composable Next.js app kit",
     description:
-      "10+ built-in AI skills. Types from database to UI. Production tooling from first commit.",
+      "Production-ready foundation with installable modules and agent-ready workflows.",
     images: ["/logo.svg"],
   },
   robots: {

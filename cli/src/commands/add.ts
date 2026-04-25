@@ -35,6 +35,10 @@ const EXTRA_NEXT_STEPS: Record<string, readonly string[]> = {
   zustand: [
     "Stores live in lib/stores/ — see lib/stores/counter.ts for the pattern",
   ],
+  forms: [
+    "See app/(examples)/forms/page.tsx for usage",
+    "Define a FormSchema and pass it to <FormRenderer /> — see lib/forms/types.ts",
+  ],
 };
 
 export const add = defineCommand({

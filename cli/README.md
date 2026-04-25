@@ -1,34 +1,45 @@
 # ds-start
 
-Scaffold AI-native, end-to-end type-safe Next.js apps with production-ready tooling — in one command.
+The composable Next.js app kit. Start from a production-ready foundation or add modules to an existing app.
 
 ## Quick Start
 
+Scaffold a new project:
+
 ```bash
-npx ds-start my-app
+npx ds-start init my-app
 ```
 
-With extras:
+Add modules to an existing project:
 
 ```bash
-npx ds-start my-app --prisma --auth --github-workflows
+npx ds-start add email
+npx ds-start add forms
+```
+
+Include modules at scaffold time:
+
+```bash
+npx ds-start init my-app --prisma --auth --github-workflows
 # or with Clerk auth (no database required)
-npx ds-start my-app --clerk --github-workflows
+npx ds-start init my-app --clerk --github-workflows
 ```
 
 Skip prompts with defaults:
 
 ```bash
-npx ds-start my-app -y
+npx ds-start init my-app -y
 ```
 
 ## Why ds-start?
 
+**Production-ready foundation** — Not a toy starter. You get strict TypeScript, oxlint + oxfmt, Husky pre-commit hooks running lint + format + typecheck, and GitHub Actions CI — all wired up and working from the first commit.
+
 **End-to-end type safety** — Types flow from your database schema through server actions to client components. [Prisma](https://www.prisma.io) generates types from your DB, [next-ts-api](https://github.com/zahinafsar/next-ts-api) ensures your API routes and clients share the same contract, and [varlock](https://varlock.dev) validates environment variables at build time. No `any`, no runtime surprises.
 
-**Agentic coding flows** — Every project ships with built-in skills for AI coding assistants. A structured development cycle — `/start-prd` to plan, `/start-work` to build, `/handoff` to preserve context, `/start-review` to verify, `/start-pr` to ship — so your AI assistant understands your project conventions out of the box.
+**Installable modules** — Auth, email, payments, forms, file uploads, and more. Add them at scaffold time or bolt them onto an existing app later. Same templates, same conventions, same result.
 
-**Production-ready tooling** — Not a toy starter. You get strict TypeScript, oxlint + oxfmt, Husky pre-commit hooks running lint + format + typecheck, and GitHub Actions CI — all wired up and working from the first commit.
+**Agent-ready workflows** — Every project ships with structured workflows for coding agents. A development cycle — `/start-prd` to plan, `/start-work` to build, `/handoff` to preserve context, `/start-review` to verify, `/start-pr` to ship — so your coding agent understands project conventions from the first prompt.
 
 ## What's Included
 
@@ -67,9 +78,9 @@ Every project includes skills that guide your AI coding assistant through a stru
 
 Plus domain skills: `/next-ts-api` for type-safe APIs, `/vercel-react-best-practices` for performance (64 rules), and `/frontend-design` for production-grade UI.
 
-### Extras
+### Modules
 
-Opt-in layers that compose on top of the base.
+Installable layers that compose on top of the foundation.
 
 **[Prisma](https://www.prisma.io)** (`--prisma`) — Prisma 6 ORM with PostgreSQL, PrismaPg adapter, typed JSONB via `prisma-json-types-generator`, and a singleton client.
 
@@ -85,45 +96,49 @@ Opt-in layers that compose on top of the base.
 
 **[Zustand](https://zustand.docs.pmnd.rs)** (`--zustand`) — Lightweight client state management. Provider-free, TypeScript-first stores with Redux DevTools support.
 
+**[Forms](https://react-hook-form.com)** (`--forms`) — JSON-driven form renderer with classic, conversational, and multistep view modes. Built on shadcn Form components (react-hook-form + zod). Overridable component map.
+
 **GitHub Workflows** (`--github-workflows`) — CI pipeline: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
 
 **Vercel Deploy** (`--vercel-deploy`) — CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push, manual dispatch for production. Implies `--github-workflows`.
 
-## Adding Extras to Existing Projects
+## Adding Modules to Existing Projects
 
-Already scaffolded? Add independent extras to an existing project:
+Already have a Next.js project? Add modules without re-scaffolding:
 
 ```bash
 ds-start add email
 ds-start add file-uploads
 ds-start add zustand
+ds-start add forms
 ds-start add github-workflows
 ds-start add vercel-deploy
 ```
 
-Smart conflict detection merges package.json, .gitignore, and .env.schema automatically. Prompts for resolution on any file-level conflicts. No deps installed, no files staged.
+Smart conflict detection merges package.json, .gitignore, and .env.schema automatically. Prompts for resolution on any file-level conflicts. Best experience on ds-start projects and compatible App Router projects.
 
 ## Composability
 
-Extras compose freely with a few rules:
+Modules compose freely with a few rules:
 
 - `--auth` requires `--prisma` (auth uses Prisma as its database adapter)
 - `--clerk` cannot be combined with `--auth` (choose one auth provider)
 - `--vercel-deploy` implies `--github-workflows` (CD builds on CI)
+- `--forms` + `--file-uploads` unlocks the `file` field type in the form renderer
 - Everything else is independent
 
 ```bash
 # Full stack with Better Auth
-npx ds-start my-app --prisma --auth --github-workflows
+npx ds-start init my-app --prisma --auth --github-workflows
 
 # Clerk auth (no database needed)
-npx ds-start my-app --clerk --github-workflows
+npx ds-start init my-app --clerk --github-workflows
 
 # API-focused
-npx ds-start my-app --prisma --github-workflows
+npx ds-start init my-app --prisma --github-workflows
 
 # Minimal + CI
-npx ds-start my-app --github-workflows
+npx ds-start init my-app --github-workflows
 ```
 
 ## Links

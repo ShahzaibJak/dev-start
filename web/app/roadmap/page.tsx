@@ -32,6 +32,12 @@ const shipped = [
       "Stripe integration with subscription management, customer portal, and webhook handling. Works with both Better Auth and Clerk.",
     status: "shipped",
   },
+  {
+    title: "Form Renderer",
+    description:
+      "JSON-driven form renderer with classic, conversational, and multistep view modes. Config-driven fields, auto-generated zod validation, and an overridable component map. Built on shadcn Form components.",
+    status: "shipped",
+  },
 ] satisfies ReadonlyArray<RoadmapItem>
 
 const comingSoon = [
@@ -44,7 +50,7 @@ const comingSoon = [
   {
     title: "Monorepo Templates",
     description:
-      "Turborepo-based monorepo starter with shared packages, multiple apps, and coordinated tooling. Same AI-native workflow across the entire repo.",
+      "Turborepo-based monorepo starter with shared packages, multiple apps, and coordinated tooling. Same agent-ready workflows across the entire repo.",
     status: "coming-soon",
   },
 ] satisfies ReadonlyArray<RoadmapItem>

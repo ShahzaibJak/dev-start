@@ -86,6 +86,10 @@ export const toolLogos: Record<string, string> = {
   "React Query": gh(72518640), // TanStack
   Zustand: gh(45790596), // pmndrs
 
+  // --- Forms ---
+  Forms: si("reacthookform"),
+  "Form Renderer": si("reacthookform"),
+
 
   // --- Fonts ---
   Geist: si("vercel"), // Vercel's font

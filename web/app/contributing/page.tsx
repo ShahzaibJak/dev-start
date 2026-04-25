@@ -171,7 +171,7 @@ bun run build`}</CodeBlock>
       <section className="mt-12 rounded-lg border p-6">
         <p className="text-sm text-muted-foreground">
           For the full contributing guide including template changes and adding
-          new extras, see{" "}
+          new modules, see{" "}
           <a
             href="https://github.com/shahzaibjak/dev-start/blob/main/CONTRIBUTING.md"
             target="_blank"
