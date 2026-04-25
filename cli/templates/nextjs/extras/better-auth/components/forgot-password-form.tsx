@@ -20,7 +20,7 @@ export function ForgotPasswordForm(): React.JSX.Element {
     startTransition(async () => {
       setErrorMessage(null)
 
-      const result = await authClient.forgetPassword({
+      const result = await authClient.requestPasswordReset({
         email,
         redirectTo: "/reset-password",
       })

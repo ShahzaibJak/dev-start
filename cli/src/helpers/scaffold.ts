@@ -183,11 +183,15 @@ async function mergeReadme(sourceDir: string, targetDir: string): Promise<void> 
 
 async function mergeGitignore(sourceDir: string, targetDir: string): Promise<void> {
   const sourcePath = path.join(sourceDir, "_gitignore");
-  const targetPath = path.join(targetDir, "_gitignore");
 
   if (!(await fs.pathExists(sourcePath))) {
     return;
   }
+
+  // After restoreDotEntries, _gitignore becomes .gitignore in the target.
+  const underscorePath = path.join(targetDir, "_gitignore");
+  const dotPath = path.join(targetDir, ".gitignore");
+  const targetPath = (await fs.pathExists(underscorePath)) ? underscorePath : dotPath;
 
   if (!(await fs.pathExists(targetPath))) {
     await fs.copy(sourcePath, targetPath, { overwrite: false });
@@ -213,11 +217,16 @@ async function mergeGitignore(sourceDir: string, targetDir: string): Promise<voi
 
 async function mergeEnvSchema(sourceDir: string, targetDir: string): Promise<void> {
   const sourcePath = path.join(sourceDir, "_env.schema");
-  const targetPath = path.join(targetDir, "_env.schema");
 
   if (!(await fs.pathExists(sourcePath))) {
     return;
   }
+
+  // After restoreDotEntries, _env.schema becomes .env.schema in the target.
+  // Check both names to support sub-template application after dotfile renames.
+  const underscorePath = path.join(targetDir, "_env.schema");
+  const dotPath = path.join(targetDir, ".env.schema");
+  const targetPath = (await fs.pathExists(underscorePath)) ? underscorePath : dotPath;
 
   if (!(await fs.pathExists(targetPath))) {
     await fs.copy(sourcePath, targetPath, { overwrite: false });
@@ -238,7 +247,12 @@ const MERGE_HANDLERS: Record<string, MergeHandler> = {
   "package.json": mergePackageJson,
 };
 
-async function applyExtras(template: string, targetDir: string, extras: string[]): Promise<void> {
+async function applyExtras(
+  template: string,
+  targetDir: string,
+  extras: string[],
+  excludeSubDirs?: Record<string, string[]>,
+): Promise<void> {
   for (const extra of extras) {
     const extraDir = await resolveTemplateExtraDir(template, extra);
 
@@ -246,9 +260,18 @@ async function applyExtras(template: string, targetDir: string, extras: string[]
       throw new Error(`Template extra "${template}/${extra}" not found at ${extraDir}`);
     }
 
+    const excluded = excludeSubDirs?.[extra] ?? [];
+    const excludedPaths = excluded.map((sub) => path.join(extraDir, sub));
+
     await fs.copy(extraDir, targetDir, {
       overwrite: true,
-      filter: (src) => !shouldSkipTemplateFile(src),
+      filter: (src) => {
+        if (shouldSkipTemplateFile(src)) return false;
+        for (const ep of excludedPaths) {
+          if (src === ep || src.startsWith(`${ep}/`) || src.startsWith(`${ep}\\`)) return false;
+        }
+        return true;
+      },
     });
 
     for (const [filename, handler] of Object.entries(MERGE_HANDLERS)) {
@@ -307,7 +330,39 @@ async function createAgentsSkillsSymlink(targetDir: string): Promise<void> {
   await fs.symlink(path.join("..", ".claude", "skills"), symlinkPath);
 }
 
-export async function scaffold(template: string, targetDir: string, extras: string[] = []): Promise<void> {
+export async function applyExtraSubTemplate(
+  template: string,
+  targetDir: string,
+  extra: string,
+  subDir: string,
+): Promise<void> {
+  const extraDir = await resolveTemplateExtraDir(template, extra);
+  const subTemplateDir = path.join(extraDir, subDir);
+
+  if (!(await fs.pathExists(subTemplateDir))) {
+    throw new Error(`Sub-template "${template}/${extra}/${subDir}" not found at ${subTemplateDir}`);
+  }
+
+  await fs.copy(subTemplateDir, targetDir, {
+    overwrite: true,
+    filter: (src) => !shouldSkipTemplateFile(src),
+  });
+
+  for (const [filename, handler] of Object.entries(MERGE_HANDLERS)) {
+    if (!(await fs.pathExists(path.join(subTemplateDir, filename)))) {
+      continue;
+    }
+
+    await handler(subTemplateDir, targetDir);
+  }
+}
+
+export async function scaffold(
+  template: string,
+  targetDir: string,
+  extras: string[] = [],
+  excludeSubDirs?: Record<string, string[]>,
+): Promise<void> {
   const templateDir = await resolveTemplateBaseDir(template);
 
   if (!(await fs.pathExists(templateDir))) {
@@ -317,7 +372,7 @@ export async function scaffold(template: string, targetDir: string, extras: stri
   // Copy entire base template
   await fs.copy(templateDir, targetDir, { overwrite: false });
 
-  await applyExtras(template, targetDir, extras);
+  await applyExtras(template, targetDir, extras, excludeSubDirs);
 
   // Restore dotfiles stripped from the published package.
   await restoreDotEntries(targetDir);

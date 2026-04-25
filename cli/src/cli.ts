@@ -55,6 +55,11 @@ export const main = defineCommand({
       description: "Include authentication with Clerk (no database required)",
       default: false,
     },
+    stripe: {
+      type: "boolean",
+      description: "Include Stripe billing (requires --auth or --clerk)",
+      default: false,
+    },
     base: {
       type: "boolean",
       description: "Scaffold base template only, no extras",
@@ -74,9 +79,9 @@ export const main = defineCommand({
 
     if (typeof projectDir === "symbol") process.exit(0);
 
-    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy)) {
+    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe)) {
       throw new Error(
-        "The --base flag cannot be combined with --prisma, --auth, --clerk, or --vercel-deploy.",
+        "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, or --vercel-deploy.",
       );
     }
 
@@ -92,8 +97,9 @@ export const main = defineCommand({
     let auth = args.auth ? "better-auth" : args.clerk ? "clerk" : undefined;
     let githubWorkflows = (args.githubWorkflows || args.vercelDeploy) ? "github-workflows" : undefined;
     let vercelDeploy = args.vercelDeploy ? "vercel-deploy" : undefined;
+    let stripe = args.stripe ? "stripe" : undefined;
 
-    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.base;
+    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.base;
 
     if (!args.yes && !hasExplicitFlags) {
       const prismaChoice = await consola.prompt("Add Prisma?", {
@@ -120,6 +126,15 @@ export const main = defineCommand({
         auth = "clerk";
       } else {
         auth = undefined;
+      }
+
+      if (auth) {
+        const stripeChoice = await consola.prompt("Add Stripe billing?", {
+          type: "confirm",
+          initial: false,
+        });
+        if (typeof stripeChoice === "symbol") process.exit(0);
+        stripe = stripeChoice ? "stripe" : undefined;
       }
 
       const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
@@ -150,10 +165,14 @@ export const main = defineCommand({
       throw new Error("Better Auth requires Prisma.");
     }
 
+    if (stripe && !auth) {
+      throw new Error("Stripe billing requires an auth provider. Use --stripe with --auth or --clerk.");
+    }
+
     await create({
       projectDir,
       template: "nextjs",
-      extras: { db, auth, githubWorkflows, vercelDeploy },
+      extras: { db, auth, githubWorkflows, vercelDeploy, stripe },
       initGit,
       install,
     });

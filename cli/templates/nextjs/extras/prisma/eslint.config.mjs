@@ -11,6 +11,9 @@ const eslintConfig = defineConfig([
     "build/**",
     "generated/**",
     "next-env.d.ts",
+    // Auto-generated files (varlock + next-ts-api):
+    "env.d.ts",
+    "types/next-ts-api.ts",
   ]),
 ])
 

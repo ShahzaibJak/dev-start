@@ -1,0 +1,19 @@
+# --- Stripe Billing ---
+
+# @required @sensitive
+# @type=string
+# @docs(https://dashboard.stripe.com/apikeys)
+# Secret key from Stripe Dashboard → Developers → API keys
+STRIPE_SECRET_KEY=sk_test_replace-me
+
+# @required @sensitive
+# @type=string
+# @docs(https://dashboard.stripe.com/webhooks)
+# Webhook signing secret — run `stripe listen` to get this
+STRIPE_WEBHOOK_SECRET=whsec_replace-me
+
+# @required
+# @type=string
+# @docs(https://dashboard.stripe.com/apikeys)
+# Publishable key from Stripe Dashboard → Developers → API keys
+STRIPE_PUBLISHABLE_KEY=pk_test_replace-me

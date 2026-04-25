@@ -4,7 +4,7 @@ import consola from "consola";
 import { initGit } from "../helpers/git.js";
 import { installDeps } from "../helpers/install.js";
 import { updatePackageJson } from "../helpers/package-json.js";
-import { scaffold } from "../helpers/scaffold.js";
+import { applyExtraSubTemplate, scaffold } from "../helpers/scaffold.js";
 
 const PRISMA_CI_STEP = `
       - name: Generate Prisma client
@@ -39,6 +39,7 @@ export interface CreateOptions {
     db?: string;
     githubWorkflows?: string;
     vercelDeploy?: string;
+    stripe?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -52,6 +53,7 @@ export async function create(opts: CreateOptions) {
     opts.extras.auth,
     opts.extras.githubWorkflows,
     opts.extras.vercelDeploy,
+    opts.extras.stripe,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
   const selectedExtras = requestedExtras.join(" + ");
 
@@ -75,6 +77,7 @@ export async function create(opts: CreateOptions) {
     "clerk",
     "github-workflows",
     "prisma",
+    "stripe",
     "vercel-deploy",
   ]);
   const unsupportedExtras = requestedExtras.filter((extra) => !supportedExtras.has(extra));
@@ -96,6 +99,12 @@ export async function create(opts: CreateOptions) {
     );
   }
 
+  if (requestedExtras.includes("stripe") && !requestedExtras.includes("better-auth") && !requestedExtras.includes("clerk")) {
+    throw new Error(
+      `Stripe billing requires an auth provider (better-auth or clerk).\n\n${details}`,
+    );
+  }
+
   if (await fs.pathExists(targetDir)) {
     const existingEntries = await fs.readdir(targetDir);
     if (existingEntries.length > 0) {
@@ -108,7 +117,17 @@ export async function create(opts: CreateOptions) {
   const scaffoldLabel = selectedExtras ? `nextjs/base + ${selectedExtras}` : "nextjs/base";
 
   consola.start(`Scaffolding ${scaffoldLabel} into ${targetDir}`);
-  await scaffold("nextjs", targetDir, requestedExtras);
+  const excludeSubDirs = requestedExtras.includes("stripe")
+    ? { stripe: ["better-auth", "clerk"] }
+    : undefined;
+  await scaffold("nextjs", targetDir, requestedExtras, excludeSubDirs);
+
+  if (requestedExtras.includes("stripe") && requestedExtras.includes("better-auth")) {
+    await applyExtraSubTemplate("nextjs", targetDir, "stripe", "better-auth");
+  } else if (requestedExtras.includes("stripe") && requestedExtras.includes("clerk")) {
+    await applyExtraSubTemplate("nextjs", targetDir, "stripe", "clerk");
+  }
+
   await updatePackageJson(targetDir, projectName, {});
 
   if (requestedExtras.includes("prisma") && requestedExtras.includes("github-workflows")) {
@@ -126,6 +145,7 @@ export async function create(opts: CreateOptions) {
   const hasDb = requestedExtras.includes("prisma");
   const hasBetterAuth = requestedExtras.includes("better-auth");
   const hasClerk = requestedExtras.includes("clerk");
+  const hasStripe = requestedExtras.includes("stripe");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
@@ -147,6 +167,21 @@ export async function create(opts: CreateOptions) {
 
   nextSteps.push("bun run env:check");
   nextSteps.push("bun run dev");
+
+  if (hasStripe && hasBetterAuth) {
+    nextSteps.push("");
+    nextSteps.push("# Stripe billing setup:");
+    nextSteps.push("# 1. Set STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PUBLISHABLE_KEY in .env.schema");
+    nextSteps.push("# 2. Replace price_*_placeholder values in lib/auth.ts with real Stripe price IDs");
+    nextSteps.push("# 3. Run `bun run auth:generate` then `bun run db:migrate` to add subscription tables");
+    nextSteps.push("# 4. Visit /billing to see the billing page");
+  } else if (hasStripe && hasClerk) {
+    nextSteps.push("");
+    nextSteps.push("# Clerk billing setup:");
+    nextSteps.push("# 1. Enable Billing in Clerk Dashboard → Configure → Subscription plans");
+    nextSteps.push("# 2. Create plans and attach features in the Clerk Dashboard");
+    nextSteps.push("# 3. Visit /billing to see the billing page");
+  }
 
   if (hasVercelDeploy) {
     nextSteps.push("");
