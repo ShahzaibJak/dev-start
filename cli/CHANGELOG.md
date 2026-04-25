@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.0.7
+
+### Patch Changes
+
+- Add Stripe billing extra with Better Auth and Clerk variants. Fix forgetPassword API rename, BETTER_AUTH_SECRET placeholder length, prisma eslint config missing ignores, and stale verify script assertions.
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "ds-start",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The AI-native Next.js starter. Type-safe and production-ready.",
   "type": "module",
   "license": "MIT",
