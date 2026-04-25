@@ -72,6 +72,11 @@ export const toolLogos: Record<string, string> = {
   "Real-time & WebSockets": si("pusher"),
   "Organizations & Multi-tenancy": si("clerk"),
 
+  // --- Extras (feature page entries) ---
+  Email: gh(109384852), // resend
+  "File Uploads": si("amazons3"),
+  Resend: gh(109384852),
+
   // --- Fonts ---
   Geist: si("vercel"), // Vercel's font
   "Geist Sans + Mono": si("vercel"),

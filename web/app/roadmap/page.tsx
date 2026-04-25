@@ -10,8 +10,29 @@ export const metadata: Metadata = {
 interface RoadmapItem {
   title: string
   description: string
-  status: "coming-soon" | "planned" | "exploring"
+  status: "shipped" | "coming-soon" | "planned" | "exploring"
 }
+
+const shipped = [
+  {
+    title: "Email (Resend + React Email)",
+    description:
+      "Lightweight email extra with Resend for delivery and React Email for type-safe, previewable templates. Transactional emails — welcome, password reset, invitations — ready out of the box.",
+    status: "shipped",
+  },
+  {
+    title: "File Uploads (S3-Compatible)",
+    description:
+      "File upload extra with presigned URLs and type-safe config. Works with any S3-compatible store — AWS S3, Cloudflare R2, MinIO, Backblaze B2.",
+    status: "shipped",
+  },
+  {
+    title: "Billing & Subscriptions",
+    description:
+      "Stripe integration with subscription management, customer portal, and webhook handling. Works with both Better Auth and Clerk.",
+    status: "shipped",
+  },
+] satisfies ReadonlyArray<RoadmapItem>
 
 const comingSoon = [
   {
@@ -21,21 +42,9 @@ const comingSoon = [
     status: "coming-soon",
   },
   {
-    title: "Email (Resend + React Email)",
+    title: "Monorepo Templates",
     description:
-      "Lightweight email extra with Resend for delivery and React Email for type-safe, previewable templates. Transactional emails — welcome, password reset, invitations — ready out of the box.",
-    status: "coming-soon",
-  },
-  {
-    title: "File Uploads (S3-Compatible)",
-    description:
-      "File upload extra with a simple S3-compatible API. Works with any S3-compatible store — AWS S3, Cloudflare R2, MinIO, Backblaze B2. Presigned URLs, upload helpers, and type-safe config.",
-    status: "coming-soon",
-  },
-  {
-    title: "Billing & Subscriptions",
-    description:
-      "Stripe integration with subscription management, usage-based billing, customer portal, and webhook handling.",
+      "Turborepo-based monorepo starter with shared packages, multiple apps, and coordinated tooling. Same AI-native workflow across the entire repo.",
     status: "coming-soon",
   },
 ] satisfies ReadonlyArray<RoadmapItem>
@@ -45,12 +54,6 @@ const planned = [
     title: "Organizations & Multi-tenancy",
     description:
       "Team workspaces, role-based access control, and tenant isolation. Built on top of the auth layer with Prisma/Drizzle schema extensions.",
-    status: "planned",
-  },
-  {
-    title: "Monorepo Templates",
-    description:
-      "Turborepo-based monorepo starter with shared packages, multiple apps, and coordinated tooling. Same AI-native workflow across the entire repo.",
     status: "planned",
   },
 ] satisfies ReadonlyArray<RoadmapItem>
@@ -77,6 +80,7 @@ const exploring = [
 ] satisfies ReadonlyArray<RoadmapItem>
 
 const statusLabels = {
+  shipped: "Shipped",
   "coming-soon": "Coming Soon",
   planned: "Planned",
   exploring: "Exploring",
@@ -110,7 +114,13 @@ function RoadmapSection({
               <div>
                 <div className="flex items-center gap-3">
                   <h3 className="text-sm font-medium">{item.title}</h3>
-                  <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                  <span
+                    className={`rounded-full px-2 py-0.5 font-mono text-[10px] ${
+                      item.status === "shipped"
+                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
                     {statusLabels[item.status]}
                   </span>
                 </div>
@@ -135,6 +145,7 @@ export default function RoadmapPage(): React.ReactNode {
         shift based on what people actually need.
       </p>
 
+      <RoadmapSection title="Recently Shipped" items={shipped} />
       <RoadmapSection title="Coming Soon" items={comingSoon} />
       <RoadmapSection title="Planned" items={planned} />
       <RoadmapSection title="Exploring" items={exploring} />

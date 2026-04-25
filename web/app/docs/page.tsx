@@ -17,6 +17,26 @@ const flags = [
       "Add Better Auth with email/password, Google OAuth, and route protection. Requires --prisma.",
   },
   {
+    flag: "--clerk",
+    description:
+      "Add Clerk managed authentication with pre-built components and route protection. No database required.",
+  },
+  {
+    flag: "--stripe",
+    description:
+      "Add Stripe billing with subscription management, customer portal, and webhooks. Requires --auth or --clerk.",
+  },
+  {
+    flag: "--email",
+    description:
+      "Add transactional email with Resend and React Email templates.",
+  },
+  {
+    flag: "--file-uploads",
+    description:
+      "Add S3-compatible file uploads with presigned URLs. Works with AWS S3, Cloudflare R2, MinIO, Backblaze B2.",
+  },
+  {
     flag: "--github-workflows",
     description:
       "Add GitHub Actions CI pipeline with lint, typecheck, build, and secret scanning.",
@@ -34,10 +54,10 @@ const flags = [
 
 const examples = [
   { label: "Minimal", command: "npx ds-start my-app" },
-  { label: "Full stack", command: "npx ds-start my-app --prisma --auth --github-workflows" },
+  { label: "Full stack", command: "npx ds-start my-app --prisma --auth --stripe --email --github-workflows" },
+  { label: "Clerk stack", command: "npx ds-start my-app --clerk --stripe --email --file-uploads" },
   { label: "API-focused", command: "npx ds-start my-app --prisma --github-workflows" },
-  { label: "Minimal + CI", command: "npx ds-start my-app --github-workflows" },
-  { label: "Everything", command: "npx ds-start my-app --prisma --auth --github-workflows --vercel-deploy" },
+  { label: "Everything", command: "npx ds-start my-app --prisma --auth --stripe --email --file-uploads --github-workflows --vercel-deploy" },
   { label: "Skip prompts", command: "npx ds-start my-app -y" },
 ] satisfies ReadonlyArray<{ label: string; command: string }>
 

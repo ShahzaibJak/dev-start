@@ -99,6 +99,32 @@ const packages = [
     href: "https://www.better-auth.com",
     category: "Database & Auth",
   },
+  {
+    name: "Clerk",
+    description: "Managed authentication with pre-built components and organization support.",
+    href: "https://clerk.com",
+    category: "Database & Auth",
+  },
+
+  // Billing & Email
+  {
+    name: "Stripe",
+    description: "Payment processing and subscription billing for the internet.",
+    href: "https://stripe.com",
+    category: "Billing & Email",
+  },
+  {
+    name: "Resend",
+    description: "Email API built for developers. Simple, reliable delivery.",
+    href: "https://resend.com",
+    category: "Billing & Email",
+  },
+  {
+    name: "React Email",
+    description: "Build and preview email templates with React components.",
+    href: "https://react.email",
+    category: "Billing & Email",
+  },
 
   // Dev Tooling
   {

@@ -90,6 +90,27 @@ const extras = [
     href: "https://github.com/features/actions",
   },
   {
+    flag: "--stripe",
+    name: "Stripe",
+    description:
+      "Billing and subscription management with Stripe. Includes webhook handling, customer portal, and plan management. Works with both Better Auth and Clerk. Requires --auth or --clerk.",
+    href: "https://stripe.com",
+  },
+  {
+    flag: "--email",
+    name: "Email",
+    description:
+      "Transactional email with Resend for delivery and React Email for type-safe, previewable templates. Welcome emails, password resets, and invitations out of the box.",
+    href: "https://resend.com",
+  },
+  {
+    flag: "--file-uploads",
+    name: "File Uploads",
+    description:
+      "S3-compatible file uploads with presigned URLs, upload helpers, and a ready-made FileUpload component. Works with AWS S3, Cloudflare R2, MinIO, and Backblaze B2.",
+    href: "https://aws.amazon.com/s3",
+  },
+  {
     flag: "--vercel-deploy",
     name: "Vercel Deploy",
     description:
@@ -107,8 +128,9 @@ const composabilityRules = [
   { rule: "--auth requires --prisma", reason: "Better Auth uses Prisma as its database adapter." },
   { rule: "--clerk works independently", reason: "Clerk manages users externally — no database required." },
   { rule: "--clerk and --auth are mutually exclusive", reason: "One auth provider per project." },
+  { rule: "--stripe requires --auth or --clerk", reason: "Billing needs an auth provider to associate subscriptions with users." },
   { rule: "--vercel-deploy implies --github-workflows", reason: "CD builds on the CI pipeline." },
-  { rule: "Everything else is independent", reason: "Mix and match freely." },
+  { rule: "Everything else is independent", reason: "--email, --file-uploads, --prisma, and --github-workflows mix and match freely." },
 ] satisfies ReadonlyArray<{ rule: string; reason: string }>
 
 export default function FeaturesPage(): React.ReactNode {
