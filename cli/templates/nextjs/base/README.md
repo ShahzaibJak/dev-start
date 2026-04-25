@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Vitest** — Unit testing
 - **tsgo** — Native TypeScript type checking (~10x faster)
 - **commitlint + cz-git** — Conventional commit enforcement
-- **Husky + lint-staged** — Pre-commit quality gates (ESLint + Prettier + typecheck + tests)
+- **Husky + lint-staged** — Pre-commit quality gates (oxlint + oxfmt + typecheck + tests)
 
 ## Scripts
 
@@ -31,8 +31,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `bun run dev` | Start dev server with Turbopack |
 | `bun run build` | Production build |
 | `bun run start` | Start production server |
-| `bun run lint` | Run ESLint |
-| `bun run format` | Format with Prettier |
+| `bun run lint` | Run oxlint |
+| `bun run format` | Format with oxfmt |
 | `bun run typecheck` | TypeScript type checking (tsgo) |
 | `bun run test` | Run tests with Vitest |
 | `bun run precommit` | Run lint-staged (called by Husky) |

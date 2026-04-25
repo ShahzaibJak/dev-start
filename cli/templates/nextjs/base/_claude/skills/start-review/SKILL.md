@@ -40,7 +40,7 @@ Check what's changed:
 For the diff, review:
 
 ### Code Quality
-- Are there `any` types, type casts, `@ts-ignore`, bare `@ts-expect-error` (without description), or `eslint-disable` comments?
+- Are there `any` types, type casts, `@ts-ignore`, bare `@ts-expect-error` (without description), or lint-disable comments (`oxlint-disable`, `eslint-disable`)?
 - Are there unused imports or variables?
 - Are there hardcoded values that should be constants/config?
 - Are there potential null/undefined issues?

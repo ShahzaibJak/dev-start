@@ -128,15 +128,15 @@ const packages = [
 
   // Dev Tooling
   {
-    name: "ESLint",
-    description: "Find and fix problems in your JavaScript and TypeScript code.",
-    href: "https://eslint.org",
+    name: "oxlint",
+    description: "Blazing-fast JavaScript/TypeScript linter written in Rust.",
+    href: "https://oxc.rs/docs/guide/usage/linter",
     category: "Dev Tooling",
   },
   {
-    name: "Prettier",
-    description: "An opinionated code formatter for consistent style.",
-    href: "https://prettier.io",
+    name: "oxfmt",
+    description: "High-performance code formatter written in Rust.",
+    href: "https://oxc.rs/docs/guide/usage/formatter",
     category: "Dev Tooling",
   },
   {

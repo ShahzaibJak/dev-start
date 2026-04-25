@@ -11,7 +11,7 @@ Adds a GitHub Actions CI workflow for automated quality checks on every push and
 ## What CI Runs
 
 - Bun setup and dependency installation
-- `bun run lint` — ESLint checks
+- `bun run lint` — oxlint checks
 - `bun run typecheck` — TypeScript type checking
 - `bun run build` — Production build verification
 

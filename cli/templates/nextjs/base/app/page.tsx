@@ -137,7 +137,7 @@ const features = [
   },
   {
     label: "Production tooling",
-    detail: "ESLint, Prettier, strict TypeScript, Husky pre-commit hooks, and optional extras for Prisma, auth, CI/CD — all wired up from the first commit.",
+    detail: "oxlint, oxfmt, strict TypeScript, Husky pre-commit hooks, and optional extras for Prisma, auth, CI/CD — all wired up from the first commit.",
   },
 ]
 

@@ -20,9 +20,9 @@ export const toolLogos: Record<string, string> = {
   "Tailwind CSS 4": si("tailwindcss"),
   React: si("react"),
   Prisma: si("prisma"),
-  ESLint: si("eslint"),
-  "ESLint + Prettier": si("eslint"),
-  Prettier: si("prettier"),
+  oxlint: gh(51567961), // oxc-project
+  oxfmt: gh(51567961), // oxc-project
+  "oxlint + oxfmt": gh(51567961), // oxc-project
   Vercel: si("vercel"),
   "Vercel Deploy": si("vercel"),
   "GitHub Actions": si("githubactions"),

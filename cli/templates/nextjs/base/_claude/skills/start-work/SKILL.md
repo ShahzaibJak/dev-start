@@ -54,7 +54,7 @@ Work through the PRD steps sequentially:
 - NEVER use `any` — use `unknown` with type guards, or define proper types
 - NEVER use type assertions (`as Type`) — use type narrowing, discriminated unions, or `satisfies`
 - NEVER add `@ts-ignore`, `@ts-expect-error`, `@ts-nocheck`
-- NEVER add `eslint-disable` comments
+- NEVER add lint-disable comments (`oxlint-disable`, `eslint-disable`)
 - Define return types explicitly on all functions
 - When dealing with external data (API responses, JSON), define a schema (Zod) or interface first
 

@@ -44,9 +44,9 @@ const baseStack = [
     href: "https://vitest.dev",
   },
   {
-    name: "ESLint + Prettier",
-    detail: "Consistent code style enforced on every save",
-    href: "https://eslint.org",
+    name: "oxlint + oxfmt",
+    detail: "Blazing-fast linting and formatting powered by Oxc",
+    href: "https://oxc.rs",
   },
   {
     name: "Husky + lint-staged",

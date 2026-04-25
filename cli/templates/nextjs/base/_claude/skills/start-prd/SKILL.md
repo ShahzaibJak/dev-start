@@ -99,7 +99,7 @@ One paragraph describing the feature, its purpose, and user value.
 - No `any` types — use `unknown` + type guards where type is uncertain
 - No type assertions (`as Type`) — use discriminated unions or type narrowing
 - No `@ts-ignore`, `@ts-expect-error`, `@ts-nocheck`
-- No `eslint-disable` comments
+- No lint-disable comments (`oxlint-disable`, `eslint-disable`)
 - All function parameters and return types must be explicitly typed
 - Use `satisfies` operator over `as` for type validation
 

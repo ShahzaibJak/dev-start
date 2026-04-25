@@ -16,8 +16,6 @@ const DOTFILE_RENAMES: Record<string, string> = {
   _gitignore: ".gitignore",
   _gitkeep: ".gitkeep",
   _husky: ".husky",
-  _prettierignore: ".prettierignore",
-  _prettierrc: ".prettierrc",
   "_env.schema": ".env.schema",
 };
 
