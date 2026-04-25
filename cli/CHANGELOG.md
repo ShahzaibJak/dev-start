@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.2.0
+
+### Minor Changes
+
+- Add forms module with JSON-driven form renderer, 3 view modes (classic, conversational, multistep), and file-uploads composability. Rebrand to composable Next.js app kit.
+
 ## 0.1.0
 
 ### Minor Changes
