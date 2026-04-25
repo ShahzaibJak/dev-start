@@ -81,6 +81,10 @@ export const toolLogos: Record<string, string> = {
   Vitest: si("vitest"),
   "cz-git": gh(106996107), // Zhengqbbb
 
+  // --- State Management ---
+  nuqs: gh(2675467), // 47ng (franky47)
+  "React Query": gh(72518640), // TanStack
+
   // --- Fonts ---
   Geist: si("vercel"), // Vercel's font
   "Geist Sans + Mono": si("vercel"),

@@ -29,6 +29,16 @@ const baseStack = [
     href: "https://ui.shadcn.com",
   },
   {
+    name: "nuqs",
+    detail: "Type-safe URL state management for search params",
+    href: "https://nuqs.47ng.com",
+  },
+  {
+    name: "React Query",
+    detail: "Server/async state management with caching and devtools",
+    href: "https://tanstack.com/query",
+  },
+  {
     name: "next-ts-api",
     detail: "End-to-end type-safe API routes and client",
     href: "https://github.com/zahinafsar/next-ts-api",

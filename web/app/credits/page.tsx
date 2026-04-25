@@ -72,6 +72,20 @@ const packages = [
     category: "Styling",
   },
 
+  // State Management
+  {
+    name: "nuqs",
+    description: "Type-safe search params state manager for React. Like useState, but in the URL.",
+    href: "https://nuqs.47ng.com",
+    category: "State Management",
+  },
+  {
+    name: "React Query",
+    description: "Powerful asynchronous state management, caching, and data synchronization for React.",
+    href: "https://tanstack.com/query",
+    category: "State Management",
+  },
+
   // Type Safety
   {
     name: "next-ts-api",

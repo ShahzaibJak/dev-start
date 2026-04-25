@@ -41,6 +41,8 @@ npx ds-start my-app -y
 | Styling | Tailwind CSS 4 + shadcn/ui | [tailwindcss.com](https://tailwindcss.com) · [ui.shadcn.com](https://ui.shadcn.com) |
 | Fonts | Geist Sans + Geist Mono | [vercel.com/font](https://vercel.com/font) |
 | API Routes | next-ts-api (end-to-end type safety) | [github](https://github.com/zahinafsar/next-ts-api) |
+| URL State | nuqs (type-safe search params) | [nuqs.47ng.com](https://nuqs.47ng.com) |
+| Server State | React Query (async state management) | [tanstack.com/query](https://tanstack.com/query) |
 | Env Validation | varlock (schema-driven, type-safe) | [varlock.dev](https://varlock.dev) |
 | Linting | oxlint + oxfmt | [oxc.rs](https://oxc.rs) |
 | Type Checking | tsgo (native TypeScript compiler) | [npm](https://www.npmjs.com/package/@typescript/native-preview) |

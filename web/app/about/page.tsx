@@ -75,8 +75,8 @@ export default function AboutPage(): React.ReactNode {
             <li className="flex items-start gap-2">
               <span className="mt-1.5 block size-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
               <span>
-                <span className="font-medium text-foreground">next-ts-api + varlock</span>{" "}
-                — type safety from API routes to env vars, no gaps in the chain.
+                <span className="font-medium text-foreground">nuqs + React Query + next-ts-api + varlock</span>{" "}
+                — URL state, server state, type-safe API routes, and validated env vars. No gaps in the chain.
               </span>
             </li>
             <li className="flex items-start gap-2">
