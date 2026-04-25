@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
-    "format": "oxfmt --write \"**/*.{ts,tsx}\"",
+    "format": "oxfmt --write .",
     "typecheck": "tsgo --noEmit",
     "test": "vitest run",
     "env:check": "varlock load",

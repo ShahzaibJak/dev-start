@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
-    "format": "oxfmt --write \"**/*.{ts,tsx}\"",
+    "format": "oxfmt --write .",
     "typecheck": "tsc --noEmit",
     "auth:generate": "better-auth generate --config lib/auth.ts --output prisma/schema.prisma --yes",
     "db:generate": "prisma generate",

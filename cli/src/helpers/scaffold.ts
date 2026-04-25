@@ -17,6 +17,8 @@ const DOTFILE_RENAMES: Record<string, string> = {
   _gitkeep: ".gitkeep",
   _husky: ".husky",
   "_env.schema": ".env.schema",
+  "_oxlintrc.json": ".oxlintrc.json",
+  "_oxfmtrc.json": ".oxfmtrc.json",
 };
 
 async function restoreDotEntries(dir: string): Promise<void> {
