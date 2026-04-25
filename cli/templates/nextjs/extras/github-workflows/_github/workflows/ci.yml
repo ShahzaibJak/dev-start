@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  quality:
+  lint:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - name: Check out repository
@@ -33,8 +33,75 @@ jobs:
       - name: Lint
         run: bun run lint
 
+  check:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Cache bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: bun install
+
       - name: Typecheck
         run: bun run typecheck
+
+  test:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Cache bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Test
+        run: bun run test
+
+  build:
+    needs: [lint, check, test]
+    if: github.event.pull_request.draft == false
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Cache bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: bun install
 
       - name: Build
         run: bun run build

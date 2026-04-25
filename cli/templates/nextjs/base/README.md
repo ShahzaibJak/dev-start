@@ -19,7 +19,10 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Tailwind CSS 4** — Utility-first styling
 - **shadcn/ui** — Accessible component primitives
 - **next-ts-api** — End-to-end type-safe API routes
-- **Husky + lint-staged** — Pre-commit quality gates (ESLint + Prettier)
+- **Vitest** — Unit testing
+- **tsgo** — Native TypeScript type checking (~10x faster)
+- **commitlint + cz-git** — Conventional commit enforcement
+- **Husky + lint-staged** — Pre-commit quality gates (ESLint + Prettier + typecheck + tests)
 
 ## Scripts
 
@@ -30,7 +33,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `bun run start` | Start production server |
 | `bun run lint` | Run ESLint |
 | `bun run format` | Format with Prettier |
-| `bun run typecheck` | TypeScript type checking |
+| `bun run typecheck` | TypeScript type checking (tsgo) |
+| `bun run test` | Run tests with Vitest |
 | `bun run precommit` | Run lint-staged (called by Husky) |
 
 ## Project Structure

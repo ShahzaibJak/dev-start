@@ -13,8 +13,12 @@
 ```bash
 bun run build
 bun run lint
-bun run typecheck
+bun run typecheck   # tsgo (native TypeScript compiler)
+bun run test        # Vitest
 ```
+
+## Commits
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint. Running `git commit` without `-m` launches an interactive cz-git prompt.
 
 ## Conventions
 - Prefer server components until client behavior is needed.

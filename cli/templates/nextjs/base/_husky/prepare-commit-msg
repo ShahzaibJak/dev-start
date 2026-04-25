@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Skip interactive prompt when message is provided via -m, -F, or amend
+case "$2" in
+  message|merge|squash|commit)
+    exit 0
+    ;;
+esac
+
+exec < /dev/tty && bunx cz --hook || true

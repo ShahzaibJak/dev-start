@@ -1,2 +1,3 @@
 bun run precommit
+bun run test
 bunx varlock scan
