@@ -1,0 +1,13 @@
+# --- Email (Resend) ---
+
+# @required @sensitive
+# @type=string
+# @docs(https://resend.com/api-keys)
+# API key from Resend Dashboard
+RESEND_API_KEY=re_replace_me
+
+# @required
+# @type=string
+# @sensitive=false
+# Default sender address — onboarding@resend.dev works without domain verification
+EMAIL_FROM=onboarding@resend.dev

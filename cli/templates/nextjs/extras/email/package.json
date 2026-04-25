@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "email:dev": "email dev -p 4000"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.36",
+    "resend": "^4.5.2"
+  },
+  "devDependencies": {
+    "react-email": "^3.0.7"
+  }
+}

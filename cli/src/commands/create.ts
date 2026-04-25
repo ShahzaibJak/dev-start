@@ -40,6 +40,7 @@ export interface CreateOptions {
     githubWorkflows?: string;
     vercelDeploy?: string;
     stripe?: string;
+    email?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -54,6 +55,7 @@ export async function create(opts: CreateOptions) {
     opts.extras.githubWorkflows,
     opts.extras.vercelDeploy,
     opts.extras.stripe,
+    opts.extras.email,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
   const selectedExtras = requestedExtras.join(" + ");
 
@@ -75,6 +77,7 @@ export async function create(opts: CreateOptions) {
   const supportedExtras = new Set([
     "better-auth",
     "clerk",
+    "email",
     "github-workflows",
     "prisma",
     "stripe",
@@ -117,15 +120,26 @@ export async function create(opts: CreateOptions) {
   const scaffoldLabel = selectedExtras ? `nextjs/base + ${selectedExtras}` : "nextjs/base";
 
   consola.start(`Scaffolding ${scaffoldLabel} into ${targetDir}`);
-  const excludeSubDirs = requestedExtras.includes("stripe")
-    ? { stripe: ["better-auth", "clerk"] }
-    : undefined;
-  await scaffold("nextjs", targetDir, requestedExtras, excludeSubDirs);
+  const excludeSubDirs: Record<string, string[]> = {};
+  if (requestedExtras.includes("stripe")) {
+    excludeSubDirs.stripe = ["better-auth", "clerk"];
+  }
+  if (requestedExtras.includes("email")) {
+    excludeSubDirs.email = ["better-auth", "better-auth-stripe"];
+  }
+  const excludeArg = Object.keys(excludeSubDirs).length > 0 ? excludeSubDirs : undefined;
+  await scaffold("nextjs", targetDir, requestedExtras, excludeArg);
 
   if (requestedExtras.includes("stripe") && requestedExtras.includes("better-auth")) {
     await applyExtraSubTemplate("nextjs", targetDir, "stripe", "better-auth");
   } else if (requestedExtras.includes("stripe") && requestedExtras.includes("clerk")) {
     await applyExtraSubTemplate("nextjs", targetDir, "stripe", "clerk");
+  }
+
+  if (requestedExtras.includes("email") && requestedExtras.includes("better-auth") && requestedExtras.includes("stripe")) {
+    await applyExtraSubTemplate("nextjs", targetDir, "email", "better-auth-stripe");
+  } else if (requestedExtras.includes("email") && requestedExtras.includes("better-auth")) {
+    await applyExtraSubTemplate("nextjs", targetDir, "email", "better-auth");
   }
 
   await updatePackageJson(targetDir, projectName, {});
@@ -146,6 +160,7 @@ export async function create(opts: CreateOptions) {
   const hasBetterAuth = requestedExtras.includes("better-auth");
   const hasClerk = requestedExtras.includes("clerk");
   const hasStripe = requestedExtras.includes("stripe");
+  const hasEmail = requestedExtras.includes("email");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
@@ -181,6 +196,13 @@ export async function create(opts: CreateOptions) {
     nextSteps.push("# 1. Enable Billing in Clerk Dashboard → Configure → Subscription plans");
     nextSteps.push("# 2. Create plans and attach features in the Clerk Dashboard");
     nextSteps.push("# 3. Visit /billing to see the billing page");
+  }
+
+  if (hasEmail) {
+    nextSteps.push("");
+    nextSteps.push("# Email setup:");
+    nextSteps.push("# Set RESEND_API_KEY in .env.schema");
+    nextSteps.push("# Run `bun run email:dev` to preview templates");
   }
 
   if (hasVercelDeploy) {

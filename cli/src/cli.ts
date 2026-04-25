@@ -60,6 +60,11 @@ export const main = defineCommand({
       description: "Include Stripe billing (requires --auth or --clerk)",
       default: false,
     },
+    email: {
+      type: "boolean",
+      description: "Include transactional email with Resend + React Email",
+      default: false,
+    },
     base: {
       type: "boolean",
       description: "Scaffold base template only, no extras",
@@ -79,9 +84,9 @@ export const main = defineCommand({
 
     if (typeof projectDir === "symbol") process.exit(0);
 
-    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe)) {
+    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email)) {
       throw new Error(
-        "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, or --vercel-deploy.",
+        "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, or --vercel-deploy.",
       );
     }
 
@@ -98,8 +103,9 @@ export const main = defineCommand({
     let githubWorkflows = (args.githubWorkflows || args.vercelDeploy) ? "github-workflows" : undefined;
     let vercelDeploy = args.vercelDeploy ? "vercel-deploy" : undefined;
     let stripe = args.stripe ? "stripe" : undefined;
+    let email = args.email ? "email" : undefined;
 
-    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.base;
+    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.base;
 
     if (!args.yes && !hasExplicitFlags) {
       const prismaChoice = await consola.prompt("Add Prisma?", {
@@ -137,6 +143,13 @@ export const main = defineCommand({
         stripe = stripeChoice ? "stripe" : undefined;
       }
 
+      const emailChoice = await consola.prompt("Add transactional email (Resend)?", {
+        type: "confirm",
+        initial: false,
+      });
+      if (typeof emailChoice === "symbol") process.exit(0);
+      email = emailChoice ? "email" : undefined;
+
       const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
         type: "confirm",
         initial: false,
@@ -172,7 +185,7 @@ export const main = defineCommand({
     await create({
       projectDir,
       template: "nextjs",
-      extras: { db, auth, githubWorkflows, vercelDeploy, stripe },
+      extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email },
       initGit,
       install,
     });
