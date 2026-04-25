@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.0.8
+
+### Patch Changes
+
+- Add email extra (Resend + React Email), file-uploads extra (S3-compatible presigned uploads), upgrade base template tooling (tsgo, commitlint, Vitest, parallel CI), and fix TypeScript 6 / tsgo build errors in base template.
+
 ## 0.0.7
 
 ### Patch Changes
