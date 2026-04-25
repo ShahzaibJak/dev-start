@@ -23,7 +23,7 @@ export default function AboutPage(): React.ReactNode {
           <p>
             ds-start came out of repetition. I was building a lot with AI — spinning
             up Next.js projects, wiring up the same strict TypeScript config, the same
-            ESLint and Prettier setup, the same pre-commit hooks, the same env
+            oxlint and oxfmt setup, the same pre-commit hooks, the same env
             validation, the same API route patterns. Every new project started with
             hours of boilerplate before I could write a single feature.
           </p>

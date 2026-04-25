@@ -55,8 +55,11 @@ Every project starts with a production-ready base where types flow end-to-end �
 | Fonts | Geist Sans + Geist Mono | [vercel.com/font](https://vercel.com/font) |
 | API Routes | next-ts-api (end-to-end type safety) | [github](https://github.com/zahinafsar/next-ts-api) |
 | Env Validation | varlock (schema-driven, type-safe) | [varlock.dev](https://varlock.dev) |
-| Linting | ESLint + Prettier | [eslint.org](https://eslint.org) · [prettier.io](https://prettier.io) |
+| Linting | oxlint + oxfmt | [oxc.rs](https://oxc.rs) |
+| Type Checking | tsgo (native TypeScript compiler) | [npm](https://www.npmjs.com/package/@typescript/native-preview) |
+| Testing | Vitest | [vitest.dev](https://vitest.dev) |
 | Pre-commit | Husky + lint-staged (lint, format, typecheck) | [typicode.github.io/husky](https://typicode.github.io/husky) |
+| Commits | commitlint + cz-git | [commitlint.js.org](https://commitlint.js.org) |
 | Theme | Light/dark toggle with next-themes | [github](https://github.com/pacocoursey/next-themes) |
 
 ### Shadcn/ui Components
@@ -115,6 +118,21 @@ CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Bla
 ### Vercel Deploy (`--vercel-deploy`)
 
 CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push to main, manual dispatch for production. Implies `--github-workflows`.
+
+## Adding Extras to Existing Projects
+
+Already have a Next.js project scaffolded with ds-start? Add independent extras without re-scaffolding:
+
+```bash
+ds-start add email
+ds-start add file-uploads
+ds-start add github-workflows
+ds-start add vercel-deploy
+```
+
+The `add` command detects conflicts, merges where possible (package.json, .gitignore, .env.schema), and prompts you for resolution on any conflicts. Dependencies are not auto-installed — run `bun install` when ready.
+
+> **Note:** Dependent extras (prisma, auth, clerk, stripe) must be included during initial scaffold with flags.
 
 ## Composability
 
@@ -181,16 +199,23 @@ bun run verify:nextjs-better-auth-prisma
 ```
 cli/
   src/
-    cli.ts              # Command definition (citty)
-    index.ts            # Entry point
-    commands/create.ts   # Scaffold logic
-    helpers/             # Git, install, scaffold utilities
+    cli.ts                    # Main command definition (citty subcommands)
+    index.ts                  # Entry point
+    commands/
+      create.ts               # Scaffold logic (init subcommand)
+      add.ts                  # Add extras to existing projects
+    helpers/
+      conflict.ts             # Conflict detection, resolution, and apply
+      detect-project.ts       # Project root validation
+      git.ts, install.ts      # Git and dependency helpers
+      scaffold.ts             # Template scaffolding utilities
+    installers/               # Extensible installer pattern
   templates/
     nextjs/
-      base/             # Base Next.js template
-      extras/           # Composable extras (prisma, better-auth, etc.)
-  dist/                 # Build output (tsup)
-scripts/                # Verification scripts
+      base/                   # Base Next.js template
+      extras/                 # Composable extras (prisma, better-auth, etc.)
+  dist/                       # Build output (tsup)
+scripts/                      # Verification scripts
 ```
 
 ## Contributing

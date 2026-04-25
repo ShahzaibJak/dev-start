@@ -28,7 +28,7 @@ npx ds-start my-app -y
 
 **Agentic coding flows** — Every project ships with built-in skills for AI coding assistants. A structured development cycle — `/start-prd` to plan, `/start-work` to build, `/handoff` to preserve context, `/start-review` to verify, `/start-pr` to ship — so your AI assistant understands your project conventions out of the box.
 
-**Production-ready tooling** — Not a toy starter. You get strict TypeScript, ESLint + Prettier, Husky pre-commit hooks running lint + format + typecheck, and GitHub Actions CI — all wired up and working from the first commit.
+**Production-ready tooling** — Not a toy starter. You get strict TypeScript, oxlint + oxfmt, Husky pre-commit hooks running lint + format + typecheck, and GitHub Actions CI — all wired up and working from the first commit.
 
 ## What's Included
 
@@ -42,8 +42,11 @@ npx ds-start my-app -y
 | Fonts | Geist Sans + Geist Mono | [vercel.com/font](https://vercel.com/font) |
 | API Routes | next-ts-api (end-to-end type safety) | [github](https://github.com/zahinafsar/next-ts-api) |
 | Env Validation | varlock (schema-driven, type-safe) | [varlock.dev](https://varlock.dev) |
-| Linting | ESLint + Prettier | [eslint.org](https://eslint.org) · [prettier.io](https://prettier.io) |
+| Linting | oxlint + oxfmt | [oxc.rs](https://oxc.rs) |
+| Type Checking | tsgo (native TypeScript compiler) | [npm](https://www.npmjs.com/package/@typescript/native-preview) |
+| Testing | Vitest | [vitest.dev](https://vitest.dev) |
 | Pre-commit | Husky + lint-staged | [typicode.github.io/husky](https://typicode.github.io/husky) |
+| Commits | commitlint + cz-git | [commitlint.js.org](https://commitlint.js.org) |
 | Theme | Light/dark toggle with next-themes | [github](https://github.com/pacocoursey/next-themes) |
 
 Ships with `Button`, `Card`, `Input`, `Label`, and `Separator` from shadcn/ui. Add more with `bunx shadcn@latest add <component>`.
@@ -75,6 +78,19 @@ Opt-in layers that compose on top of the base.
 **GitHub Workflows** (`--github-workflows`) — CI pipeline: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
 
 **Vercel Deploy** (`--vercel-deploy`) — CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push, manual dispatch for production. Implies `--github-workflows`.
+
+## Adding Extras to Existing Projects
+
+Already scaffolded? Add independent extras to an existing project:
+
+```bash
+ds-start add email
+ds-start add file-uploads
+ds-start add github-workflows
+ds-start add vercel-deploy
+```
+
+Smart conflict detection merges package.json, .gitignore, and .env.schema automatically. Prompts for resolution on any file-level conflicts. No deps installed, no files staged.
 
 ## Composability
 

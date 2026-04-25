@@ -17,7 +17,7 @@ const highlights = [
   {
     title: "Production tooling",
     description:
-      "ESLint, Prettier, strict TypeScript, Husky pre-commit hooks, and optional extras — all wired up from commit one.",
+      "oxlint, oxfmt, strict TypeScript, Husky pre-commit hooks, and optional extras — all wired up from commit one.",
   },
   {
     title: "Composable extras",

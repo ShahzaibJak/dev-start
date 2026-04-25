@@ -59,6 +59,8 @@ const examples = [
   { label: "API-focused", command: "npx ds-start my-app --prisma --github-workflows" },
   { label: "Everything", command: "npx ds-start my-app --prisma --auth --stripe --email --file-uploads --github-workflows --vercel-deploy" },
   { label: "Skip prompts", command: "npx ds-start my-app -y" },
+  { label: "Add email to existing project", command: "npx ds-start add email" },
+  { label: "Add file uploads to existing project", command: "npx ds-start add file-uploads" },
 ] satisfies ReadonlyArray<{ label: string; command: string }>
 
 export default function DocsPage(): React.ReactNode {
@@ -105,8 +107,27 @@ export default function DocsPage(): React.ReactNode {
         <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
           Command Reference
         </h2>
-        <div className="mt-4">
-          <CodeBlock copyable={false}>{`npx ds-start <project-name> [flags]`}</CodeBlock>
+        <div className="mt-4 space-y-4">
+          <div>
+            <p className="mb-2 text-sm font-medium">Scaffold a new project</p>
+            <CodeBlock copyable={false}>{`npx ds-start <project-name> [flags]`}</CodeBlock>
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-medium">Add an extra to an existing project</p>
+            <CodeBlock copyable={false}>{`npx ds-start add <extra>`}</CodeBlock>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Run from inside an existing Next.js project to bolt on an independent extra.
+              Detects conflicts, merges package.json / .gitignore / .env.schema automatically,
+              and prompts for resolution on file-level conflicts. Dependencies are not auto-installed.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Available extras:{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">email</code>{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">file-uploads</code>{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">github-workflows</code>{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">vercel-deploy</code>
+            </p>
+          </div>
         </div>
       </section>
 
