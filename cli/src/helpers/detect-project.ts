@@ -8,6 +8,7 @@ export const ADDABLE_EXTRAS = new Set([
   "file-uploads",
   "github-workflows",
   "vercel-deploy",
+  "zustand",
 ]);
 
 /** Key dependency markers per extra — used to warn if already present */
@@ -16,6 +17,7 @@ const EXTRA_MARKER_DEPS: Record<string, readonly string[]> = {
   "file-uploads": ["@aws-sdk/client-s3"],
   "github-workflows": [],
   "vercel-deploy": [],
+  zustand: ["zustand"],
 };
 
 const NEXT_CONFIG_PATTERNS = [

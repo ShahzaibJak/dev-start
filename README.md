@@ -113,6 +113,22 @@ Managed authentication via Clerk. No database required.
 - Route protection via `proxy.ts` (Next.js 16)
 - Cannot be combined with `--auth` (choose one auth provider)
 
+### [Stripe](https://stripe.com) (`--stripe`)
+
+Billing and subscription management with Stripe. Includes webhook handling, customer portal, and plan management. Works with both Better Auth and Clerk. Requires `--auth` or `--clerk`.
+
+### [Email](https://resend.com) (`--email`)
+
+Transactional email with Resend for delivery and React Email for type-safe, previewable templates. Welcome emails, password resets, and invitations.
+
+### [File Uploads](https://aws.amazon.com/s3) (`--file-uploads`)
+
+S3-compatible file uploads with presigned URLs, upload helpers, and a ready-made FileUpload component. Works with AWS S3, Cloudflare R2, MinIO, and Backblaze B2.
+
+### [Zustand](https://zustand.docs.pmnd.rs) (`--zustand`)
+
+Lightweight client state management. Provider-free, TypeScript-first stores with Redux DevTools support. Stores live in `lib/stores/`.
+
 ### GitHub Workflows (`--github-workflows`)
 
 CI pipeline for GitHub Actions: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
@@ -128,6 +144,7 @@ Already have a Next.js project scaffolded with ds-start? Add independent extras 
 ```bash
 ds-start add email
 ds-start add file-uploads
+ds-start add zustand
 ds-start add github-workflows
 ds-start add vercel-deploy
 ```

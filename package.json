@@ -35,6 +35,7 @@
     "verify:nextjs-email": "bash scripts/verify-nextjs-email.sh",
     "verify:nextjs-email-better-auth": "bash scripts/verify-nextjs-email-better-auth.sh",
     "verify:nextjs-file-uploads": "bash scripts/verify-nextjs-file-uploads.sh",
+    "verify:nextjs-zustand": "bash scripts/verify-nextjs-zustand.sh",
     "pack:cli-local": "bash scripts/pack-cli-local.sh",
     "pack:cli-dry-run": "cd cli && ASDF_NODEJS_CANON_NPM_PATH=$(asdf where nodejs)/bin/npm npm pack --dry-run",
     "prepare": "husky",

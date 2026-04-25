@@ -77,6 +77,14 @@ Opt-in layers that compose on top of the base.
 
 **[Clerk](https://clerk.com)** (`--clerk`) — Managed authentication via Clerk. No database required. Route protection via `proxy.ts`. Cannot be combined with `--auth`.
 
+**[Stripe](https://stripe.com)** (`--stripe`) — Billing and subscription management with Stripe. Webhook handling, customer portal, and plan management. Requires `--auth` or `--clerk`.
+
+**[Email](https://resend.com)** (`--email`) — Transactional email with Resend and React Email templates. Welcome emails, password resets, and invitations.
+
+**[File Uploads](https://aws.amazon.com/s3)** (`--file-uploads`) — S3-compatible file uploads with presigned URLs. Works with AWS S3, Cloudflare R2, MinIO, Backblaze B2.
+
+**[Zustand](https://zustand.docs.pmnd.rs)** (`--zustand`) — Lightweight client state management. Provider-free, TypeScript-first stores with Redux DevTools support.
+
 **GitHub Workflows** (`--github-workflows`) — CI pipeline: lint, typecheck, build on every PR. Runs on [Blacksmith](https://blacksmith.sh) for faster builds. Includes `varlock scan` for secret leak detection.
 
 **Vercel Deploy** (`--vercel-deploy`) — CD pipeline via [Vercel CLI](https://vercel.com/docs/cli). Preview deploys on push, manual dispatch for production. Implies `--github-workflows`.
@@ -88,6 +96,7 @@ Already scaffolded? Add independent extras to an existing project:
 ```bash
 ds-start add email
 ds-start add file-uploads
+ds-start add zustand
 ds-start add github-workflows
 ds-start add vercel-deploy
 ```

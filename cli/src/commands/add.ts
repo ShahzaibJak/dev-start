@@ -32,6 +32,9 @@ const EXTRA_NEXT_STEPS: Record<string, readonly string[]> = {
     "Add VERCEL_PROJECT_ID as a GitHub variable",
     "See extras/vercel-deploy/README.md for details",
   ],
+  zustand: [
+    "Stores live in lib/stores/ — see lib/stores/counter.ts for the pattern",
+  ],
 };
 
 export const add = defineCommand({

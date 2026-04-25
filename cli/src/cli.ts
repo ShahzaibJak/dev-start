@@ -65,6 +65,11 @@ const initArgs = {
     description: "Include S3-compatible file uploads",
     default: false,
   },
+  zustand: {
+    type: "boolean" as const,
+    description: "Include Zustand client state management",
+    default: false,
+  },
   base: {
     type: "boolean" as const,
     description: "Scaffold base template only, no extras",
@@ -89,9 +94,9 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
     throw new Error("Project directory is required.");
   }
 
-  if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email || args.fileUploads)) {
+  if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email || args.fileUploads || args.zustand)) {
     throw new Error(
-      "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, --file-uploads, or --vercel-deploy.",
+      "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, --file-uploads, --zustand, or --vercel-deploy.",
     );
   }
 
@@ -110,8 +115,9 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
   let stripe = args.stripe ? "stripe" : undefined;
   let email = args.email ? "email" : undefined;
   let fileUploads = args.fileUploads ? "file-uploads" : undefined;
+  let zustand = args.zustand ? "zustand" : undefined;
 
-  const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.fileUploads || args.base;
+  const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.fileUploads || args.zustand || args.base;
 
   if (!args.yes && !hasExplicitFlags) {
     const prismaChoice = await consola.prompt("Add Prisma?", {
@@ -163,6 +169,13 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
     if (typeof fileUploadsChoice === "symbol") process.exit(0);
     fileUploads = fileUploadsChoice ? "file-uploads" : undefined;
 
+    const zustandChoice = await consola.prompt("Add Zustand (client state)?", {
+      type: "confirm",
+      initial: false,
+    });
+    if (typeof zustandChoice === "symbol") process.exit(0);
+    zustand = zustandChoice ? "zustand" : undefined;
+
     const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
       type: "confirm",
       initial: false,
@@ -198,7 +211,7 @@ async function runInit(args: Record<string, unknown>): Promise<void> {
   await create({
     projectDir,
     template: "nextjs",
-    extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email, fileUploads },
+    extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email, fileUploads, zustand },
     initGit,
     install,
   });

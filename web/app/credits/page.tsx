@@ -85,6 +85,12 @@ const packages = [
     href: "https://tanstack.com/query",
     category: "State Management",
   },
+  {
+    name: "Zustand",
+    description: "Small, fast, and scalable bearbones state management for React.",
+    href: "https://zustand.docs.pmnd.rs",
+    category: "State Management",
+  },
 
   // Type Safety
   {

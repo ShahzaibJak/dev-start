@@ -37,6 +37,11 @@ const flags = [
       "Add S3-compatible file uploads with presigned URLs. Works with AWS S3, Cloudflare R2, MinIO, Backblaze B2.",
   },
   {
+    flag: "--zustand",
+    description:
+      "Add Zustand client state management with typed stores and devtools middleware.",
+  },
+  {
     flag: "--github-workflows",
     description:
       "Add GitHub Actions CI pipeline with lint, typecheck, build, and secret scanning.",
@@ -57,10 +62,11 @@ const examples = [
   { label: "Full stack", command: "npx ds-start my-app --prisma --auth --stripe --email --github-workflows" },
   { label: "Clerk stack", command: "npx ds-start my-app --clerk --stripe --email --file-uploads" },
   { label: "API-focused", command: "npx ds-start my-app --prisma --github-workflows" },
-  { label: "Everything", command: "npx ds-start my-app --prisma --auth --stripe --email --file-uploads --github-workflows --vercel-deploy" },
+  { label: "Everything", command: "npx ds-start my-app --prisma --auth --stripe --email --file-uploads --zustand --github-workflows --vercel-deploy" },
   { label: "Skip prompts", command: "npx ds-start my-app -y" },
   { label: "Add email to existing project", command: "npx ds-start add email" },
   { label: "Add file uploads to existing project", command: "npx ds-start add file-uploads" },
+  { label: "Add Zustand to existing project", command: "npx ds-start add zustand" },
 ] satisfies ReadonlyArray<{ label: string; command: string }>
 
 export default function DocsPage(): React.ReactNode {
@@ -124,6 +130,7 @@ export default function DocsPage(): React.ReactNode {
               Available extras:{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">email</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">file-uploads</code>{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">zustand</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">github-workflows</code>{" "}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">vercel-deploy</code>
             </p>

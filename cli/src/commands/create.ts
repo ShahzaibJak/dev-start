@@ -42,6 +42,7 @@ export interface CreateOptions {
     stripe?: string;
     email?: string;
     fileUploads?: string;
+    zustand?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -58,6 +59,7 @@ export async function create(opts: CreateOptions) {
     opts.extras.stripe,
     opts.extras.email,
     opts.extras.fileUploads,
+    opts.extras.zustand,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
   const selectedExtras = requestedExtras.join(" + ");
 
@@ -85,6 +87,7 @@ export async function create(opts: CreateOptions) {
     "prisma",
     "stripe",
     "vercel-deploy",
+    "zustand",
   ]);
   const unsupportedExtras = requestedExtras.filter((extra) => !supportedExtras.has(extra));
   if (unsupportedExtras.length > 0) {
@@ -165,6 +168,7 @@ export async function create(opts: CreateOptions) {
   const hasStripe = requestedExtras.includes("stripe");
   const hasEmail = requestedExtras.includes("email");
   const hasFileUploads = requestedExtras.includes("file-uploads");
+  const hasZustand = requestedExtras.includes("zustand");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
@@ -215,6 +219,11 @@ export async function create(opts: CreateOptions) {
     nextSteps.push("# 1. Set S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET in .env.schema");
     nextSteps.push("# 2. Set S3_ENDPOINT for R2/MinIO/Backblaze (omit for AWS S3)");
     nextSteps.push("# 3. Use <FileUpload /> component — see components/file-upload.tsx");
+  }
+
+  if (hasZustand) {
+    nextSteps.push("");
+    nextSteps.push("# Zustand stores live in lib/stores/ — see lib/stores/counter.ts for the pattern");
   }
 
   if (hasVercelDeploy) {

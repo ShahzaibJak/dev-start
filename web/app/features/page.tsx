@@ -131,6 +131,13 @@ const extras = [
     href: "https://aws.amazon.com/s3",
   },
   {
+    flag: "--zustand",
+    name: "Zustand",
+    description:
+      "Lightweight client state management. Provider-free, TypeScript-first stores with Redux DevTools support via devtools middleware.",
+    href: "https://zustand.docs.pmnd.rs",
+  },
+  {
     flag: "--vercel-deploy",
     name: "Vercel Deploy",
     description:
@@ -150,7 +157,7 @@ const composabilityRules = [
   { rule: "--clerk and --auth are mutually exclusive", reason: "One auth provider per project." },
   { rule: "--stripe requires --auth or --clerk", reason: "Billing needs an auth provider to associate subscriptions with users." },
   { rule: "--vercel-deploy implies --github-workflows", reason: "CD builds on the CI pipeline." },
-  { rule: "Everything else is independent", reason: "--email, --file-uploads, --prisma, and --github-workflows mix and match freely." },
+  { rule: "Everything else is independent", reason: "--email, --file-uploads, --zustand, --prisma, and --github-workflows mix and match freely." },
 ] satisfies ReadonlyArray<{ rule: string; reason: string }>
 
 export default function FeaturesPage(): React.ReactNode {
