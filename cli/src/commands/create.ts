@@ -41,6 +41,7 @@ export interface CreateOptions {
     vercelDeploy?: string;
     stripe?: string;
     email?: string;
+    fileUploads?: string;
   };
   initGit: boolean;
   install: boolean;
@@ -56,6 +57,7 @@ export async function create(opts: CreateOptions) {
     opts.extras.vercelDeploy,
     opts.extras.stripe,
     opts.extras.email,
+    opts.extras.fileUploads,
   ].filter((value): value is string => typeof value === "string" && value.length > 0);
   const selectedExtras = requestedExtras.join(" + ");
 
@@ -78,6 +80,7 @@ export async function create(opts: CreateOptions) {
     "better-auth",
     "clerk",
     "email",
+    "file-uploads",
     "github-workflows",
     "prisma",
     "stripe",
@@ -161,6 +164,7 @@ export async function create(opts: CreateOptions) {
   const hasClerk = requestedExtras.includes("clerk");
   const hasStripe = requestedExtras.includes("stripe");
   const hasEmail = requestedExtras.includes("email");
+  const hasFileUploads = requestedExtras.includes("file-uploads");
   const hasVercelDeploy = requestedExtras.includes("vercel-deploy");
 
   const nextSteps: string[] = [
@@ -203,6 +207,14 @@ export async function create(opts: CreateOptions) {
     nextSteps.push("# Email setup:");
     nextSteps.push("# Set RESEND_API_KEY in .env.schema");
     nextSteps.push("# Run `bun run email:dev` to preview templates");
+  }
+
+  if (hasFileUploads) {
+    nextSteps.push("");
+    nextSteps.push("# File uploads setup:");
+    nextSteps.push("# 1. Set S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET in .env.schema");
+    nextSteps.push("# 2. Set S3_ENDPOINT for R2/MinIO/Backblaze (omit for AWS S3)");
+    nextSteps.push("# 3. Use <FileUpload /> component — see components/file-upload.tsx");
   }
 
   if (hasVercelDeploy) {

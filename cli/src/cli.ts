@@ -65,6 +65,11 @@ export const main = defineCommand({
       description: "Include transactional email with Resend + React Email",
       default: false,
     },
+    "file-uploads": {
+      type: "boolean",
+      description: "Include S3-compatible file uploads",
+      default: false,
+    },
     base: {
       type: "boolean",
       description: "Scaffold base template only, no extras",
@@ -84,9 +89,9 @@ export const main = defineCommand({
 
     if (typeof projectDir === "symbol") process.exit(0);
 
-    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email)) {
+    if (args.base && (args.prisma || args.auth || args.clerk || args.vercelDeploy || args.stripe || args.email || args.fileUploads)) {
       throw new Error(
-        "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, or --vercel-deploy.",
+        "The --base flag cannot be combined with --prisma, --auth, --clerk, --stripe, --email, --file-uploads, or --vercel-deploy.",
       );
     }
 
@@ -104,8 +109,9 @@ export const main = defineCommand({
     let vercelDeploy = args.vercelDeploy ? "vercel-deploy" : undefined;
     let stripe = args.stripe ? "stripe" : undefined;
     let email = args.email ? "email" : undefined;
+    let fileUploads = args.fileUploads ? "file-uploads" : undefined;
 
-    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.base;
+    const hasExplicitFlags = args.githubWorkflows || args.vercelDeploy || args.prisma || args.auth || args.clerk || args.stripe || args.email || args.fileUploads || args.base;
 
     if (!args.yes && !hasExplicitFlags) {
       const prismaChoice = await consola.prompt("Add Prisma?", {
@@ -150,6 +156,13 @@ export const main = defineCommand({
       if (typeof emailChoice === "symbol") process.exit(0);
       email = emailChoice ? "email" : undefined;
 
+      const fileUploadsChoice = await consola.prompt("Add file uploads (S3-compatible)?", {
+        type: "confirm",
+        initial: false,
+      });
+      if (typeof fileUploadsChoice === "symbol") process.exit(0);
+      fileUploads = fileUploadsChoice ? "file-uploads" : undefined;
+
       const githubWorkflowsChoice = await consola.prompt("Add GitHub Actions CI?", {
         type: "confirm",
         initial: false,
@@ -185,7 +198,7 @@ export const main = defineCommand({
     await create({
       projectDir,
       template: "nextjs",
-      extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email },
+      extras: { db, auth, githubWorkflows, vercelDeploy, stripe, email, fileUploads },
       initGit,
       install,
     });
