@@ -6,8 +6,15 @@
 - TypeScript strict mode
 - Tailwind CSS 4
 - shadcn/ui
+- nuqs (URL state management)
+- @tanstack/react-query (server/async state)
 - next-ts-api (type-safe API routes)
 - varlock (env validation and secret leak detection)
+
+## State Management
+- **URL state**: Use `nuqs` (`useQueryState`, `createSearchParamsCache`) for state that belongs in the URL (filters, pagination, search).
+- **Server/async state**: Use `@tanstack/react-query` (`useQuery`, `useMutation`) for data fetching, caching, and mutations.
+- **Providers**: All providers are composed in `components/providers.tsx`. QueryClient config lives in `lib/query-client.ts`.
 
 ## Quality Gates
 ```bash
