@@ -1,0 +1,276 @@
+---
+title: Forms
+description: JSON-driven form renderer with classic, conversational, and multistep view modes.
+---
+
+## Overview
+
+Adds a JSON-driven form rendering system powered by React Hook Form and Zod validation. Define forms as typed schemas and render them in three view modes — classic, conversational, or multistep. The component map architecture makes it easy to add custom field types.
+
+## Prerequisites
+
+None.
+
+## Installation
+
+```bash
+npx ds-start init my-app --forms
+# or add to existing project
+npx ds-start add forms
+```
+
+## What It Adds
+
+- `lib/forms/types.ts` — Form schema type definitions
+- `lib/forms/validation.ts` — Zod schema generator from form fields
+- `components/forms/form-renderer.tsx` — Main renderer with layout switching
+- `components/forms/fields/` — Field components for each input type
+- `components/forms/layouts/` — Classic, conversational, and multistep layouts
+
+## Quick Start
+
+```tsx title="app/contact/page.tsx"
+"use client"
+
+import { FormRenderer } from "@/components/forms/form-renderer"
+import type { FormSchema } from "@/lib/forms/types"
+
+const schema: FormSchema = {
+  fields: [
+    { id: "name", type: "text", label: "Name", required: true },
+    { id: "email", type: "email", label: "Email", required: true },
+    { id: "message", type: "textarea", label: "Message", required: true },
+  ],
+}
+
+export default function ContactPage() {
+  return <FormRenderer schema={schema} onSubmit={(values) => console.log(values)} />
+}
+```
+
+## View Modes
+
+Set `viewMode` on the schema to switch layouts:
+
+```tsx
+// Classic — all fields visible (default)
+const form: FormSchema = { fields: [...] }
+
+// Conversational — one field at a time
+const form: FormSchema = { viewMode: "conversational", fields: [...] }
+
+// Multistep — wizard with step indicators
+const form: FormSchema = {
+  viewMode: "multistep",
+  fields: [...],
+  steps: [
+    { label: "Account", fieldIds: ["name", "email"] },
+    { label: "Details", fieldIds: ["company", "role"] },
+  ],
+}
+```
+
+## Adding a Custom Field Type
+
+The form system is designed to be extended. Here's how to add a new field type end-to-end, using a star rating field as an example.
+
+### Step 1: Define the type and config
+
+Add your new type to `FieldType` and create its config interface:
+
+```tsx title="lib/forms/types.ts"
+// Add to the FieldType union
+export type FieldType =
+  | "text"
+  | "textarea"
+  | "email"
+  // ... existing types
+  | "rating" // NEW
+
+// Define config for the new type
+export interface RatingFieldConfig {
+  maxStars?: number
+}
+
+// Add to FieldConfigMap
+export interface FieldConfigMap {
+  // ... existing entries
+  rating: RatingFieldConfig
+}
+```
+
+Update the `defaultValue` discriminator in `FormField` if your field uses a non-string value:
+
+```tsx title="lib/forms/types.ts"
+defaultValue?: T extends "checkbox" | "switch"
+  ? boolean
+  : T extends "number" | "rating"  // add rating here
+    ? number
+    : T extends "date"
+      ? Date
+      : string
+```
+
+### Step 2: Create the field component
+
+Every field component receives the same `FieldProps` interface:
+
+```tsx
+export interface FieldProps {
+  field: ControllerRenderProps<FieldValues, string>  // react-hook-form controller
+  fieldDef: FormField                                // the field definition
+  error?: string                                     // validation error message
+}
+```
+
+Use `field.value` and `field.onChange` to bind the component to the form state:
+
+```tsx title="components/forms/fields/rating-field.tsx"
+"use client"
+
+import { StarIcon } from "lucide-react"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
+import type { FieldProps } from "@/lib/forms/types"
+
+export function RatingField({
+  field,
+  fieldDef,
+  error,
+}: FieldProps): React.ReactElement {
+  const maxStars =
+    fieldDef.config && "maxStars" in fieldDef.config
+      ? (fieldDef.config.maxStars ?? 5)
+      : 5
+
+  const currentValue = typeof field.value === "number" ? field.value : 0
+
+  return (
+    <Field data-invalid={error ? true : undefined}>
+      <FieldLabel>{fieldDef.label}</FieldLabel>
+      <div className="flex gap-1">
+        {Array.from({ length: maxStars }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => field.onChange(i + 1)}
+            className={
+              currentValue > i
+                ? "text-yellow-400"
+                : "text-muted-foreground/30"
+            }
+          >
+            <StarIcon className="size-6" />
+          </button>
+        ))}
+      </div>
+      {fieldDef.helperText && !error ? (
+        <FieldDescription>{fieldDef.helperText}</FieldDescription>
+      ) : null}
+      {error ? <FieldError>{error}</FieldError> : null}
+    </Field>
+  )
+}
+```
+
+### Step 3: Register in the component map
+
+The `defaultComponentMap` maps field types to components. Add your new field:
+
+```tsx title="components/forms/fields/index.ts"
+import { RatingField } from "./rating-field"
+
+export const defaultComponentMap: Record<
+  FieldType,
+  ComponentType<FieldProps>
+> = {
+  text: TextField,
+  textarea: TextareaField,
+  email: TextField,      // reuses TextField with type="email"
+  number: TextField,     // reuses TextField with type="number"
+  password: TextField,
+  url: TextField,
+  select: SelectField,
+  checkbox: CheckboxField,
+  radio: RadioField,
+  switch: SwitchField,
+  date: DateField,
+  rating: RatingField,   // NEW
+}
+```
+
+### Step 4: Add validation
+
+Add a case for your field type in the validation builder:
+
+```tsx title="lib/forms/validation.ts"
+case "rating": {
+  let schema = z.coerce.number()
+  const maxStars = configNum(cfg, "maxStars") ?? 5
+  schema = schema.min(1, "Please select a rating").max(maxStars)
+  return schema
+}
+```
+
+### Step 5: Use it
+
+```tsx
+const feedbackForm: FormSchema = {
+  fields: [
+    {
+      id: "rating",
+      type: "rating",
+      label: "How would you rate your experience?",
+      required: true,
+      config: { maxStars: 5 },
+    },
+    {
+      id: "comments",
+      type: "textarea",
+      label: "Any additional feedback?",
+    },
+  ],
+}
+```
+
+## Overriding Built-in Field Components
+
+You can replace any built-in component without modifying the source. Pass a `componentMap` to `FormRenderer`:
+
+```tsx
+import { FormRenderer } from "@/components/forms/form-renderer"
+import { MyCustomTextField } from "./my-custom-text-field"
+
+<FormRenderer
+  schema={schema}
+  onSubmit={handleSubmit}
+  componentMap={{ text: MyCustomTextField }}
+/>
+```
+
+Your custom component only needs to satisfy `FieldProps`. The merge is shallow — only the types you specify are overridden, the rest use defaults.
+
+## Supported Field Types
+
+| Type | Component | Value Type |
+|------|-----------|------------|
+| `text` | TextField | `string` |
+| `textarea` | TextareaField | `string` |
+| `email` | TextField | `string` |
+| `number` | TextField | `number` |
+| `password` | TextField | `string` |
+| `url` | TextField | `string` |
+| `select` | SelectField | `string` |
+| `checkbox` | CheckboxField | `boolean` |
+| `radio` | RadioField | `string` |
+| `switch` | SwitchField | `boolean` |
+| `date` | DateField | `Date` |
+| `file` | FileField | `string` (requires `--file-uploads`) |
+
+## Environment Variables
+
+None required.

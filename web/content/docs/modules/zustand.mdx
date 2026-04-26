@@ -1,0 +1,150 @@
+---
+title: Zustand
+description: Client state management with typed stores and devtools middleware.
+---
+
+## Overview
+
+Adds Zustand for lightweight client-side state management with TypeScript-first typed stores, Redux DevTools integration, and optional persistence.
+
+## Prerequisites
+
+None.
+
+## Installation
+
+```bash
+npx ds-start init my-app --zustand
+# or add to existing project
+npx ds-start add zustand
+```
+
+## What It Adds
+
+- `lib/stores/counter.ts` — Example typed store with devtools
+- `lib/stores/index.ts` — Barrel export for all stores
+
+## Environment Variables
+
+None required.
+
+## Usage
+
+### Creating a store
+
+Stores are defined with full type safety and devtools middleware:
+
+```tsx title="lib/stores/counter.ts"
+import { create } from "zustand"
+import { devtools } from "zustand/middleware"
+
+interface CounterState {
+  count: number
+  increment: () => void
+  decrement: () => void
+  reset: () => void
+}
+
+export const useCounterStore = create<CounterState>()(
+  devtools(
+    (set) => ({
+      count: 0,
+      increment: () => set((state) => ({ count: state.count + 1 })),
+      decrement: () => set((state) => ({ count: state.count - 1 })),
+      reset: () => set({ count: 0 }),
+    }),
+    { name: "counter" },
+  ),
+)
+```
+
+### Using in a component
+
+Select individual values to avoid unnecessary re-renders:
+
+```tsx
+"use client"
+
+import { useCounterStore } from "@/lib/stores"
+
+export function Counter() {
+  const count = useCounterStore((s) => s.count)
+  const increment = useCounterStore((s) => s.increment)
+  const decrement = useCounterStore((s) => s.decrement)
+  const reset = useCounterStore((s) => s.reset)
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  )
+}
+```
+
+### Adding persistence
+
+Use the `persist` middleware to save state to localStorage:
+
+```tsx
+import { create } from "zustand"
+import { devtools, persist } from "zustand/middleware"
+
+interface ThemeState {
+  theme: "light" | "dark"
+  toggle: () => void
+}
+
+export const useThemeStore = create<ThemeState>()(
+  devtools(
+    persist(
+      (set) => ({
+        theme: "light",
+        toggle: () =>
+          set((state) => ({
+            theme: state.theme === "light" ? "dark" : "light",
+          })),
+      }),
+      { name: "theme-storage" },
+    ),
+    { name: "theme" },
+  ),
+)
+```
+
+### Adding a new store
+
+1. Create a new file in `lib/stores/`:
+
+```tsx title="lib/stores/user.ts"
+import { create } from "zustand"
+import { devtools } from "zustand/middleware"
+
+interface UserState {
+  name: string | null
+  email: string | null
+  setUser: (name: string, email: string) => void
+  clearUser: () => void
+}
+
+export const useUserStore = create<UserState>()(
+  devtools(
+    (set) => ({
+      name: null,
+      email: null,
+      setUser: (name, email) => set({ name, email }),
+      clearUser: () => set({ name: null, email: null }),
+    }),
+    { name: "user" },
+  ),
+)
+```
+
+2. Export from the barrel file:
+
+```tsx title="lib/stores/index.ts"
+export { useCounterStore } from "./counter"
+export { useUserStore } from "./user"
+```

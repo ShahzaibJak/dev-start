@@ -1,0 +1,47 @@
+---
+title: Modules
+description: Browse all available ds-start modules — composable building blocks for your Next.js app.
+---
+
+Modules are composable building blocks that add specific functionality to your project. Each module is self-contained with its own files, dependencies, and environment variables.
+
+## Available Modules
+
+### Data & Auth
+
+| Module | Description | Prerequisites |
+|--------|-------------|---------------|
+| [Prisma](/docs/modules/prisma) | Prisma 6 ORM with PostgreSQL | None |
+| [Better Auth](/docs/modules/auth) | Email/password + OAuth authentication | Prisma |
+| [Clerk](/docs/modules/clerk) | Managed authentication with pre-built UI | None |
+| [Stripe](/docs/modules/stripe) | Subscription billing and payments | Auth or Clerk |
+
+### Features
+
+| Module | Description | Prerequisites |
+|--------|-------------|---------------|
+| [Email](/docs/modules/email) | Transactional email with Resend | None |
+| [File Uploads](/docs/modules/file-uploads) | S3-compatible file uploads | None |
+| [Zustand](/docs/modules/zustand) | Client state management | None |
+| [Forms](/docs/modules/forms) | JSON-driven form renderer | None |
+
+### DevOps
+
+| Module | Description | Prerequisites |
+|--------|-------------|---------------|
+| [GitHub Workflows](/docs/modules/github-workflows) | CI pipeline with GitHub Actions | None |
+| [Vercel Deploy](/docs/modules/vercel-deploy) | CD pipeline for Vercel | GitHub Workflows |
+
+## Adding Modules
+
+Use the `init` command with flags to include modules at project creation:
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe
+```
+
+Or add modules to an existing project:
+
+```bash
+npx ds-start add email
+```

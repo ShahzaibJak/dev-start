@@ -1,0 +1,164 @@
+---
+title: Better Auth
+description: Email/password and Google OAuth authentication with route protection.
+---
+
+## Overview
+
+Adds Better Auth with email/password login, Google OAuth, and server-side session validation. Sessions are stored in the database via the Prisma adapter.
+
+## Prerequisites
+
+- [Prisma](/docs/modules/prisma) module (Better Auth stores sessions in the database)
+
+## Installation
+
+```bash
+npx ds-start init my-app --prisma --auth
+```
+
+## What It Adds
+
+- `lib/auth.ts` — Better Auth server configuration
+- `lib/auth-client.ts` — Client-side auth helpers
+- `app/api/auth/[...all]/route.ts` — Auth API route handler
+- `app/(auth)/sign-in/page.tsx` — Sign-in page with form
+- `app/(auth)/sign-up/page.tsx` — Sign-up page with form
+- `app/dashboard/page.tsx` — Protected dashboard page
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `BETTER_AUTH_SECRET` | Auth encryption secret |
+| `BETTER_AUTH_URL` | Application URL for callbacks |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+
+## Usage
+
+### Server configuration
+
+```tsx title="lib/auth.ts"
+import { betterAuth } from "better-auth"
+import { prismaAdapter } from "better-auth/adapters/prisma"
+import { prisma } from "@/lib/prisma"
+
+export const auth = betterAuth({
+  appName: "Dev-Start",
+  database: prismaAdapter(prisma, {
+    provider: "postgresql",
+  }),
+  emailAndPassword: {
+    enabled: true,
+    sendResetPassword: async ({ user, url }) => {
+      console.log(`[auth] Password reset for ${user.email}: ${url}`)
+    },
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      enabled: Boolean(process.env.GOOGLE_CLIENT_ID),
+    },
+  },
+})
+```
+
+### Client setup
+
+```tsx title="lib/auth-client.ts"
+import { createAuthClient } from "better-auth/react"
+
+export const authClient = createAuthClient()
+```
+
+### API route handler
+
+```tsx title="app/api/auth/[...all]/route.ts"
+import { toNextJsHandler } from "better-auth/next-js"
+import { auth } from "@/lib/auth"
+
+export const { GET, POST } = toNextJsHandler(auth)
+```
+
+### Sign-in form
+
+```tsx
+"use client"
+
+import { authClient } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
+import { useState, useTransition } from "react"
+
+export function SignInForm() {
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isPending, startTransition] = useTransition()
+
+  function handleSubmit(formData: FormData) {
+    const email = formData.get("email")?.toString().trim() ?? ""
+    const password = formData.get("password")?.toString() ?? ""
+
+    startTransition(async () => {
+      setErrorMessage(null)
+      const result = await authClient.signIn.email({ email, password })
+
+      if (result.error) {
+        setErrorMessage(result.error.message ?? "Authentication failed.")
+        return
+      }
+
+      router.push("/dashboard")
+      router.refresh()
+    })
+  }
+
+  function handleGoogleSignIn() {
+    startTransition(async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      })
+    })
+  }
+
+  return (
+    <form action={handleSubmit}>
+      <input name="email" type="email" placeholder="Email" required />
+      <input name="password" type="password" placeholder="Password" required />
+      {errorMessage && <p>{errorMessage}</p>}
+      <button type="submit" disabled={isPending}>Sign in</button>
+      <button type="button" onClick={handleGoogleSignIn} disabled={isPending}>
+        Sign in with Google
+      </button>
+    </form>
+  )
+}
+```
+
+### Protecting a page (server-side)
+
+```tsx title="app/dashboard/page.tsx"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
+
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect("/sign-in")
+  }
+
+  return (
+    <main>
+      <p>Name: {session.user.name}</p>
+      <p>Email: {session.user.email}</p>
+      <p>Expires: {new Date(session.session.expiresAt).toLocaleString()}</p>
+    </main>
+  )
+}
+```

@@ -1,0 +1,205 @@
+---
+title: Email
+description: Transactional email with Resend and React Email templates.
+---
+
+## Overview
+
+Adds transactional email support using Resend as the provider and React Email for building type-safe email templates.
+
+## Prerequisites
+
+None.
+
+## Installation
+
+```bash
+npx ds-start init my-app --email
+# or add to existing project
+npx ds-start add email
+```
+
+## What It Adds
+
+- `lib/email.ts` — Resend SDK wrapper with typed send function
+- `emails/layout.tsx` — Shared email layout component
+- `emails/password-reset.tsx` — Password reset template
+- `emails/verification.tsx` — Email verification template
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `RESEND_API_KEY` | Resend API key |
+| `EMAIL_FROM` | Default sender email address |
+
+## Usage
+
+### Sending an email
+
+The `sendEmail` helper accepts a React Email template and typed props:
+
+```tsx
+import { sendEmail } from "@/lib/email"
+import { PasswordResetEmail } from "@/emails/password-reset"
+
+await sendEmail({
+  to: "user@example.com",
+  subject: "Reset your password",
+  template: PasswordResetEmail,
+  props: { url: "https://...", userName: "Alice" },
+})
+```
+
+### The send helper
+
+```tsx title="lib/email.ts"
+import type { JSX } from "react"
+import { Resend } from "resend"
+
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+interface SendEmailOptions<TProps extends Record<string, unknown>> {
+  to: string
+  subject: string
+  template: (props: TProps) => JSX.Element
+  props: TProps
+}
+
+export async function sendEmail<TProps extends Record<string, unknown>>(
+  options: SendEmailOptions<TProps>,
+) {
+  const { to, subject, template, props } = options
+  const emailComponent = template(props)
+
+  const { data, error } = await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? "onboarding@resend.dev",
+    to,
+    subject,
+    react: emailComponent,
+  })
+
+  if (error) {
+    throw new Error(`Failed to send email: ${error.message}`)
+  }
+
+  return { id: data?.id ?? "" }
+}
+```
+
+### Writing a template
+
+Templates are React components using `@react-email/components`:
+
+```tsx title="emails/password-reset.tsx"
+import { Button, Heading, Text } from "@react-email/components"
+import { EmailLayout } from "./layout"
+
+interface PasswordResetEmailProps {
+  url: string
+  userName: string
+}
+
+export function PasswordResetEmail({ url, userName }: PasswordResetEmailProps) {
+  return (
+    <EmailLayout preview="Reset your password">
+      <Heading style={{ fontSize: "24px", fontWeight: "bold", color: "#1a1a1a" }}>
+        Reset your password
+      </Heading>
+      <Text style={{ fontSize: "16px", lineHeight: "26px", color: "#484848" }}>
+        Hi {userName},
+      </Text>
+      <Text style={{ fontSize: "16px", lineHeight: "26px", color: "#484848" }}>
+        Someone requested a password reset for your account. If this was you,
+        click the button below.
+      </Text>
+      <Button
+        style={{
+          backgroundColor: "#171717",
+          borderRadius: "6px",
+          color: "#ffffff",
+          fontSize: "16px",
+          fontWeight: "bold",
+          padding: "12px 24px",
+        }}
+        href={url}
+      >
+        Reset Password
+      </Button>
+    </EmailLayout>
+  )
+}
+```
+
+### Shared email layout
+
+```tsx title="emails/layout.tsx"
+import {
+  Body,
+  Container,
+  Head,
+  Html,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components"
+
+interface EmailLayoutProps {
+  preview: string
+  children: React.ReactNode
+}
+
+export function EmailLayout({ preview, children }: EmailLayoutProps) {
+  return (
+    <Html>
+      <Head />
+      <Preview>{preview}</Preview>
+      <Body style={{ backgroundColor: "#f6f9fc" }}>
+        <Container style={{ margin: "0 auto", padding: "40px 0", maxWidth: "560px" }}>
+          <Section style={{ backgroundColor: "#ffffff", borderRadius: "8px", padding: "32px 40px" }}>
+            {children}
+          </Section>
+          <Text style={{ color: "#8898aa", fontSize: "12px", textAlign: "center", marginTop: "24px" }}>
+            Sent by Dev-Start
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  )
+}
+```
+
+### Integration with Better Auth
+
+When both `--email` and `--auth` are used, the auth config is automatically wired to send emails:
+
+```tsx title="lib/auth.ts"
+import { sendEmail } from "@/lib/email"
+import { PasswordResetEmail } from "@/emails/password-reset"
+import { VerificationEmail } from "@/emails/verification"
+
+export const auth = betterAuth({
+  emailAndPassword: {
+    enabled: true,
+    sendResetPassword: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: "Reset your password",
+        template: PasswordResetEmail,
+        props: { url, userName: user.name ?? "there" },
+      })
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: "Verify your email address",
+        template: VerificationEmail,
+        props: { url, userName: user.name ?? "there" },
+      })
+    },
+  },
+})
+```

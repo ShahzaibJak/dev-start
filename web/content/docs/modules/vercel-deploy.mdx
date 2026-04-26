@@ -1,0 +1,53 @@
+---
+title: Vercel Deploy
+description: Vercel CD pipeline with preview and production deployments.
+---
+
+## Overview
+
+Adds a Vercel continuous deployment pipeline that creates preview deployments on pull requests and production deployments on merge to main. Builds on the GitHub Workflows module.
+
+## Prerequisites
+
+- [GitHub Workflows](/docs/modules/github-workflows) module (implied automatically when using `--vercel-deploy`)
+
+## Installation
+
+```bash
+npx ds-start init my-app --vercel-deploy
+# or add to existing project
+npx ds-start add vercel-deploy
+```
+
+Using `--vercel-deploy` automatically implies `--github-workflows`.
+
+## What It Adds
+
+- `vercel.json` — Vercel project configuration
+- `.github/workflows/deploy.yml` — Deployment workflow
+
+## Environment Variables
+
+These are set as GitHub Actions secrets:
+
+| Variable | Description |
+|----------|-------------|
+| `VERCEL_TOKEN` | Vercel API token |
+| `VERCEL_ORG_ID` | Vercel organization ID |
+| `VERCEL_PROJECT_ID` | Vercel project ID |
+
+## Setup
+
+1. Install the Vercel CLI: `npm i -g vercel`
+2. Link your project: `vercel link`
+3. Copy the org and project IDs from `.vercel/project.json`
+4. Add `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` as GitHub Actions secrets
+
+## Usage
+
+Once configured, deployments happen automatically:
+
+- **Pull requests** → Preview deployment with a unique URL
+- **Merge to main** → Production deployment
+
+No manual deployment steps required.

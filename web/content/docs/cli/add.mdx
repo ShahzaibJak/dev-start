@@ -1,0 +1,63 @@
+---
+title: add
+description: Add a module to an existing ds-start or compatible Next.js project.
+---
+
+## Usage
+
+```bash
+npx ds-start add <module>
+```
+
+Run from inside a supported Next.js project to install a module. Auto-merges `package.json`, `.gitignore`, and `.env.schema`. Prompts for resolution on file-level conflicts only. Dependencies are not auto-installed.
+
+Best experience on ds-start projects and compatible App Router projects.
+
+## Available Modules
+
+| Module | Description |
+|--------|-------------|
+| `email` | Transactional email with Resend and React Email |
+| `file-uploads` | S3-compatible file uploads with presigned URLs |
+| `zustand` | Client state management with typed stores |
+| `forms` | JSON-driven form renderer with multiple view modes |
+| `github-workflows` | GitHub Actions CI pipeline |
+| `vercel-deploy` | Vercel CD pipeline with preview and production deploys |
+
+## Examples
+
+### Email Module
+
+```bash
+npx ds-start add email
+```
+
+### File Uploads
+
+```bash
+npx ds-start add file-uploads
+```
+
+### Zustand State Management
+
+```bash
+npx ds-start add zustand
+```
+
+### Forms Module
+
+```bash
+npx ds-start add forms
+```
+
+### CI Pipeline
+
+```bash
+npx ds-start add github-workflows
+```
+
+### Vercel CD
+
+```bash
+npx ds-start add vercel-deploy
+```

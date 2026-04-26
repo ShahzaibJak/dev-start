@@ -1,0 +1,30 @@
+---
+title: Flags
+description: All available flags for the ds-start init command.
+---
+
+## Init Flags
+
+All flags are optional and can be combined. When no flags are provided, you'll be prompted to select modules interactively.
+
+| Flag | Description |
+|------|-------------|
+| `--prisma` | Add Prisma 6 ORM with PostgreSQL and typed JSONB |
+| `--auth` | Add Better Auth with email/password, Google OAuth, and route protection. Requires `--prisma` |
+| `--clerk` | Add Clerk managed authentication with pre-built components and route protection. No database required |
+| `--stripe` | Add Stripe billing with subscription management, customer portal, and webhooks. Requires `--auth` or `--clerk` |
+| `--email` | Add transactional email with Resend and React Email templates |
+| `--file-uploads` | Add S3-compatible file uploads with presigned URLs. Works with AWS S3, Cloudflare R2, MinIO, Backblaze B2 |
+| `--zustand` | Add Zustand client state management with typed stores and devtools middleware |
+| `--forms` | Add JSON-driven form renderer with classic, conversational, and multistep view modes |
+| `--github-workflows` | Add GitHub Actions CI pipeline with lint, typecheck, build, and secret scanning |
+| `--vercel-deploy` | Add Vercel CD pipeline with preview and production deploys. Implies `--github-workflows` |
+| `-y, --yes` | Skip interactive prompts and use defaults (no extras) |
+
+## Module Dependencies
+
+Some modules have prerequisites:
+
+- `--auth` requires `--prisma` (Better Auth stores sessions in the database)
+- `--stripe` requires `--auth` or `--clerk` (billing needs user identity)
+- `--vercel-deploy` implies `--github-workflows` (CD builds on CI)

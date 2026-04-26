@@ -1,0 +1,42 @@
+---
+title: Installation
+description: Install ds-start globally or run directly with npx.
+---
+
+## Using npx (recommended)
+
+No installation required. Run directly:
+
+```bash
+npx ds-start init my-app
+```
+
+## Global Install
+
+Install globally for repeated use:
+
+```bash
+npm install -g ds-start
+```
+
+Then run without npx:
+
+```bash
+ds-start init my-app
+```
+
+## Requirements
+
+- **Node.js** 18 or later
+- **Bun** (recommended) or npm for package management
+
+## After Scaffolding
+
+```bash
+cd my-app
+bun run env:check    # Validate environment
+bun run dev          # Start dev server
+bun run build        # Production build
+bun run typecheck    # Verify types
+bun run lint         # Lint code
+```

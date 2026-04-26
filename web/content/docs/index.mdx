@@ -1,0 +1,40 @@
+---
+title: Documentation
+description: Everything you need to know about ds-start — the composable Next.js app kit.
+---
+
+## What is ds-start?
+
+ds-start is a CLI tool that scaffolds production-ready Next.js applications with a composable module system. Start with a solid foundation and add only what you need — authentication, payments, email, file uploads, and more.
+
+## Quick Start
+
+```bash
+npx ds-start init my-app
+```
+
+This scaffolds a new Next.js project with the full foundation stack. You'll be prompted to select optional modules.
+
+To add a module to an existing project:
+
+```bash
+npx ds-start add email
+```
+
+## Foundation Stack
+
+Every ds-start project includes:
+
+- **Next.js 15** — App Router, React Server Components, Turbopack
+- **TypeScript** — Strict mode, zero `any` tolerance
+- **Tailwind CSS 4** — Utility-first styling
+- **shadcn/ui** — Accessible component primitives
+- **Bun** — Fast package management and scripts
+- **ESLint + Prettier** — Consistent code quality
+
+## Next Steps
+
+- [Installation](/docs/getting-started/installation) — Install ds-start globally or use npx
+- [Quick Start](/docs/getting-started/quick-start) — Scaffold your first project
+- [CLI Reference](/docs/cli) — All commands and flags
+- [Modules](/docs/modules) — Browse available modules

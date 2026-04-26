@@ -1,0 +1,62 @@
+---
+title: Quick Start
+description: Scaffold a new project or add modules to an existing one in seconds.
+---
+
+## New Project
+
+Scaffold a new Next.js project with the foundation stack:
+
+```bash
+npx ds-start init my-app
+```
+
+You'll be prompted to select optional modules like authentication, payments, and email. Or specify them upfront:
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe --email
+```
+
+## Add a Module
+
+Run from inside a supported Next.js project to install a module:
+
+```bash
+npx ds-start add email
+```
+
+Auto-merges `package.json`, `.gitignore`, and `.env.schema`. Prompts only for real file conflicts. Dependencies are not auto-installed — run `bun install` after adding modules.
+
+## Example Configurations
+
+### Full Stack
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe --email --github-workflows
+```
+
+### Clerk Stack
+
+```bash
+npx ds-start init my-app --clerk --stripe --email --file-uploads
+```
+
+### API-Focused
+
+```bash
+npx ds-start init my-app --prisma --github-workflows
+```
+
+### Everything
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe --email --file-uploads --zustand --forms --github-workflows --vercel-deploy
+```
+
+### Skip Prompts
+
+```bash
+npx ds-start init my-app -y
+```
+
+Uses defaults with no extras selected.

@@ -1,0 +1,96 @@
+---
+title: Prisma
+description: Prisma 6 ORM with PostgreSQL and typed JSONB support.
+---
+
+## Overview
+
+Adds Prisma 6 ORM configured for PostgreSQL with the `@prisma/adapter-pg` driver adapter. Provides the database layer that other modules (Auth, Stripe) build on.
+
+## Prerequisites
+
+None.
+
+## Installation
+
+```bash
+npx ds-start init my-app --prisma
+```
+
+## What It Adds
+
+- `prisma/schema.prisma` — Base schema with User model
+- `prisma.config.ts` — Prisma configuration
+- `lib/prisma.ts` — Database client singleton
+- `generated/prisma/` — Generated Prisma client
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string |
+
+## Usage
+
+### Database client
+
+The client uses a global singleton pattern to avoid creating multiple connections in development:
+
+```tsx title="lib/prisma.ts"
+import "dotenv/config"
+import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "@/generated/prisma/client"
+
+const connectionString = process.env.DATABASE_URL
+
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set")
+}
+
+const globalForPrisma = globalThis as typeof globalThis & {
+  prisma?: PrismaClient
+}
+
+function createPrismaClient() {
+  const adapter = new PrismaPg({ connectionString })
+  return new PrismaClient({ adapter })
+}
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient()
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma
+}
+```
+
+### Prisma config
+
+```tsx title="prisma.config.ts"
+import "dotenv/config"
+import { defineConfig, env } from "prisma/config"
+
+export default defineConfig({
+  schema: "prisma/schema.prisma",
+  migrations: { path: "prisma/migrations" },
+  datasource: { url: env("DATABASE_URL") },
+})
+```
+
+### Querying data
+
+```tsx
+import { prisma } from "@/lib/prisma"
+
+// In a server component or API route
+const users = await prisma.user.findMany()
+const user = await prisma.user.findUnique({ where: { id: "..." } })
+```
+
+### Scripts
+
+```bash
+bun run db:generate   # Generate Prisma client
+bun run db:push       # Push schema to database
+bun run db:migrate    # Run migrations
+bun run db:studio     # Open Prisma Studio
+```

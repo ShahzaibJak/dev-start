@@ -1,0 +1,63 @@
+---
+title: init
+description: Scaffold a new Next.js project with the ds-start foundation stack.
+---
+
+## Usage
+
+```bash
+npx ds-start init <project-name> [flags]
+```
+
+Scaffolds a new Next.js project in the specified directory with the full foundation stack. You'll be prompted to select optional modules unless flags are provided.
+
+## Examples
+
+### Minimal
+
+```bash
+npx ds-start init my-app
+```
+
+### Full Stack
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe --email --github-workflows
+```
+
+### Clerk Stack
+
+```bash
+npx ds-start init my-app --clerk --stripe --email --file-uploads
+```
+
+### API-Focused
+
+```bash
+npx ds-start init my-app --prisma --github-workflows
+```
+
+### Everything
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe --email --file-uploads --zustand --forms --github-workflows --vercel-deploy
+```
+
+### Skip Prompts
+
+```bash
+npx ds-start init my-app -y
+```
+
+Uses defaults with no extras selected.
+
+## What It Creates
+
+The `init` command generates a complete Next.js project with:
+
+- Next.js App Router with TypeScript (strict mode)
+- Tailwind CSS 4 + shadcn/ui
+- Bun as the package manager
+- ESLint + Prettier configuration
+- Environment validation setup
+- Any selected optional modules

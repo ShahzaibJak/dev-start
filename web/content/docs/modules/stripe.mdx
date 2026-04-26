@@ -1,0 +1,188 @@
+---
+title: Stripe
+description: Subscription billing with customer portal and webhook handling.
+---
+
+## Overview
+
+Adds Stripe billing with subscription management, plan-based access control, and a billing page. Integrates directly with Better Auth or Clerk for user identity.
+
+## Prerequisites
+
+- [Better Auth](/docs/modules/auth) or [Clerk](/docs/modules/clerk) module (billing needs user identity)
+
+## Installation
+
+```bash
+npx ds-start init my-app --prisma --auth --stripe
+# or with Clerk
+npx ds-start init my-app --clerk --stripe
+```
+
+## What It Adds
+
+- `lib/billing.ts` — Plan helpers (get current plan, check limits)
+- `app/billing/page.tsx` — Billing management page
+- `app/billing/actions.ts` — Server actions for upgrade/cancel
+- `components/billing-actions.tsx` — Plan cards and subscription management UI
+- `components/pricing-card.tsx` — Pricing card component
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `STRIPE_SECRET_KEY` | Stripe secret API key |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
+
+## Usage
+
+### Auth + Stripe configuration (Better Auth)
+
+The Better Auth Stripe plugin handles customer creation, subscriptions, and webhooks:
+
+```tsx title="lib/auth.ts"
+import { betterAuth } from "better-auth"
+import { stripe } from "@better-auth/stripe"
+import Stripe from "stripe"
+
+const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY ?? "")
+
+export const auth = betterAuth({
+  plugins: [
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? "",
+      createCustomerOnSignUp: true,
+      subscription: {
+        enabled: true,
+        plans: [
+          {
+            name: "free",
+            priceId: "price_free_placeholder",
+            limits: { projects: 3 },
+          },
+          {
+            name: "pro",
+            priceId: "price_pro_placeholder",
+            limits: { projects: 25 },
+          },
+          {
+            name: "enterprise",
+            priceId: "price_enterprise_placeholder",
+            limits: { projects: 100 },
+          },
+        ],
+      },
+    }),
+  ],
+})
+```
+
+### Billing helpers
+
+Check the current user's plan and limits on the server:
+
+```tsx title="lib/billing.ts"
+import { headers } from "next/headers"
+import { auth } from "@/lib/auth"
+
+const PLAN_LIMITS: Record<string, { projects: number }> = {
+  free: { projects: 3 },
+  pro: { projects: 25 },
+  enterprise: { projects: 100 },
+}
+
+export async function getPlanName(): Promise<string> {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) return "free"
+
+  const subscriptions = await auth.api.listActiveSubscriptions({
+    headers: await headers(),
+  })
+
+  return subscriptions?.[0]?.plan ?? "free"
+}
+
+export async function getSubscriptionLimits() {
+  const planName = await getPlanName()
+  return PLAN_LIMITS[planName] ?? { projects: 3 }
+}
+
+export async function isOnPlan(planName: string): Promise<boolean> {
+  const currentPlan = await getPlanName()
+  return currentPlan === planName
+}
+```
+
+### Billing page
+
+```tsx title="app/billing/page.tsx"
+import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
+import { getPlanName, getSubscriptionLimits } from "@/lib/billing"
+import { BillingActions } from "@/components/billing-actions"
+
+export default async function BillingPage() {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) redirect("/sign-in")
+
+  const currentPlan = await getPlanName()
+  const limits = await getSubscriptionLimits()
+
+  return (
+    <main>
+      <h1>Billing</h1>
+      <section>
+        <p>Current plan: <strong>{currentPlan}</strong></p>
+        <p>{limits.projects} projects included</p>
+      </section>
+      <BillingActions currentPlan={currentPlan} />
+    </main>
+  )
+}
+```
+
+### Server actions for plan management
+
+```tsx title="app/billing/actions.ts"
+"use server"
+
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
+
+export async function upgradePlan(planName: string) {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) redirect("/sign-in")
+
+  await auth.api.upgradeSubscription({
+    body: { plan: planName },
+    headers: await headers(),
+  })
+}
+
+export async function cancelPlan() {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) redirect("/sign-in")
+
+  await auth.api.cancelSubscription({
+    body: { returnUrl: "/billing" },
+    headers: await headers(),
+  })
+}
+```
+
+### Gating features by plan
+
+```tsx
+import { getSubscriptionLimits, isOnPlan } from "@/lib/billing"
+
+export default async function ProjectsPage() {
+  const limits = await getSubscriptionLimits()
+  const isPro = await isOnPlan("pro")
+
+  // Use limits.projects to cap resource creation
+  // Use isPro to show/hide premium features
+}
+```

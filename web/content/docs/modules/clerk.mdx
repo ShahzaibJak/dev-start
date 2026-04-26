@@ -1,0 +1,123 @@
+---
+title: Clerk
+description: Managed authentication with pre-built components and route protection.
+---
+
+## Overview
+
+Adds Clerk for managed authentication with pre-built UI components, social login, and middleware-based route protection. No database required — Clerk handles user storage.
+
+## Prerequisites
+
+None.
+
+## Installation
+
+```bash
+npx ds-start init my-app --clerk
+```
+
+## What It Adds
+
+- Root layout wrapped with `ClerkProvider`
+- `middleware.ts` — Route protection with `clerkMiddleware`
+- `app/(auth)/sign-in/[[...sign-in]]/page.tsx` — Sign-in page
+- `app/(auth)/sign-up/[[...sign-up]]/page.tsx` — Sign-up page
+- `app/dashboard/page.tsx` — Protected dashboard page
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk publishable key |
+| `CLERK_SECRET_KEY` | Clerk secret key |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Sign-in page URL |
+| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | Sign-up page URL |
+
+## Usage
+
+### Middleware for route protection
+
+```tsx title="middleware.ts"
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"])
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect()
+  }
+})
+
+export const config = {
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+  ],
+}
+```
+
+### Root layout with ClerkProvider
+
+```tsx title="app/layout.tsx"
+import { ClerkProvider } from "@clerk/nextjs"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <ClerkProvider>
+      <html>
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
+  )
+}
+```
+
+### Protected page (server-side)
+
+```tsx title="app/dashboard/page.tsx"
+import { currentUser } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
+
+export default async function DashboardPage() {
+  const user = await currentUser()
+
+  if (!user) {
+    redirect("/sign-in")
+  }
+
+  return (
+    <main>
+      <p>Name: {user.firstName} {user.lastName}</p>
+      <p>Email: {user.emailAddresses[0]?.emailAddress}</p>
+    </main>
+  )
+}
+```
+
+### Pre-built components
+
+Clerk provides ready-made UI components:
+
+```tsx
+import { SignIn } from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
+
+// Full sign-in page
+export default function SignInPage() {
+  return <SignIn />
+}
+
+// User avatar with dropdown menu
+export function Header() {
+  return (
+    <nav>
+      <UserButton afterSignOutUrl="/" />
+    </nav>
+  )
+}
+```

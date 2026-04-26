@@ -1,0 +1,15 @@
+{
+  "title": "Modules",
+  "pages": [
+    "prisma",
+    "auth",
+    "clerk",
+    "stripe",
+    "email",
+    "file-uploads",
+    "zustand",
+    "forms",
+    "github-workflows",
+    "vercel-deploy"
+  ]
+}
