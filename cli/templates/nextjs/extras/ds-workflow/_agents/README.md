@@ -1,6 +1,6 @@
 # Agent Workflows
 
-Adds the Dev Start workflow system for structured AI-assisted development.
+Adds the ds-start workflow system for structured AI-assisted development.
 
 ## Key Files
 

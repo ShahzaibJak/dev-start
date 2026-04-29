@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  The composable Next.js app kit. Production-ready foundation with installable modules.
+  The composable Next.js app kit. Production-ready foundation with composable modules and agent workflows.
 </p>
 
 <p align="center">
@@ -48,7 +48,13 @@ npx ds-start init my-app -y
 
 ## Why ds-start
 
-ds-start gives you two things: a **production-ready foundation** to start new projects from, and **installable modules** you can add to existing apps. Both flows share the same templates, the same conventions, and the same agent workflows.
+ds-start gives you a **production-ready foundation**, **composable modules**, and **agent workflows** that share the same project conventions.
+
+### Why not just ask Claude or Codex?
+
+You should. ds-start gives them a better starting point.
+
+AI coding agents are most useful when they can work on product features. ds-start handles the repeatable setup — auth, email, forms, uploads, billing, CI, deploys, env validation, and repo conventions — so Claude, Codex, and other agents can build real features sooner.
 
 ## What You Get
 
@@ -95,7 +101,7 @@ Plus domain skills: `/next-ts-api` for type-safe APIs, `/vercel-react-best-pract
 
 ## Modules
 
-Modules are opt-in layers that compose on top of the base foundation.
+Modules are pre-integrated app features that compose on top of the base foundation. They follow the same conventions as the scaffolded app, so your agent can extend known code instead of inventing integrations from scratch.
 
 ### [Prisma](https://www.prisma.io) (`--prisma`)
 
@@ -238,7 +244,7 @@ cli/
     index.ts                  # Entry point
     commands/
       create.ts               # Scaffold logic (init subcommand)
-      add.ts                  # Add extras to existing projects
+      add.ts                  # Add modules to existing projects
     helpers/
       conflict.ts             # Conflict detection, resolution, and apply
       detect-project.ts       # Project root validation
@@ -248,7 +254,7 @@ cli/
   templates/
     nextjs/
       base/                   # Base Next.js template
-      extras/                 # Composable extras (prisma, better-auth, etc.)
+      extras/                 # Internal module overlays (prisma, better-auth, etc.)
   dist/                       # Build output (tsup)
 scripts/                      # Verification scripts
 ```

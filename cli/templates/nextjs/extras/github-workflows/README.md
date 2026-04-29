@@ -17,4 +17,4 @@ Adds a GitHub Actions CI workflow for automated quality checks on every push and
 
 ## Next Steps
 
-This extra is intentionally CI-only. It does not add deployment, release automation, or secrets management. Extend the workflow as your project grows.
+This module is intentionally CI-only. It does not add deployment, release automation, or secrets management. Extend the workflow as your project grows.

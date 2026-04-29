@@ -80,7 +80,7 @@ const baseStack = [
   },
 ] satisfies ReadonlyArray<{ name: string; detail: string; href: string }>
 
-const extras = [
+const modules = [
   {
     flag: "--prisma",
     name: "Prisma",
@@ -218,7 +218,7 @@ export default function FeaturesPage(): React.ReactNode {
           Modules
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Installable layers that compose on top of the foundation. Include them at scaffold time with flags, or add them to an existing project later.
+          Pre-integrated app features that compose on top of the foundation. Include them at scaffold time with flags, or add them to an existing project later.
         </p>
         <div className="mt-4 rounded-lg border border-dashed bg-muted/30 px-4 py-3">
           <p className="text-sm font-medium">Add to an existing project</p>
@@ -229,12 +229,12 @@ export default function FeaturesPage(): React.ReactNode {
           </p>
         </div>
         <div className="mt-4 grid gap-4">
-          {extras.map((extra) => (
-            <Card key={extra.flag}>
+          {modules.map((module) => (
+            <Card key={module.flag}>
               <CardContent className="flex items-start gap-4 p-6">
-                {toolLogos[extra.name] ? (
+                {toolLogos[module.name] ? (
                   <img
-                    src={toolLogos[extra.name]}
+                    src={toolLogos[module.name]}
                     alt=""
                     width={24}
                     height={24}
@@ -244,19 +244,19 @@ export default function FeaturesPage(): React.ReactNode {
                 <div>
                   <div className="flex items-center gap-3">
                     <a
-                      href={extra.href}
+                      href={module.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-medium hover:underline"
                     >
-                      {extra.name}
+                      {module.name}
                     </a>
                     <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
-                      {extra.flag}
+                      {module.flag}
                     </code>
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {extra.description}
+                    {module.description}
                   </p>
                 </div>
               </CardContent>

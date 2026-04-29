@@ -2,6 +2,8 @@
 
 Production-ready Next.js, wired in from the start.
 
+This project includes stack conventions, quality gates, and agent workflows so AI coding assistants can work on product features instead of setup.
+
 ## Quick Start
 
 ```bash
@@ -54,7 +56,7 @@ types/                # Generated types (next-ts-api)
 
 ## AI Workflow
 
-This project includes a `CLAUDE.md` with stack conventions, quality gates, and available skills. If the `ds-workflow` extra is installed, plans and handoffs live in `.claude/plans/` and `.claude/handoffs/`.
+This project includes a `CLAUDE.md` with stack conventions, quality gates, and available skills. If the `ds-workflow` module is installed, plans and handoffs live in `.claude/plans/` and `.claude/handoffs/`.
 
 ## Adding Components
 

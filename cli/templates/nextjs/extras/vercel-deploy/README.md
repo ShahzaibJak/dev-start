@@ -1,4 +1,4 @@
-# Vercel Deploy Extra
+# Vercel Deploy
 
 Adds a GitHub Actions CD workflow (`cd.yml`) that deploys your Next.js app to Vercel using the Vercel CLI.
 

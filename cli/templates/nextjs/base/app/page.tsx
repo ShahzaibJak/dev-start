@@ -133,11 +133,11 @@ const features = [
   },
   {
     label: "Agentic coding flows",
-    detail: "Built-in skills for plan-driven development. Your AI coding assistant understands your project conventions, runs quality gates, and follows structured workflows out of the box.",
+    detail: "Built-in skills for plan-driven development. Your AI coding assistant gets project conventions, quality gates, plans, reviews, and handoffs out of the box.",
   },
   {
     label: "Production tooling",
-    detail: "oxlint, oxfmt, strict TypeScript, Husky pre-commit hooks, and optional extras for Prisma, auth, CI/CD — all wired up from the first commit.",
+    detail: "oxlint, oxfmt, strict TypeScript, Husky pre-commit hooks, and optional modules for Prisma, auth, CI/CD — all wired up from the first commit.",
   },
 ]
 
@@ -169,14 +169,14 @@ export default function Page() {
         {/* Hero */}
         <section className="flex flex-col gap-6">
           <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            AI-native &middot; type-safe &middot; production-ready
+            agent-ready &middot; type-safe &middot; production-ready
           </p>
           <h1 className="text-[clamp(2rem,5vw,3.25rem)] leading-[1.1] font-semibold tracking-tight text-balance">
             Ship faster with types from DB&nbsp;to&nbsp;UI and AI that knows your&nbsp;codebase.
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-            ds-start scaffolds a Next.js app with end-to-end type safety, agentic coding
-            flows, and production tooling. No boilerplate cleanup&nbsp;needed.
+            ds-start scaffolded this app with end-to-end type safety, agent
+            workflows, and production tooling. No setup cleanup&nbsp;needed.
           </p>
         </section>
 
@@ -228,7 +228,7 @@ export default function Page() {
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Built-in skills that guide your AI assistant through a structured development
-              cycle.
+              cycle with project conventions, quality gates, and handoffs.
             </p>
           </div>
           <div className="flex flex-col gap-3">

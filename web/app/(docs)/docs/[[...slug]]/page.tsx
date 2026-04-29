@@ -7,10 +7,7 @@ import {
 } from "fumadocs-ui/layouts/docs/page"
 import { notFound } from "next/navigation"
 import { getMDXComponents } from "@/components/mdx"
-import {
-  MarkdownCopyButton,
-  ViewOptionsPopover,
-} from "@/components/ai/page-actions"
+import { ViewOptionsPopover } from "@/components/ai/page-actions"
 import type { Metadata } from "next"
 
 interface PageProps {
@@ -33,7 +30,6 @@ export default async function Page(props: PageProps): Promise<React.ReactNode> {
           <DocsDescription>{page.data.description}</DocsDescription>
         </div>
         <div className="flex shrink-0 items-center gap-2 pt-1">
-          <MarkdownCopyButton markdownUrl={markdownUrl} />
           <ViewOptionsPopover markdownUrl={markdownUrl} pageUrl={page.url} />
         </div>
       </div>

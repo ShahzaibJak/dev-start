@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | ds-start",
   },
   description:
-    "The composable Next.js app kit. Production-ready foundation with installable modules and agent-ready workflows.",
+    "The composable Next.js app kit. Production-ready foundation with composable modules and agent workflows.",
   metadataBase: new URL(siteUrl),
   keywords: [
     "next.js",
@@ -42,6 +42,7 @@ export const metadata: Metadata = {
     "cli",
     "agentic",
     "claude",
+    "codex",
   ],
   authors: [{ name: "Shahzaib Jak", url: "https://github.com/shahzaibjak" }],
   creator: "Shahzaib Jak",
@@ -52,14 +53,14 @@ export const metadata: Metadata = {
     siteName: "ds-start",
     title: "ds-start — The composable Next.js app kit",
     description:
-      "Production-ready foundation with installable modules and agent-ready workflows.",
+      "Production-ready foundation with composable modules and agent workflows.",
     images: [{ url: "/logo.svg", width: 320, height: 64, alt: "ds-start" }],
   },
   twitter: {
     card: "summary",
     title: "ds-start — The composable Next.js app kit",
     description:
-      "Production-ready foundation with installable modules and agent-ready workflows.",
+      "Production-ready foundation with composable modules and agent workflows.",
     images: ["/logo.svg"],
   },
   robots: {

@@ -5,7 +5,7 @@ description: Managed authentication with pre-built components and route protecti
 
 ## Overview
 
-Adds Clerk for managed authentication with pre-built UI components, social login, and middleware-based route protection. No database required — Clerk handles user storage.
+Adds Clerk for managed authentication with pre-built UI components, social login, and route protection. No database required — Clerk handles user storage.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ npx ds-start init my-app --clerk
 ## What It Adds
 
 - Root layout wrapped with `ClerkProvider`
-- `middleware.ts` — Route protection with `clerkMiddleware`
+- `proxy.ts` — Route protection with `clerkMiddleware`
 - `app/(auth)/sign-in/[[...sign-in]]/page.tsx` — Sign-in page
 - `app/(auth)/sign-up/[[...sign-up]]/page.tsx` — Sign-up page
 - `app/dashboard/page.tsx` — Protected dashboard page
@@ -36,9 +36,9 @@ npx ds-start init my-app --clerk
 
 ## Usage
 
-### Middleware for route protection
+### Proxy for route protection
 
-```tsx title="middleware.ts"
+```tsx title="proxy.ts"
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"])

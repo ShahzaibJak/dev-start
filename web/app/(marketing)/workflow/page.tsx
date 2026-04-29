@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 export const metadata: Metadata = {
   title: "Agentic Workflow",
   description:
-    "Built-in skills that guide your AI assistant through a structured development cycle.",
+    "Built-in skills that give AI assistants project conventions, quality gates, plans, reviews, and handoffs.",
 }
 
 const steps = [
@@ -132,6 +132,11 @@ export default function WorkflowPage(): React.ReactNode {
             </code>{" "}
             in Claude Code), your AI assistant loads the skill&apos;s instructions
             and follows the defined workflow.
+          </p>
+          <p>
+            The workflow keeps project conventions, quality gates, planning,
+            review expectations, and handoffs in the repo so they do not need to
+            be re-explained every session.
           </p>
           <p>
             Plans are saved as markdown files in{" "}

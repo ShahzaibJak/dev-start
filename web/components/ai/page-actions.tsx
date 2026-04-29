@@ -1,95 +1,13 @@
 "use client"
 
+import { type ReactNode, useState } from "react"
 import {
-  type MouseEventHandler,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
-import {
-  Check,
   ChevronDown,
-  Copy,
   ExternalLinkIcon,
   TextIcon,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-
-const cache = new Map<string, Promise<string>>()
-
-function useCopyButton(
-  onCopy: () => void | Promise<void>,
-): [checked: boolean, onClick: MouseEventHandler] {
-  const [checked, setChecked] = useState(false)
-  const callbackRef = useRef(onCopy)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  callbackRef.current = onCopy
-
-  const onClick = useCallback(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    void Promise.resolve(callbackRef.current()).then(() => {
-      setChecked(true)
-      timeoutRef.current = setTimeout(() => {
-        setChecked(false)
-      }, 1500)
-    })
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [])
-
-  return [checked, onClick]
-}
-
-export function MarkdownCopyButton({
-  markdownUrl,
-  className,
-}: {
-  markdownUrl: string
-  className?: string
-}): ReactNode {
-  const [isLoading, setLoading] = useState(false)
-  const [checked, onClick] = useCopyButton(async () => {
-    const cached = cache.get(markdownUrl)
-    if (cached) return navigator.clipboard.writeText(await cached)
-
-    setLoading(true)
-    try {
-      const promise = fetch(markdownUrl).then((res) => res.text())
-      cache.set(markdownUrl, promise)
-      await navigator.clipboard.write([
-        new ClipboardItem({ "text/plain": promise }),
-      ])
-    } finally {
-      setLoading(false)
-    }
-  })
-
-  return (
-    <button
-      disabled={isLoading}
-      onClick={onClick}
-      className={cn(
-        buttonVariants({
-          variant: "secondary",
-          size: "sm",
-          className:
-            "gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
-        }),
-        className,
-      )}
-    >
-      {checked ? <Check /> : <Copy />}
-      Copy Markdown
-    </button>
-  )
-}
 
 interface ViewOption {
   title: string

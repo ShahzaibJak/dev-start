@@ -1,6 +1,6 @@
 # ds-start
 
-The composable Next.js app kit. Start from a production-ready foundation or add modules to an existing app.
+The composable Next.js app kit. Start from a production-ready foundation or add composable modules to an existing app.
 
 ## Quick Start
 
@@ -33,11 +33,19 @@ npx ds-start init my-app -y
 
 ## Why ds-start?
 
+ds-start gives you a production-ready foundation, composable modules, and agent workflows that share the same project conventions.
+
+### Why not just ask Claude or Codex?
+
+You should. ds-start gives them a better starting point.
+
+AI coding agents are most useful when they can work on product features. ds-start handles the repeatable setup — auth, email, forms, uploads, billing, CI, deploys, env validation, and repo conventions — so Claude, Codex, and other agents can build real features sooner.
+
 **Production-ready foundation** — Not a toy starter. You get strict TypeScript, oxlint + oxfmt, Husky pre-commit hooks running lint + format + typecheck, and GitHub Actions CI — all wired up and working from the first commit.
 
 **End-to-end type safety** — Types flow from your database schema through server actions to client components. [Prisma](https://www.prisma.io) generates types from your DB, [next-ts-api](https://github.com/zahinafsar/next-ts-api) ensures your API routes and clients share the same contract, and [varlock](https://varlock.dev) validates environment variables at build time. No `any`, no runtime surprises.
 
-**Installable modules** — Auth, email, payments, forms, file uploads, and more. Add them at scaffold time or bolt them onto an existing app later. Same templates, same conventions, same result.
+**Composable modules** — Auth, email, payments, forms, file uploads, and more. Add them at scaffold time or bolt them onto an existing app later. Same templates, same conventions, same result.
 
 **Agent-ready workflows** — Every project ships with structured workflows for coding agents. A development cycle — `/start-prd` to plan, `/start-work` to build, `/handoff` to preserve context, `/start-review` to verify, `/start-pr` to ship — so your coding agent understands project conventions from the first prompt.
 
@@ -80,7 +88,7 @@ Plus domain skills: `/next-ts-api` for type-safe APIs, `/vercel-react-best-pract
 
 ### Modules
 
-Installable layers that compose on top of the foundation.
+Pre-integrated app features that compose on top of the foundation.
 
 **[Prisma](https://www.prisma.io)** (`--prisma`) — Prisma 6 ORM with PostgreSQL, PrismaPg adapter, typed JSONB via `prisma-json-types-generator`, and a singleton client.
 

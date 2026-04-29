@@ -25,7 +25,7 @@ export default function AboutPage(): React.ReactNode {
             up Next.js projects, wiring up the same strict TypeScript config, the same
             oxlint and oxfmt setup, the same pre-commit hooks, the same env
             validation, the same API route patterns. Every new project started with
-            hours of boilerplate before I could write a single feature.
+            hours of setup before I could write a product feature.
           </p>
           <p>
             Worse, every time I started a new AI coding session, I had to re-explain
@@ -43,6 +43,22 @@ export default function AboutPage(): React.ReactNode {
             always at scaffold time. So ds-start became composable: a foundation you
             start from, plus modules you can install later. Same templates, same
             conventions, whether you scaffold fresh or add to an existing app.
+          </p>
+        </div>
+      </section>
+
+      {/* Agents */}
+      <section className="mt-12">
+        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+          Why not just ask Claude or Codex?
+        </h2>
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
+          <p>You should. ds-start gives them a better starting point.</p>
+          <p>
+            AI coding agents are most useful when they can work on product
+            features. ds-start handles the repeatable setup — auth, email, forms,
+            uploads, billing, CI, deploys, env validation, and repo conventions —
+            so your agent can build real features sooner.
           </p>
         </div>
       </section>

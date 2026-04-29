@@ -17,13 +17,13 @@ const shipped = [
   {
     title: "Email (Resend + React Email)",
     description:
-      "Lightweight email extra with Resend for delivery and React Email for type-safe, previewable templates. Transactional emails — welcome, password reset, invitations — ready out of the box.",
+      "Lightweight email module with Resend for delivery and React Email for type-safe, previewable templates. Transactional emails — welcome, password reset, invitations — ready out of the box.",
     status: "shipped",
   },
   {
     title: "File Uploads (S3-Compatible)",
     description:
-      "File upload extra with presigned URLs and type-safe config. Works with any S3-compatible store — AWS S3, Cloudflare R2, MinIO, Backblaze B2.",
+      "File upload module with presigned URLs and type-safe config. Works with any S3-compatible store — AWS S3, Cloudflare R2, MinIO, Backblaze B2.",
     status: "shipped",
   },
   {

@@ -15,7 +15,7 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Dev Start",
-  description: "AI-native Next.js starter with production-grade tooling",
+  description: "Composable Next.js app kit with production-grade tooling",
 }
 
 export default function RootLayout({

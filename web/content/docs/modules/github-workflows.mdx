@@ -5,7 +5,7 @@ description: GitHub Actions CI pipeline with lint, typecheck, build, and secret 
 
 ## Overview
 
-Adds a GitHub Actions CI pipeline that runs on every push and pull request. Includes linting, type checking, build verification, and secret scanning.
+Adds a GitHub Actions CI pipeline for linting, type checking, build verification, and secret scanning.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ npx ds-start add github-workflows
 ## Pipeline Steps
 
 1. **Install** — Install dependencies with Bun
-2. **Lint** — Run ESLint checks
+2. **Lint** — Run oxlint checks
 3. **Typecheck** — Run TypeScript strict mode check
 4. **Build** — Verify production build succeeds
 5. **Secret Scan** — Scan for accidentally committed secrets
