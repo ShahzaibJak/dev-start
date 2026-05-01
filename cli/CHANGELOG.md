@@ -1,5 +1,11 @@
 # ds-start
 
+## 0.3.0
+
+### Minor Changes
+
+- 23660f2: Add interactive init wizard with three scaffold paths (recommended production starter, app with auth, base app), shared module/preset definitions, and --base flag. Align brand language across CLI and templates.
+
 ## 0.2.0
 
 ### Minor Changes
