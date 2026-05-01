@@ -50,7 +50,7 @@ export async function promptSelect(
 ): Promise<string> {
   const value = await consola.prompt(message, {
     type: "select",
-    options,
+    options: [...options],
     initial,
   });
 
