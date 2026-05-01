@@ -5,10 +5,11 @@ description: All available flags for the ds-start init command.
 
 ## Init Flags
 
-All flags are optional and can be combined. When no flags are provided, you'll be prompted to select modules interactively.
+All flags are optional. When no module flags are provided, the interactive wizard guides you through three build paths: recommended production starter, app with auth, or base app.
 
 | Flag | Description |
 |------|-------------|
+| `--base` | Scaffold the foundation only, no modules. Cannot be combined with module flags |
 | `--prisma` | Add Prisma 6 ORM with PostgreSQL and typed JSONB |
 | `--auth` | Add Better Auth with email/password, Google OAuth, and route protection. Requires `--prisma` |
 | `--clerk` | Add Clerk managed authentication with pre-built components and route protection. No database required |
@@ -19,7 +20,16 @@ All flags are optional and can be combined. When no flags are provided, you'll b
 | `--forms` | Add JSON-driven form renderer with classic, conversational, and multistep view modes |
 | `--github-workflows` | Add GitHub Actions CI pipeline with lint, typecheck, build, and secret scanning |
 | `--vercel-deploy` | Add Vercel CD pipeline with preview and production deploys. Implies `--github-workflows` |
-| `-y, --yes` | Skip interactive prompts and use defaults (no modules) |
+| `-y, --yes` | Skip the wizard and apply the recommended production preset (Prisma, Better Auth, email, GitHub Actions CI) |
+
+## `--base` vs `-y`
+
+These two flags represent opposite ends of the spectrum:
+
+- **`--base`** — Foundation only, zero modules. The minimal starting point.
+- **`-y`** — The recommended production preset with Prisma, Better Auth, email, and GitHub Actions CI. No prompts.
+
+Without either flag, the interactive wizard lets you choose your path.
 
 ## Module Dependencies
 

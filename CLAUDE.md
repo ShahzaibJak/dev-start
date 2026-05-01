@@ -41,6 +41,9 @@ bun run build       # tsup
 - Use `satisfies` operator over `as` for type validation
 - Escape hatch: append `// type-ok` to a line ONLY when absolutely unavoidable (third-party API mismatch, etc.)
 
+## Web UI Patterns
+See `web/design.md` for the marketing site design system — section structure, background layers, card styles, typography rules, and spacing. Follow these patterns for all UI work in `web/app/(marketing)/`.
+
 ## Conventions
 - **File naming:** kebab-case for all files and directories
 - **Imports:** Relative imports with `.js` extensions (ESM). No path aliases in CLI source.

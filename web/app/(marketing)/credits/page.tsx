@@ -247,51 +247,73 @@ const categories = [...new Set(packages.map((p) => p.category))]
 
 export default function CreditsPage(): React.ReactNode {
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">Credits</h1>
-      <p className="mt-2 text-muted-foreground">
-        ds-start is built on the shoulders of these excellent open-source tools
-        and services.
-      </p>
+    <div className="overflow-hidden">
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-size-[32px_32px] opacity-25" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_0%,var(--muted)_0%,transparent_55%)] opacity-80" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20" style={{ minHeight: "280px" }}>
+          <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Credits
+          </p>
+          <h1
+            className="mt-4 max-w-3xl font-semibold tracking-tight text-balance"
+            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.1 }}
+          >
+            The tools behind ds-start.
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            ds-start is built on strong open-source packages and services.
+          </p>
+        </div>
+      </section>
 
-      {categories.map((category) => (
-        <section key={category} className="mt-12">
-          <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            {category}
-          </h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {packages
-              .filter((p) => p.category === category)
-              .map((pkg) => (
-                <a
-                  key={pkg.name}
-                  href={pkg.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-start gap-3 rounded-lg border p-4 transition-colors hover:bg-muted/50"
-                >
-                  {toolLogos[pkg.name] ? (
-                    <img
-                      src={toolLogos[pkg.name]}
-                      alt=""
-                      width={20}
-                      height={20}
-                      className="mt-0.5 shrink-0 rounded-sm dark:invert"
-                    />
-                  ) : null}
-                  <div>
-                    <p className="text-sm font-medium group-hover:text-foreground">
-                      {pkg.name}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {pkg.description}
-                    </p>
-                  </div>
-                </a>
-              ))}
+      {/* All categories */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_100%,var(--muted)_0%,transparent_55%)] opacity-70" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <div className="flex flex-col gap-16">
+            {categories.map((category) => (
+              <div key={category} className="mb-8">
+                <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                  {category}
+                </h2>
+                <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {packages
+                    .filter((p) => p.category === category)
+                    .map((pkg) => (
+                      <a
+                        key={pkg.name}
+                        href={pkg.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start gap-3 rounded-lg border bg-background/95 p-4 shadow-sm backdrop-blur transition-colors hover:bg-muted/50"
+                      >
+                        {toolLogos[pkg.name] ? (
+                          <img
+                            src={toolLogos[pkg.name]}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="mt-0.5 shrink-0 rounded-sm dark:invert"
+                          />
+                        ) : null}
+                        <div>
+                          <p className="text-sm font-medium group-hover:text-foreground">
+                            {pkg.name}
+                          </p>
+                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                            {pkg.description}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
     </div>
   )
 }

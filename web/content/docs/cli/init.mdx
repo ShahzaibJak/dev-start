@@ -9,15 +9,119 @@ description: Scaffold a new Next.js project with the ds-start foundation stack.
 npx ds-start init <project-name> [flags]
 ```
 
-Scaffolds a new Next.js project in the specified directory with the full foundation stack. You'll be prompted to select optional modules unless flags are provided.
+Scaffolds a new Next.js project in the specified directory with the full foundation stack. When no module flags are provided, an interactive wizard guides you through three build paths.
 
-## Examples
+## Interactive Wizard
 
-### Minimal
+Running `init` without module flags launches the wizard:
+
+```
+$ npx ds-start init my-app
+
+? What do you want to build?
+> Recommended production starter
+  App with auth
+  Base app
+```
+
+### Recommended production starter
+
+Applies the recommended preset — Prisma + Postgres, Better Auth, transactional email, and GitHub Actions CI — then asks about optional extras:
+
+```
+? What do you want to build? Recommended production starter
+? Add Stripe billing? No
+? Add file uploads? No
+? Add form renderer? No
+? Add Zustand? No
+? Add Vercel deployment workflow? No
+? Install dependencies? Yes
+
+┌─────────────────────────────────────┐
+│ Scaffold my-app with:               │
+│  - Next.js base                     │
+│  - Prisma + Postgres                │
+│  - Better Auth                      │
+│  - Transactional email              │
+│  - GitHub Actions CI                │
+│                                     │
+│ Initialize git: yes                 │
+│ Install dependencies: yes           │
+└─────────────────────────────────────┘
+
+? Continue? Yes
+```
+
+### App with auth
+
+Choose Better Auth or Clerk, then select additional modules:
+
+```
+? What do you want to build? App with auth
+? Auth provider? Better Auth
+? Database adapter? Prisma + Postgres
+? Add Stripe billing? No
+? Add transactional email? Yes
+? Add file uploads? No
+? Add form renderer? No
+? Add Zustand? No
+? Add GitHub Actions CI? Yes
+? Add Vercel deployment workflow? No
+? Install dependencies? Yes
+
+┌─────────────────────────────────────┐
+│ Scaffold my-app with:               │
+│  - Next.js base                     │
+│  - Prisma + Postgres                │
+│  - Better Auth                      │
+│  - Transactional email              │
+│  - GitHub Actions CI                │
+│                                     │
+│ Initialize git: yes                 │
+│ Install dependencies: yes           │
+└─────────────────────────────────────┘
+
+? Continue? Yes
+```
+
+### Base app
+
+Scaffolds the foundation with no modules. Same result as `--base`:
+
+```
+? What do you want to build? Base app
+? Install dependencies? Yes
+
+┌─────────────────────────────────────┐
+│ Scaffold my-app with:               │
+│  - Next.js base                     │
+│                                     │
+│ Initialize git: yes                 │
+│ Install dependencies: yes           │
+└─────────────────────────────────────┘
+
+? Continue? Yes
+```
+
+## Non-interactive Paths
+
+### Skip prompts with recommended defaults
 
 ```bash
-npx ds-start init my-app
+npx ds-start init my-app -y
 ```
+
+Applies the recommended production preset (Prisma, Better Auth, email, GitHub Actions CI) without prompts.
+
+### Minimal scaffold
+
+```bash
+npx ds-start init my-app --base
+```
+
+Foundation only, no modules. Cannot be combined with module flags.
+
+## Examples
 
 ### Full Stack
 
@@ -42,14 +146,6 @@ npx ds-start init my-app --prisma --github-workflows
 ```bash
 npx ds-start init my-app --prisma --auth --stripe --email --file-uploads --zustand --forms --github-workflows --vercel-deploy
 ```
-
-### Skip Prompts
-
-```bash
-npx ds-start init my-app -y
-```
-
-Uses defaults with no modules selected.
 
 ## What It Creates
 

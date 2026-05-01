@@ -16,14 +16,13 @@ import { Logo } from "@/components/logo"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
-const links = [
+const primaryLinks = [
   { href: "/features", label: "Features" },
-  { href: "/docs", label: "Docs" },
   { href: "/workflow", label: "Workflow" },
   { href: "/about", label: "About" },
   { href: "/roadmap", label: "Roadmap" },
-  { href: "/credits", label: "Credits" },
   { href: "/contributing", label: "Contributing" },
+  { href: "/credits", label: "Credits" },
 ] satisfies ReadonlyArray<{ href: string; label: string }>
 
 function ThemeToggle(): React.ReactNode {
@@ -46,29 +45,40 @@ export function Nav(): React.ReactNode {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
+  const docsActive = pathname === "/docs" || pathname.startsWith("/docs/")
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label="ds-start">
+    <header className="absolute top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="ds-start">
           <Logo size="md" variant="lockup" />
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
-          {links.map((link) => (
+          {primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
                 "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
-                pathname === link.href
-                  ? "text-foreground"
-                  : "text-muted-foreground"
+                pathname === link.href ? "text-foreground" : "text-muted-foreground"
               )}
             >
               {link.label}
             </Link>
           ))}
+          <div className="ml-1 border-l pl-3">
+            <Link
+              href="/docs"
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm transition-colors hover:text-foreground",
+                docsActive ? "text-foreground" : "text-muted-foreground"
+              )}
+            >
+              Docs
+            </Link>
+          </div>
         </nav>
 
         <div className="flex items-center gap-1">
@@ -99,7 +109,7 @@ export function Nav(): React.ReactNode {
                 <SheetTitle>Navigation</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-4">
-                {links.map((link) => (
+                {primaryLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -114,6 +124,17 @@ export function Nav(): React.ReactNode {
                     {link.label}
                   </Link>
                 ))}
+                <div className="my-1 border-t" />
+                <Link
+                  href="/docs"
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted",
+                    docsActive ? "font-medium text-foreground" : "text-muted-foreground"
+                  )}
+                >
+                  Docs
+                </Link>
               </nav>
             </SheetContent>
           </Sheet>

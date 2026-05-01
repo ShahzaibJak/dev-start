@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { Card, CardContent } from "@/components/ui/card"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "Agentic Workflow",
@@ -77,107 +78,148 @@ const domainSkills = [
 
 export default function WorkflowPage(): React.ReactNode {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">
-        Agentic Workflow
-      </h1>
-      <p className="mt-2 max-w-xl text-muted-foreground">
-        Every project scaffolded with ds-start ships with built-in skills that
-        guide your AI coding assistant through a structured development cycle.
-      </p>
+    <div className="overflow-hidden">
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-size-[32px_32px] opacity-25" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_0%,var(--muted)_0%,transparent_55%)] opacity-80" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20" style={{ minHeight: "280px" }}>
+          <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Agent workflows
+          </p>
+          <h1
+            className="mt-4 max-w-3xl font-semibold tracking-tight text-balance"
+            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.1 }}
+          >
+            Give agents the project context they need.
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Skills provide plans, quality gates, reviews, and handoffs inside the
+            repo so AI coding agents can follow the way the project works.
+          </p>
+        </div>
+      </section>
 
-      {/* Flow steps */}
-      <section className="mt-12">
-        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Development Cycle
-        </h2>
-        <div className="mt-4 flex flex-col gap-3">
-          {steps.map((step) => (
-            <Card key={step.command}>
-              <CardContent className="p-4 sm:p-0 sm:flex sm:gap-4">
-                <div className="hidden sm:flex w-12 shrink-0 items-center justify-center bg-muted font-mono text-sm text-muted-foreground">
-                  {step.number}
+      {/* Development Cycle */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_0%,var(--muted)_0%,transparent_55%)] opacity-70" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Development Cycle
+          </h2>
+          <div className="mt-6 divide-y rounded-xl border bg-background/95 shadow-sm backdrop-blur">
+            {steps.map((step) => (
+              <div
+                key={step.command}
+                className="flex gap-4 px-4 py-5 sm:px-6"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-md border bg-muted font-mono text-xs text-muted-foreground">
+                    {step.number}
+                  </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-1 sm:py-4 sm:pr-5">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs text-muted-foreground sm:hidden">
-                      {step.number}.
-                    </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-3">
                     <span className="text-sm font-medium">{step.title}</span>
                     <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
                       {step.command}
                     </code>
                   </div>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground sm:mt-0">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {step.description}
                   </p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="mt-16">
-        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          How It Works
-        </h2>
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
-          <p>
-            Skills are prompt files that ship inside your scaffolded project.
-            When you invoke a skill (e.g. type{" "}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-              /start-prd
-            </code>{" "}
-            in Claude Code), your AI assistant loads the skill&apos;s instructions
-            and follows the defined workflow.
-          </p>
-          <p>
-            The workflow keeps project conventions, quality gates, planning,
-            review expectations, and handoffs in the repo so they do not need to
-            be re-explained every session.
-          </p>
-          <p>
-            Plans are saved as markdown files in{" "}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-              .claude/plans/
-            </code>{" "}
-            and handoffs in{" "}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-              .claude/handoffs/
-            </code>
-            . This means your project state is always version-controlled and
-            portable between sessions.
-          </p>
-        </div>
-      </section>
-
-      {/* Domain skills */}
-      <section className="mt-16">
-        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Domain Skills
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Specialized skills for common development tasks.
-        </p>
-        <div className="mt-4 grid gap-4">
-          {domainSkills.map((skill) => (
-            <div
-              key={skill.command}
-              className="rounded-lg border p-5"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium">{skill.title}</span>
-                <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
-                  {skill.command}
-                </code>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {skill.description}
-              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_100%,var(--muted)_0%,transparent_55%)] opacity-70" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            How It Works
+          </h2>
+          <div className="mt-6 space-y-4 rounded-xl border bg-background/95 p-6 text-sm leading-relaxed text-muted-foreground shadow-sm backdrop-blur">
+            <p>
+              Skills are prompt files that ship inside your scaffolded project.
+              When you invoke a skill (e.g. type{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
+                /start-prd
+              </code>{" "}
+              in Claude Code), your AI assistant loads the skill&apos;s instructions
+              and follows the defined workflow.
+            </p>
+            <p>
+              The workflow keeps project conventions, quality gates, planning,
+              review expectations, and handoffs in the repo so they do not need to
+              be re-explained every session.
+            </p>
+            <p>
+              Plans are saved as markdown files in{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
+                .claude/plans/
+              </code>{" "}
+              and handoffs in{" "}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
+                .claude/handoffs/
+              </code>
+              . This means your project state is always version-controlled and
+              portable between sessions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Domain Skills */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_100%,var(--muted)_0%,transparent_55%)] opacity-70" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Domain Skills
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Specialized skills for common development tasks.
+          </p>
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {domainSkills.map((skill) => (
+              <div key={skill.command} className="rounded-xl border bg-background/95 p-5 shadow-sm backdrop-blur">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="text-sm font-medium">{skill.title}</span>
+                  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
+                    {skill.command}
+                  </code>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {skill.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_100%,var(--muted)_0%,transparent_55%)] opacity-70" />
+        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <div className="flex flex-col gap-3 rounded-xl border bg-background/95 p-6 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-xl text-sm text-muted-foreground">
+              Pair the workflow with your scaffolded project — whether from a
+              preset or a custom module selection — so agents can plan, build,
+              review, and ship from shared project context.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild>
+                <Link href="/docs">Read Docs</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/features">Explore Features</Link>
+              </Button>
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </div>

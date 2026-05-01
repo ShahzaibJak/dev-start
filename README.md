@@ -19,11 +19,22 @@
 
 ## Quick Start
 
-Scaffold a new project:
+Scaffold a new project with the interactive wizard:
 
 ```bash
 npx ds-start init my-app
 ```
+
+The wizard asks what you want to build:
+
+```
+? What do you want to build?
+> Recommended production starter
+  App with auth
+  Base app
+```
+
+Choose a build path, customize modules, and the wizard confirms before scaffolding.
 
 Add modules to an existing project:
 
@@ -32,7 +43,7 @@ npx ds-start add email
 npx ds-start add forms
 ```
 
-Include modules at scaffold time:
+Include modules at scaffold time with flags:
 
 ```bash
 npx ds-start init my-app --prisma --auth --github-workflows
@@ -40,21 +51,21 @@ npx ds-start init my-app --prisma --auth --github-workflows
 npx ds-start init my-app --clerk --github-workflows
 ```
 
-Skip prompts with defaults:
+Skip the wizard with the recommended production preset:
 
 ```bash
 npx ds-start init my-app -y
 ```
 
+Scaffold the foundation only, no modules:
+
+```bash
+npx ds-start init my-app --base
+```
+
 ## Why ds-start
 
-ds-start gives you a **production-ready foundation**, **composable modules**, and **agent workflows** that share the same project conventions.
-
-### Why not just ask Claude or Codex?
-
-You should. ds-start gives them a better starting point.
-
-AI coding agents are most useful when they can work on product features. ds-start handles the repeatable setup — auth, email, forms, uploads, billing, CI, deploys, env validation, and repo conventions — so Claude, Codex, and other agents can build real features sooner.
+ds-start gives you a **production-ready foundation**, **composable modules**, and **agent workflows** that share the same project conventions. AI coding agents are most useful when they can work on product features — ds-start handles the repeatable setup so Claude, Codex, and other agents can build real features sooner.
 
 ## What You Get
 
@@ -242,9 +253,14 @@ cli/
   src/
     cli.ts                    # Main command definition (citty subcommands)
     index.ts                  # Entry point
+    modules.ts                # Module IDs, labels, and provider constants
+    presets.ts                # Preset definitions (recommended production, etc.)
     commands/
       create.ts               # Scaffold logic (init subcommand)
       add.ts                  # Add modules to existing projects
+    prompts/
+      init-wizard.ts          # Interactive wizard flow and option resolution
+      prompt-utils.ts         # Shared prompt helpers (text, confirm, select)
     helpers/
       conflict.ts             # Conflict detection, resolution, and apply
       detect-project.ts       # Project root validation

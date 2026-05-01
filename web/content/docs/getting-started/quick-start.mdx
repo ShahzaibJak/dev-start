@@ -11,7 +11,18 @@ Scaffold a new Next.js project with the foundation stack:
 npx ds-start init my-app
 ```
 
-You'll be prompted to select optional modules like authentication, payments, and email. Or specify them upfront:
+The interactive wizard asks what you want to build:
+
+```
+? What do you want to build?
+> Recommended production starter
+  App with auth
+  Base app
+```
+
+Choose a build path and the wizard walks you through the rest — auth provider, optional modules, and a confirmation summary before scaffolding.
+
+For CI or scripts, use flags directly:
 
 ```bash
 npx ds-start init my-app --prisma --auth --stripe --email
@@ -28,6 +39,22 @@ npx ds-start add email
 Auto-merges `package.json`, `.gitignore`, and `.env.schema`. Prompts only for real file conflicts. Dependencies are not auto-installed — run `bun install` after adding modules.
 
 ## Example Configurations
+
+### Recommended defaults (no prompts)
+
+```bash
+npx ds-start init my-app -y
+```
+
+Applies the recommended production preset: Prisma, Better Auth, email, and GitHub Actions CI.
+
+### Minimal scaffold
+
+```bash
+npx ds-start init my-app --base
+```
+
+Foundation only, no modules.
 
 ### Full Stack
 
@@ -52,11 +79,3 @@ npx ds-start init my-app --prisma --github-workflows
 ```bash
 npx ds-start init my-app --prisma --auth --stripe --email --file-uploads --zustand --forms --github-workflows --vercel-deploy
 ```
-
-### Skip Prompts
-
-```bash
-npx ds-start init my-app -y
-```
-
-Uses defaults with no modules selected.
